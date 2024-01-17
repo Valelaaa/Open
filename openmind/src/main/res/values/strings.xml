@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">openmind</string>
+    <string name="create_article_title">Title...</string>
+    <string name="create_article_body_text">body text... (optional)</string>
+</resources>

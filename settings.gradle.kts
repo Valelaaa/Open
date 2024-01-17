@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "openMindProject"
 include(":app")
- 
+include(":openmind")

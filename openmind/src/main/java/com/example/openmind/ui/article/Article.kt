@@ -1,4 +1,4 @@
-package com.example.openmind.screen.CreateArticle
+package com.example.openmind.ui.screen.Article
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,13 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
-@Composable
-fun CreateArticleLayout(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
 
+@Composable
+fun ArticleLayout(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
     Column(
         verticalArrangement = Arrangement.Center, modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Create Article Layout")
+        Text(text = "Article Layout")
     }
 }
