@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,6 +57,7 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
             value = titleText,
             onValueChange = {
                 titleText = it
+                println(titleText)
             },
 
             colors = TextFieldDefaults.textFieldColors(
@@ -65,7 +67,7 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
 
-            ),
+                ),
             placeholder = {
                 Text(
                     text = stringResource(R.string.create_article_title),
@@ -101,12 +103,12 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                 )
             },
             modifier = Modifier.fillMaxSize(),
-//            textStyle = TextStyle(
-//                fontSize = 12.sp,
-//                color = InputLabelTextColor,
-//                fontWeight = FontWeight.W400,
-//                lineHeight = 30.sp,
-//            ),
+            textStyle = TextStyle(
+                fontSize = 12.sp,
+                color = InputLabelTextColor,
+                fontWeight = FontWeight.W400,
+                lineHeight = 30.sp,
+            ),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = InputLabelTextColor,
                 containerColor = BackgroundLight,
@@ -176,8 +178,15 @@ fun CustomTextField(
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.TextFieldDecorationBox(
                 value = value,
-                innerTextField = { innerTextField },
-
+                innerTextField = {
+                    Text(
+                        text = value,
+                        fontSize = textStyle.fontSize,
+                        color = textStyle.color,
+                        fontWeight = textStyle.fontWeight,
+                        lineHeight = textStyle.lineHeight
+                    )
+                },
                 enabled = enabled,
                 singleLine = singleLine,
                 visualTransformation = visualTransformation,
@@ -191,7 +200,7 @@ fun CustomTextField(
                 leadingIcon = leadingIcon,
                 trailingIcon = trailingIcon,
                 supportingText = supportingText,
-                )
+            )
         }
     )
 }
