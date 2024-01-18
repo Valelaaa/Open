@@ -1,10 +1,12 @@
 package com.example.openmind.ui.create_article
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,8 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
+import com.example.openmind.ui.components.CustomTextField
 import com.example.openmind.ui.theme.BackgroundLight
-import com.example.openmind.ui.theme.InputLabelTextColor
+import com.example.openmind.ui.theme.PlaceHolderInputColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,164 +51,117 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
     }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        CustomTextField(
-            value = titleText,
-            onValueChange = {
-                titleText = it
-                println(titleText)
-            },
-
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = InputLabelTextColor,
-                containerColor = BackgroundLight,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-
-                ),
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.create_article_title),
-                    fontSize = 24.sp,
-                    lineHeight = 30.sp,
-                    color = InputLabelTextColor,
-                    fontWeight = FontWeight.W800
-                )
-            },
-            contentPadding = PaddingValues(
-                start = 30.dp,
-                top = 10.dp,
-                bottom = 10.dp,
-                end = 30.dp
-            ),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            )
-        )
-        CustomTextField(
-            value = articleDescription,
-            onValueChange = {
-                articleDescription = it
-            },
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.create_article_body_text),
-                    fontSize = 12.sp,
-                    color = InputLabelTextColor,
-                    fontWeight = FontWeight.W400,
-                    lineHeight = 30.sp,
-                )
-            },
-            modifier = Modifier.fillMaxSize(),
-            textStyle = TextStyle(
-                fontSize = 12.sp,
-                color = InputLabelTextColor,
-                fontWeight = FontWeight.W400,
-                lineHeight = 30.sp,
-            ),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = InputLabelTextColor,
-                containerColor = BackgroundLight,
-                disabledTextColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-
-                ),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            ),
-            contentPadding = PaddingValues(
-                start = 30.dp,
-                top = 0.dp,
-                bottom = 10.dp,
-                end = 30.dp
-            )
-
-        )
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CustomTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    textStyle: TextStyle = LocalTextStyle.current,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
-    placeholder: @Composable (() -> Unit)? = null,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    label: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = Int.MAX_VALUE,
-    shape: Shape = TextFieldDefaults.outlinedShape,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-) {
-    BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier
-            .defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth,
-                minHeight = TextFieldDefaults.MinHeight
-            )
-            .fillMaxSize(),
-        textStyle = textStyle,
-        keyboardOptions = keyboardOptions,
-        enabled = enabled,
-        readOnly = readOnly,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        keyboardActions = keyboardActions,
-        decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.TextFieldDecorationBox(
-                value = value,
-                innerTextField = {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            CustomTextField(
+                value = titleText,
+                onValueChange = {
+                    titleText = it
+                },
+                placeholder = {
                     Text(
-                        text = value,
-                        fontSize = textStyle.fontSize,
-                        color = textStyle.color,
-                        fontWeight = textStyle.fontWeight,
-                        lineHeight = textStyle.lineHeight
+                        text = stringResource(R.string.create_article_title),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.W800,
+                        color = PlaceHolderInputColor,
+                        lineHeight = 30.sp
                     )
                 },
-                enabled = enabled,
-                singleLine = singleLine,
-                visualTransformation = visualTransformation,
-                interactionSource = interactionSource,
-                colors = colors,
-                shape = shape,
-                isError = isError,
-                placeholder = placeholder,
-                contentPadding = contentPadding,
-                label = label,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon,
-                supportingText = supportingText,
+                contentPadding = PaddingValues(
+                    start = 30.dp,
+                    top = 10.dp,
+                    end = 30.dp,
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                textStyle = TextStyle(
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.W400,
+                    lineHeight = 30.sp,
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    containerColor = BackgroundLight
+                )
             )
         }
-    )
+        Column(
+            modifier = Modifier
+                .fillMaxSize().background(Color.Green)
+        ) {
+            CustomTextField(
+                value = articleDescription,
+                onValueChange = {
+                    articleDescription = it
+                },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.create_article_body_text),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400, color = PlaceHolderInputColor,
+                    )
+                },
+                contentPadding = PaddingValues(
+                    top = 5.dp,
+                    start = 30.dp,
+                    end = 30.dp,
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                textStyle = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W400,
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    containerColor = BackgroundLight
+                )
+            )
+        }
+    }
 }
+
+
 
 @Preview
 @Composable
 fun PreviewCreateArticleView() {
     CreateArticleLayout(navController = null)
+}
+
+@Preview
+@Composable
+fun PreviewCustomInput() {
+    var remembered by remember {
+        mutableStateOf("")
+    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        CustomTextField(
+            value = remembered,
+            onValueChange = {
+                remembered = it
+            },
+            placeholder = { Text("Title... ", fontSize = 24.sp) },
+            contentPadding = PaddingValues(start = 30.dp, top = 10.dp, end = 30.dp, bottom = 10.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            textStyle = TextStyle(
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W400,
+                lineHeight = 30.sp,
+            ),
+        )
+    }
 }
