@@ -1,21 +1,16 @@
 package com.example.openmind.ui.create_article
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,21 +19,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.ui.components.CustomTextField
-import com.example.openmind.ui.theme.BackgroundLight
-import com.example.openmind.ui.theme.PlaceHolderInputColor
+import com.example.openmind.ui.theme.BackgroundColor
+import com.example.openmind.ui.theme.TextInputColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,11 +42,11 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
     var articleDescription by remember {
         mutableStateOf("")
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .background(BackgroundColor)
     ) {
         Column(
             modifier = Modifier
@@ -69,7 +62,7 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                         text = stringResource(R.string.create_article_title),
                         fontSize = 24.sp,
                         fontWeight = FontWeight.W800,
-                        color = PlaceHolderInputColor,
+                        color = TextInputColor,
                         lineHeight = 30.sp
                     )
                 },
@@ -89,13 +82,15 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                 ),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    containerColor = BackgroundLight
-                )
+                    containerColor = Color.White
+                ),
+                shape = RoundedCornerShape(0.dp)
+
             )
         }
         Column(
             modifier = Modifier
-                .fillMaxSize().background(Color.Green)
+                .fillMaxSize().weight(1f)
         ) {
             CustomTextField(
                 value = articleDescription,
@@ -106,7 +101,7 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                     Text(
                         text = stringResource(R.string.create_article_body_text),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.W400, color = PlaceHolderInputColor,
+                        fontWeight = FontWeight.W400, color = TextInputColor,
                     )
                 },
                 contentPadding = PaddingValues(
@@ -124,13 +119,13 @@ fun CreateArticleLayout(navController: NavController?, modifier: Modifier = Modi
                 ),
                 colors = TextFieldDefaults.textFieldColors(
                     unfocusedIndicatorColor = Color.Transparent,
-                    containerColor = BackgroundLight
-                )
+                    containerColor = Color.White
+                ),
+                shape = RoundedCornerShape(0.dp)
             )
         }
     }
 }
-
 
 
 @Preview

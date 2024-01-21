@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -17,11 +18,13 @@ fun BaseComposeScreen(
     toolbar: Toolbar?,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
-    Scaffold(modifier = modifier, topBar = {
-        toolbar
-    }, content = { padding ->
-        baseLayoutWithParams(navController, modifier.padding(padding))
-    })
+    OpenMindProjectTheme {
+        Scaffold(modifier = modifier, topBar = {
+            toolbar
+        }, content = { padding ->
+            baseLayoutWithParams(navController, modifier.padding(padding))
+        })
+    }
 }
 
 
