@@ -9,7 +9,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.ui.screen.BaseComposeScreen
-import com.example.openmind.ui.create_article.PostToLayout
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.categories.CategoriesLayout
 import com.example.openmind.ui.create_article.CreateArticleLayout
@@ -24,69 +23,50 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
         composable(Screen.CategoriesScreen.route) {
             BaseComposeScreen(
                 navController = navController,
-                baseLayoutWithParams = { controller, modifier ->
+                content = { controller, modifier ->
                     CategoriesLayout(
                         navController = controller,
                         modifier
                     )
                 },
                 toolbar = null,
-                globalModifier
+                modifier = globalModifier,
+                screenTitle = Screen.CategoriesScreen.title
             )
 
         }
         composable(Screen.ArticleListScreen.route) {
             BaseComposeScreen(
                 navController = navController,
-                baseLayoutWithParams = { controller, modifier ->
+                content = { controller, modifier ->
                     ArticleListLayout(
                         navController = controller,
                         modifier
                     )
                 },
                 toolbar = null,
-                globalModifier
+                modifier = globalModifier,
+                screenTitle = Screen.ArticleListScreen.title
+
             )
 
         }
         composable(Screen.ArticleScreen.route) {
             BaseComposeScreen(
                 navController = navController,
-                baseLayoutWithParams = { controller, modifier ->
+                content = { controller, modifier ->
                     ArticleLayout(
                         navController = controller,
                         modifier
                     )
                 },
                 toolbar = null,
-                globalModifier
+                modifier = globalModifier,
+                screenTitle = Screen.ArticleScreen.title
             )
         }
         composable(Screen.CreateArticleScreen.route) {
-            BaseComposeScreen(
-                navController = navController,
-                baseLayoutWithParams = { controller, modifier ->
-                    CreateArticleLayout(
-                        navController = controller,
-                        modifier
-                    )
-                },
-                toolbar = null,
-                globalModifier
-            )
-        }
-        composable(Screen.PostToScreen.route) {
-            BaseComposeScreen(
-                navController = navController,
-                baseLayoutWithParams = { controller, modifier ->
-                    PostToLayout(
-                        navController = controller,
-                        modifier
-                    )
-                },
-                toolbar = null,
-                globalModifier
-            )
+            CreateArticleLayout(navController = navController, screen = Screen.CreateArticleScreen)
         }
     }
 }

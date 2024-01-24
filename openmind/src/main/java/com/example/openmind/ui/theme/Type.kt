@@ -2,14 +2,20 @@ package com.example.openmind.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.openmind.R
+
+val manropeRegularW400 = FontFamily(Font(R.font.manrope_regular))
+val manropeSemiBoldW600 = FontFamily(Font(R.font.manrope_semibold))
+val manropeExtraBoldW800 = FontFamily(Font(R.font.manrope_extrabold))
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = manropeRegularW400,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.openmind.ui.navigation.Navigation
+import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 class MainFragment : Fragment() {
     private var _contentView: View? = null
@@ -36,13 +37,16 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         // TODO: Use the ViewModel
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                Navigation()
+                OpenMindProjectTheme {
+                    Navigation()
+                }
             }
         }
 

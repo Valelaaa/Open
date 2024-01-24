@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">openmind</string>
-    <string name="create_article_title">Title...</string>
-    <string name="create_article_body_text">body text... (optional)</string>
+    <string name="create_article_title">Title</string>
+    <string name="create_article_body_text">body text (optional)</string>
+    <string name="button_next_text">Next</string>
+    <string name="create_button">Create</string>
 </resources>
