@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun ArticleLayout(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
+fun TopicLayout(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
     Column(
         verticalArrangement = Arrangement.Center, modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

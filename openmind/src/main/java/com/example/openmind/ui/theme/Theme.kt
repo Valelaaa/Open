@@ -18,20 +18,21 @@ import androidx.core.view.WindowCompat
 import com.example.openmind.ui.theme.BackgroundColor
 import com.example.openmind.ui.theme.Pink40
 import com.example.openmind.ui.theme.Pink80
-import com.example.openmind.ui.theme.SecondaryDayColor
+import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Typography
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color.White,
-    secondary = SecondaryDayColor,
+    secondary = DarkBlue40,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color.White,
-    secondary = SecondaryDayColor,
+    secondary = DarkBlue40,
     tertiary = Pink40,
     background = BackgroundColor
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -44,6 +45,7 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+
 @Composable
 fun OpenMindProjectTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -52,6 +54,7 @@ fun OpenMindProjectTheme(
     content: @Composable () -> Unit
 
 ) {
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current

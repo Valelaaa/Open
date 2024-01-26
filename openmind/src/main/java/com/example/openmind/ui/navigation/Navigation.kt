@@ -11,9 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.openmind.ui.screen.BaseComposeScreen
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.categories.CategoriesLayout
-import com.example.openmind.ui.create_article.CreateArticleLayout
-import com.example.openmind.ui.screen.Article.ArticleLayout
-import com.example.openmind.ui.screen.ArticleList.ArticleListLayout
+import com.example.openmind.ui.create_topic.CreateTopicLayout
+import com.example.openmind.ui.screen.Article.TopicLayout
+import com.example.openmind.ui.screen.ArticleList.TopicListLayout
 
 @Composable
 fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
@@ -35,38 +35,38 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
             )
 
         }
-        composable(Screen.ArticleListScreen.route) {
+        composable(Screen.TopicListScreen.route) {
             BaseComposeScreen(
                 navController = navController,
                 content = { controller, modifier ->
-                    ArticleListLayout(
+                    TopicListLayout(
                         navController = controller,
                         modifier
                     )
                 },
                 toolbar = null,
                 modifier = globalModifier,
-                screenTitle = Screen.ArticleListScreen.title
+                screenTitle = Screen.TopicListScreen.title
 
             )
 
         }
-        composable(Screen.ArticleScreen.route) {
+        composable(Screen.TopicScreen.route) {
             BaseComposeScreen(
                 navController = navController,
                 content = { controller, modifier ->
-                    ArticleLayout(
+                    TopicLayout(
                         navController = controller,
                         modifier
                     )
                 },
                 toolbar = null,
                 modifier = globalModifier,
-                screenTitle = Screen.ArticleScreen.title
+                screenTitle = Screen.TopicScreen.title
             )
         }
-        composable(Screen.CreateArticleScreen.route) {
-            CreateArticleLayout(navController = navController, screen = Screen.CreateArticleScreen)
+        composable(Screen.CreateTopicScreen.route) {
+            CreateTopicLayout(navController = navController, screen = Screen.CreateTopicScreen)
         }
     }
 }

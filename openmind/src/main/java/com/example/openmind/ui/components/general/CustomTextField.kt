@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components
+package com.example.openmind.ui.components.general
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues

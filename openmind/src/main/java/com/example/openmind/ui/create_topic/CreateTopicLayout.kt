@@ -1,4 +1,4 @@
-package com.example.openmind.ui.create_article
+package com.example.openmind.ui.create_topic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,20 +18,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.ui.components.TopAppBarArticle
-import com.example.openmind.ui.components.TopicBodyTextField
-import com.example.openmind.ui.components.TopicTitleTextField
+import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.ui.components.topic.TopAppBarArticle
+import com.example.openmind.ui.components.topic.TopicBodyTextField
+import com.example.openmind.ui.components.topic.TopicTitleTextField
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.BackgroundColor
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateArticleLayout(
+fun CreateTopicLayout(
     navController: NavController?,
     modifier: Modifier = Modifier,
-    screen: Screen
+    screen: Screen,
+    topicViewModel: TopicViewModel = viewModel()
 ) {
     var titleText by remember {
         mutableStateOf("")
@@ -39,9 +42,13 @@ fun CreateArticleLayout(
     var articleDescription by remember {
         mutableStateOf("")
     }
+    var buttonState by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         topBar = {
-            TopAppBarArticle(navController = navController, "")
+            TopAppBarArticle(navController = navController, "", topicViewModel)
         },
         content = { scaffoldPaddings ->
             Column(
@@ -55,14 +62,14 @@ fun CreateArticleLayout(
                     modifier = modifier
                         .fillMaxWidth()
                 ) {
-                    TopicTitleTextField(titleText)
+                    TopicTitleTextField(topicViewModel)
                 }
                 Box(
                     modifier = Modifier
                         .padding(bottom = 30.dp)
                         .fillMaxSize()
                 ) {
-                    TopicBodyTextField(articleDescription, modifier = Modifier.fillMaxSize())
+                    TopicBodyTextField(topicViewModel, modifier = Modifier.fillMaxSize())
                 }
             }
         })
@@ -72,7 +79,7 @@ fun CreateArticleLayout(
 @Composable
 fun PreviewCreateArticleView() {
     OpenMindProjectTheme {
-        CreateArticleLayout(navController = null, screen = Screen.CreateArticleScreen)
+        CreateTopicLayout(navController = null, screen = Screen.CreateTopicScreen)
     }
 
 }

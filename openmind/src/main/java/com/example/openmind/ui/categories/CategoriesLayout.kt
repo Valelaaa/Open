@@ -23,7 +23,7 @@ fun CategoriesLayout(navController: NavController, modifier: Modifier = Modifier
         Text(text = "Categories List Layout")
         Spacer(modifier = Modifier.height(10.dp))
         Button({
-            navController.navigate(Screen.ArticleListScreen.route)
+            navController.navigate(Screen.TopicListScreen.route)
         }) {
             Text(text = "To Article List")
         }

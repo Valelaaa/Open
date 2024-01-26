@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components
+package com.example.openmind.ui.components.topic
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,10 +8,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -23,28 +19,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.ui.theme.TextInputColor
-import com.example.openmind.ui.theme.manropeRegularW400
+import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.ui.components.general.CustomTextField
+import com.example.openmind.ui.theme.DarkGray20
+import com.example.openmind.ui.theme.ManropeRegularW400
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopicBodyTextField(text: String, modifier: Modifier = Modifier.fillMaxSize()) {
-    var mutableText by remember {
-        mutableStateOf(text)
-    }
-    val textFiledFontSize = 16.sp
+fun TopicBodyTextField(
+    topicViewModel: TopicViewModel,
+    modifier: Modifier = Modifier.fillMaxSize()
+) {
+    val topicDescriptionSize = 16.sp
     CustomTextField(
-        value = mutableText,
-        onValueChange = {
-            mutableText = it
+        value = topicViewModel.description.value,
+        onValueChange = { inputString ->
+            topicViewModel.updateDescription(inputString)
         },
         placeholder = {
             Text(
-                text = stringResource(R.string.create_article_body_text),
-                fontSize = textFiledFontSize,
+                text = stringResource(R.string.create_topic_body_text),
+                fontSize = topicDescriptionSize,
                 fontWeight = FontWeight.W400,
-                color = TextInputColor,
-                fontFamily = manropeRegularW400
+                color = DarkGray20,
+                fontFamily = ManropeRegularW400
             )
         },
         contentPadding = PaddingValues(
@@ -57,10 +55,10 @@ fun TopicBodyTextField(text: String, modifier: Modifier = Modifier.fillMaxSize()
             imeAction = ImeAction.Done
         ),
         textStyle = TextStyle(
-            fontSize = textFiledFontSize,
+            fontSize = topicDescriptionSize,
             fontWeight = FontWeight.W400,
-            fontFamily = manropeRegularW400,
-            color = TextInputColor,
+            fontFamily = ManropeRegularW400,
+            color = DarkGray20,
             textAlign = TextAlign.Justify
         ),
         colors = TextFieldDefaults.textFieldColors(

@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components
+package com.example.openmind.ui.components.topic
 
 import android.util.Log
 import android.view.ViewGroup
@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,10 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
+import com.example.openmind.data.viewModel.TopicViewModel
 import com.example.openmind.ui.theme.LightText
-import com.example.openmind.ui.theme.manropeSemiBoldW600
+import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 const val TAG: String = "TopicTopAppBar"
@@ -63,7 +64,11 @@ fun TopAppBarArticle(topBar: @Composable () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarArticle(navController: NavController?, title: String = "") {
+fun TopAppBarArticle(
+    navController: NavController?,
+    title: String = "",
+    topicViewModel: TopicViewModel,
+) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
@@ -80,17 +85,18 @@ fun TopAppBarArticle(navController: NavController?, title: String = "") {
         actions = {
             Button(
                 onClick = {
-                    Log.d(TAG, "Clicked Create Button")
+//                          contentNavigator.validate(topicViewModel.)
                 },
                 modifier = Modifier
-                    .defaultMinSize(minHeight = 22.dp, minWidth = 50.dp),
-                shape = RoundedCornerShape(18.dp)
+                    .defaultMinSize(minHeight = 22.dp, minWidth = 42.dp),
+                shape = RoundedCornerShape(18.dp),
+                enabled = topicViewModel.isButtonEnabled.value
             ) {
                 Text(
-                    stringResource(R.string.button_next_text),
+                    stringResource(R.string.create_button),
                     color = LightText,
-                    fontSize = 10.sp,
-                    fontFamily = manropeSemiBoldW600
+                    fontSize = 14.sp,
+                    fontFamily = ManropeSemiBoldW600
                 )
             }
             IconButton(
@@ -153,7 +159,7 @@ fun TopAppBarArticleToolBarPreview() {
 fun TopAppBarArticlePreview() {
     OpenMindProjectTheme {
         Scaffold(topBar = {
-            TopAppBarArticle(null)
+            TopAppBarArticle(null, topicViewModel = viewModel())
         }, content = { paddingValues ->
             Text(
                 text = "Text",

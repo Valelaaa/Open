@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components
+package com.example.openmind.ui.components.topic
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,10 +7,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -22,29 +18,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.ui.theme.TextInputColor
-import com.example.openmind.ui.theme.manropeExtraBoldW800
+import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.ui.components.general.CustomTextField
+import com.example.openmind.ui.theme.DarkGray20
+import com.example.openmind.ui.theme.ManropeExtraBoldW800
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopicTitleTextField(titleText: String, modifier: Modifier = Modifier) {
-    var mutableTitleText by remember {
-        mutableStateOf(titleText)
-    }
-    val titleMaxSize = 300
+fun TopicTitleTextField(
+    topicViewModel: TopicViewModel,
+    modifier: Modifier = Modifier
+) {
+
     CustomTextField(
-        value = mutableTitleText,
-        onValueChange = {
-            mutableTitleText = it.dropLast(it.length - titleMaxSize)
+        value = topicViewModel.title.value,
+        onValueChange = { inputString ->
+            topicViewModel.updateTitle(inputString.take(topicViewModel.titleMaxSize))
         },
         placeholder = {
             Text(
-                text = stringResource(R.string.create_article_title),
+                text = stringResource(R.string.create_topic_title),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.W800,
-                color = TextInputColor,
+                color = DarkGray20,
                 lineHeight = 30.sp,
-                fontFamily = manropeExtraBoldW800
+                fontFamily = ManropeExtraBoldW800
             )
         },
         contentPadding = PaddingValues(
@@ -59,9 +57,9 @@ fun TopicTitleTextField(titleText: String, modifier: Modifier = Modifier) {
         textStyle = TextStyle(
             fontSize = 24.sp,
             fontWeight = FontWeight.W800,
-            fontFamily = manropeExtraBoldW800,
+            fontFamily = ManropeExtraBoldW800,
             lineHeight = 30.sp,
-            color = TextInputColor,
+            color = DarkGray20,
             textAlign = TextAlign.Justify
         ),
         colors = TextFieldDefaults.textFieldColors(
