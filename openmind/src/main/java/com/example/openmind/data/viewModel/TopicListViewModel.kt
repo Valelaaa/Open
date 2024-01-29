@@ -3,9 +3,12 @@ package com.example.openmind.data.viewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.openmind.data.repository.TopicRepository
+import com.example.openmind.data.repository.TopicRepositoryImpl
 import com.example.openmind.data.topic.Topic
 
 class TopicListViewModel : ViewModel() {
+    val topicRepository: TopicRepository = TopicRepositoryImpl()
     var loadedTopics: List<Topic> = listOf(
         Topic("How to manage your money better, daily? Any available lessons?", "description"),
         Topic(
@@ -16,7 +19,7 @@ class TopicListViewModel : ViewModel() {
             "Can we expedite transaction confirma-tions? Cuz yesterday I just tried some and no result...",
             "description"
         ),
-
+        topicRepository.getMockTopic()
         )
     private lateinit var _activeCategory: MutableState<Categories>
 

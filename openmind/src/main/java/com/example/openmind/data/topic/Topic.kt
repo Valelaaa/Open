@@ -20,7 +20,7 @@ data class Topic(
 
     fun getCommentsCount(): Int = commentCount
     private fun deepCommentCount(): Int {
-        var count = 1
+        var count = 0
 
         for (subComment in comments) {
             count += countComments(subComment)
