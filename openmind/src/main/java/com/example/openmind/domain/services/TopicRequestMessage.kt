@@ -1,10 +1,10 @@
 package com.example.openmind.domain.services
 
 import com.example.openmind.data.topic.Topic
-import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.google.gson.annotations.SerializedName
 
-class TopicRequestMessage(topicViewModel: TopicViewModel) {
+class TopicRequestMessage(topicViewModel: CurrentTopicViewModel) {
     @SerializedName("topic")
     val topicToPost: Topic
 

@@ -10,5 +10,9 @@ object ColorDarkTokens : ColorTokens {
     override val RatioActiveBackground: Color = PurpleGrey40
     override val RatioActiveContent: Color = Color.White
     override val RatioInactiveContent: Color = Color.White
+    override val CategoryTitle: Color
+        get() = TODO("Not yet implemented")
+    override val CategoryTime: Color
+        get() = TODO("Not yet implemented")
 
 }

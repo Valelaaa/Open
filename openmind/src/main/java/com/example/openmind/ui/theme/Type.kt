@@ -8,14 +8,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 
-val ManropeRegularW400 = FontFamily(Font(R.font.manrope_regular))
-val ManropeSemiBoldW600 = FontFamily(Font(R.font.manrope_semibold))
-val ManropeExtraBoldW800 = FontFamily(Font(R.font.manrope_extrabold))
+val FontFamily.Companion.ManropeRegularW400: FontFamily
+    get() { return FontFamily(Font(R.font.manrope_regular)) }
+val FontFamily.Companion.ManropeSemiBoldW600: FontFamily
+    get() { return FontFamily(Font(R.font.manrope_semibold)) }
+val FontFamily.Companion.ManropeExtraBoldW800: FontFamily
+    get() { return FontFamily(Font(R.font.manrope_extrabold)) }
+
+val FontFamily.Companion.ManropeBoldW700: FontFamily
+    get() { return FontFamily(Font(R.font.manrope_bold700)) }
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = ManropeRegularW400,
+        fontFamily = FontFamily.ManropeRegularW400,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
@@ -23,7 +29,7 @@ val Typography = Typography(
     ),
 //    /* Other default text styles to override
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.ManropeExtraBoldW800,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 28.sp,

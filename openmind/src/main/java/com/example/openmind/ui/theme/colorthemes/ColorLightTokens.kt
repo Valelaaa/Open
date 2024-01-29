@@ -2,15 +2,18 @@ package com.example.openmind.ui.theme.colorthemes
 
 import androidx.compose.ui.graphics.Color
 import com.example.openmind.ui.theme.DarkBlue40
+import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.SteelBlue60
 
-object ColorLightTokens:ColorTokens {
+object ColorLightTokens : ColorTokens {
     override val Background = Color.White
     override val RatioInactiveBackground = LightGray80
     override val RatioActiveBackground = Color.White
     override val RatioActiveContent = DarkBlue40
     override val RatioInactiveContent = SteelBlue60
+    override val CategoryTitle = DarkGray20
+    override val CategoryTime = SteelBlue60
 //    val Error = PaletteTokens.Error40
 //    val ErrorContainer = PaletteTokens.Error90
 //    val InverseOnSurface = PaletteTokens.Neutral95

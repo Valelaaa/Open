@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.example.openmind.ui.components.topic.TopAppBarArticle
 import com.example.openmind.ui.components.topic.TopicBodyTextField
 import com.example.openmind.ui.components.topic.TopicTitleTextField
@@ -34,7 +34,7 @@ fun CreateTopicLayout(
     navController: NavController?,
     modifier: Modifier = Modifier,
     screen: Screen,
-    topicViewModel: TopicViewModel = viewModel()
+    topicViewModel: CurrentTopicViewModel = viewModel()
 ) {
     var titleText by remember {
         mutableStateOf("")

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -19,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeRegularW400
@@ -27,12 +28,12 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopicBodyTextField(
-    topicViewModel: TopicViewModel,
+    topicViewModel: CurrentTopicViewModel,
     modifier: Modifier = Modifier.fillMaxSize()
 ) {
     val topicDescriptionSize = 16.sp
     CustomTextField(
-        value = topicViewModel.description.value,
+        value = topicViewModel.currentTopic.value.description,
         onValueChange = { inputString ->
             topicViewModel.updateDescription(inputString)
         },
@@ -42,7 +43,7 @@ fun TopicBodyTextField(
                 fontSize = topicDescriptionSize,
                 fontWeight = FontWeight.W400,
                 color = DarkGray20,
-                fontFamily = ManropeRegularW400
+                fontFamily = FontFamily.ManropeRegularW400
             )
         },
         contentPadding = PaddingValues(
@@ -57,7 +58,7 @@ fun TopicBodyTextField(
         textStyle = TextStyle(
             fontSize = topicDescriptionSize,
             fontWeight = FontWeight.W400,
-            fontFamily = ManropeRegularW400,
+            fontFamily = FontFamily.ManropeRegularW400,
             color = DarkGray20,
             textAlign = TextAlign.Justify
         ),

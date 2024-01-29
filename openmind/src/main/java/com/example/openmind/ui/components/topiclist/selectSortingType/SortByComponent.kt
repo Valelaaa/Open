@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,16 +50,15 @@ fun SortByComponent(topicListViewModel: TopicListViewModel, modifier: Modifier =
     )
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .background(Color.White),
+            .background(Color.Transparent),
 
         ) {
         Box(
             modifier = Modifier
                 .background(LightGray80, shape = RoundedCornerShape(24.dp))
-                .defaultMinSize(minHeight = 42.dp)
-//                .height(22.dp)
-                .padding(horizontal = 1.dp)
+                .height(24.dp)
+//                .defaultMinSize(minHeight = 42.dp)
+//                .padding(horizontal = 1.dp)
         ) {
 
             LazyRow {
@@ -76,14 +76,18 @@ fun SortByComponent(topicListViewModel: TopicListViewModel, modifier: Modifier =
                         interactionSource = NoRippleInteractionSource(),
                         shape = RoundedCornerShape(24.dp),
                         contentPadding = PaddingValues(
-                            top = 10.dp,
-                            bottom = 10.dp,
-                            start = 20.dp,
-                            end = 20.dp
+//                            top = 10.dp,
+//                            bottom = 10.dp,
+//                            start = 20.dp,
+//                            end = 20.dp
                         )
 
                     ) {
-                        Text(text = item.string, fontFamily = ManropeRegularW400, fontSize = 16.sp)
+                        Text(
+                            text = item.string,
+                            fontFamily = FontFamily.ManropeRegularW400,
+                            fontSize = 14.sp
+                        )
                     }
                 })
             }
@@ -99,7 +103,7 @@ fun SortByComponentPreview() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-
+            .padding(vertical = 40.dp, horizontal = 40.dp)
     ) {
 
         SortByComponent(topicListViewModel = viewModel())

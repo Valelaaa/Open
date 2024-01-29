@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +33,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.viewModel.TopicViewModel
+import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.example.openmind.ui.theme.LightText
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
@@ -67,7 +68,7 @@ fun TopAppBarArticle(topBar: @Composable () -> Unit) {
 fun TopAppBarArticle(
     navController: NavController?,
     title: String = "",
-    topicViewModel: TopicViewModel,
+    topicViewModel: CurrentTopicViewModel,
 ) {
     TopAppBar(
         title = { Text(text = title) },
@@ -96,7 +97,7 @@ fun TopAppBarArticle(
                     stringResource(R.string.create_button),
                     color = LightText,
                     fontSize = 14.sp,
-                    fontFamily = ManropeSemiBoldW600
+                    fontFamily = FontFamily.ManropeSemiBoldW600
                 )
             }
             IconButton(

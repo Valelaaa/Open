@@ -3,7 +3,9 @@ package com.example.openmindproject.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -19,32 +21,54 @@ import com.example.openmind.ui.theme.BackgroundColor
 import com.example.openmind.ui.theme.Pink40
 import com.example.openmind.ui.theme.Pink80
 import com.example.openmind.ui.theme.DarkBlue40
+import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.Typography
+
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color.White,
     secondary = DarkBlue40,
-    tertiary = Pink80
+    tertiary = Pink80,
+    background = Color.Black,
 )
+
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color.White,
-    secondary = DarkBlue40,
-    tertiary = Pink40,
-    background = BackgroundColor
+    primary = DarkBlue40,
+    secondary = SteelBlue60,
+    tertiary = DarkBlue40,
 
+    background = Color.White
+//    onPrimary: Color = ColorLightTokens.OnPrimary,
+//primaryContainer: Color = ColorLightTokens.PrimaryContainer,
+//onPrimaryContainer: Color = ColorLightTokens.OnPrimaryContainer,
+//inversePrimary: Color = ColorLightTokens.InversePrimary,
+//secondary: Color = ColorLightTokens.Secondary,
+//onSecondary: Color = ColorLightTokens.OnSecondary,
+//secondaryContainer: Color = ColorLightTokens.SecondaryContainer,
+//onSecondaryContainer: Color = ColorLightTokens.OnSecondaryContainer,
+//tertiary: Color = ColorLightTokens.Tertiary,
+//onTertiary: Color = ColorLightTokens.OnTertiary,
+//tertiaryContainer: Color = ColorLightTokens.TertiaryContainer,
+//onTertiaryContainer: Color = ColorLightTokens.OnTertiaryContainer,
+//background: Color = ColorLightTokens.Background,
+//onBackground: Color = ColorLightTokens.OnBackground,
+//surface: Color = ColorLightTokens.Surface,
+//onSurface: Color = ColorLightTokens.OnSurface,
+//surfaceVariant: Color = ColorLightTokens.SurfaceVariant,
+//onSurfaceVariant: Color = ColorLightTokens.OnSurfaceVariant,
+//surfaceTint: Color = primary,
+//inverseSurface: Color = ColorLightTokens.InverseSurface,
+//inverseOnSurface: Color = ColorLightTokens.InverseOnSurface,
+//error: Color = ColorLightTokens.Error,
+//onError: Color = ColorLightTokens.OnError,
+//errorContainer: Color = ColorLightTokens.ErrorContainer,
+//onErrorContainer: Color = ColorLightTokens.OnErrorContainer,
+//outline: Color = ColorLightTokens.Outline,
+//outlineVariant: Color = ColorLightTokens.OutlineVariant,
+//scrim: Color = ColorLightTokens.Scrim,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
-
 
 @Composable
 fun OpenMindProjectTheme(
@@ -54,7 +78,6 @@ fun OpenMindProjectTheme(
     content: @Composable () -> Unit
 
 ) {
-
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current

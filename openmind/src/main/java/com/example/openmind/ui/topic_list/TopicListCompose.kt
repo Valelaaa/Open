@@ -1,5 +1,6 @@
 package com.example.openmind.ui.screen.ArticleList
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.TopicListViewModel
 import com.example.openmind.ui.components.topiclist.selectSortingType.SortByComponent
 import com.example.openmind.ui.components.topiclist.topic.TopicShortComposeView
@@ -32,8 +34,9 @@ import com.example.openmind.ui.screen.Screen
 @Composable
 fun TopicListLayout(
     navController: NavController,
+    categories: Categories = Categories.BUG,
     modifier: Modifier = Modifier.fillMaxSize(),
-    topicListViewModel: TopicListViewModel = viewModel()
+    topicListViewModel: TopicListViewModel = viewModel(),
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -48,15 +51,13 @@ fun TopicListLayout(
             Spacer(modifier = Modifier.height(30.dp))
             LazyColumn {
                 items(items = topicListViewModel.loadedTopics, itemContent = { item ->
-                    TopicShortComposeView(item,topicListViewModel)
+                    TopicShortComposeView(item, Categories.BUG.getStringValue(), modifier = Modifier.padding(bottom = 12.dp))
                 })
             }
 
         }
     }
 }
-
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,7 +101,7 @@ fun TopicListPreview() {
         content = { padding ->
             TopicListLayout(
                 navController = navController,
-                Modifier.padding(padding),
+                modifier = Modifier.padding(padding),
             )
         })
 }

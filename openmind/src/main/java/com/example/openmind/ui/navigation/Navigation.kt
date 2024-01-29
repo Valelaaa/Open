@@ -41,7 +41,7 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                 content = { controller, modifier ->
                     TopicListLayout(
                         navController = controller,
-                        modifier
+                        modifier = modifier
                     )
                 },
                 toolbar = null,

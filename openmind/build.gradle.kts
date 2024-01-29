@@ -26,6 +26,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+//        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -40,12 +41,19 @@ android {
 
 dependencies {
     val nav_version = "2.7.6"
+    val retrofit_version = "2.9.0"
 
-    implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+//    For use LocalDateTime for API level less than 24 (desugaring)
+//    implementation("com.android.tools:desugar_jdk_libs:1.0.7")
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    //For retrofit/ dataMapping
+    implementation("com.google.code.gson:gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+
+    //Navigation
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
