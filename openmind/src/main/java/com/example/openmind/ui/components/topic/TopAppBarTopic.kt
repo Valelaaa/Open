@@ -40,32 +40,9 @@ import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 const val TAG: String = "TopicTopAppBar"
 
-@Composable
-fun TopAppBarArticle(toolbar: android.widget.Toolbar) {
-    AndroidView(
-        factory = {
-            toolbar
-        }
-    )
-}
-
-@Composable
-fun TopAppBarArticle(toolbar: Toolbar) {
-    AndroidView(
-        factory = {
-            toolbar
-        }
-    )
-}
-
-@Composable
-fun TopAppBarArticle(topBar: @Composable () -> Unit) {
-    topBar
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarArticle(
+fun TopAppBarTopic(
     navController: NavController?,
     title: String = "",
     topicViewModel: CurrentTopicViewModel,
@@ -86,8 +63,8 @@ fun TopAppBarArticle(
         actions = {
             Button(
                 onClick = {
-//                          contentNavigator.validate(topicViewModel.)
-                },
+                          //TODO()
+                          },
                 modifier = Modifier
                     .defaultMinSize(minHeight = 22.dp, minWidth = 42.dp),
                 shape = RoundedCornerShape(18.dp),
@@ -125,42 +102,10 @@ fun TopAppBarArticle(
 @Preview
 @Composable
 @ExperimentalMaterial3Api
-fun TopAppBarArticleToolBarPreview() {
-    val context = LocalContext.current
-    val toolbar = remember {
-        Toolbar(context)
-    }
-    toolbar.apply {
-        title = "Title"
-        setTitleTextColor(0xFFFFC0CB.toInt())
-        setNavigationIcon(R.drawable.ic_launcher_foreground)
-        setBackgroundColor(0xFF000000.toInt())
-        val layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        this.layoutParams = layoutParams
-        left = 0
-        top = 0
-        foregroundGravity = 1
-    }
-    Scaffold(topBar = {
-        TopAppBarArticle(toolbar)
-    }, content = { paddingValues ->
-        Text(
-            text = "Text",
-            modifier = Modifier.padding(paddingValues)
-        )
-    })
-}
-
-@Preview
-@Composable
-@ExperimentalMaterial3Api
 fun TopAppBarArticlePreview() {
     OpenMindProjectTheme {
         Scaffold(topBar = {
-            TopAppBarArticle(null, topicViewModel = viewModel())
+            TopAppBarTopic(null, topicViewModel = viewModel())
         }, content = { paddingValues ->
             Text(
                 text = "Text",

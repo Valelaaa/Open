@@ -2,6 +2,7 @@ package com.example.openmind.data.topic
 
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.UUID
 
 data class Topic(
     var title: String,
@@ -12,6 +13,7 @@ data class Topic(
     var rating: Int = 0,
     var comments: List<UserComment> = listOf(),
 ) {
+    var topicId: String = UUID.randomUUID().toString()
     private var commentCount: Int
 
     init {
@@ -38,6 +40,7 @@ data class Topic(
 
         return subCommentCount
     }
+
     fun formatElapsedTime(): String {
         val now = LocalDateTime.now()
         val duration = Duration.between(createdDateTime, now)

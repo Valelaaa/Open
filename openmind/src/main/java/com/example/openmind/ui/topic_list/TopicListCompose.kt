@@ -1,6 +1,9 @@
 package com.example.openmind.ui.screen.ArticleList
 
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,12 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,23 +43,24 @@ fun TopicListLayout(
     modifier: Modifier = Modifier.fillMaxSize(),
     topicListViewModel: TopicListViewModel = viewModel(),
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-    ) {
 
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp)
-
-        ) {
-            SortByComponent(topicListViewModel)
-            LazyColumn(modifier.padding(top = 30.dp)) {
-                items(items = topicListViewModel.loadedTopics, itemContent = { item ->
-                    TopicShortComposeView(item, Categories.BUG.getStringValue(), modifier = Modifier.padding(bottom = 12.dp))
-                })
+    val topicList = remember { mutableStateOf(topicListViewModel.loadedTopics) }
+    Box(modifier = modifier.padding(horizontal = 28.dp)) {
+        val itemModifier = Modifier.padding(bottom = 12.dp)
+        LazyColumn() {
+            item {
+                SortByComponent(topicListViewModel, modifier = Modifier.padding(bottom = 30.dp))
             }
-
+            items(items = topicList.value,
+                key = { item -> item.topicId },
+                itemContent = { item ->
+                    TopicShortComposeView(
+                        navController = navController,
+                        topic = item,
+                        Categories.BUG.getStringValue(),
+                        modifier = itemModifier
+                    )
+                })
         }
     }
 }

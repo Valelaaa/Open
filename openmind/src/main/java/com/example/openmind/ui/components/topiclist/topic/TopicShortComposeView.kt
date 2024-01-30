@@ -1,7 +1,6 @@
 package com.example.openmind.ui.components.topiclist.topic
 
 import NoRippleInteractionSource
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.data.topic.Topic
 import com.example.openmind.data.viewModel.Categories
@@ -51,8 +52,10 @@ import com.example.openmind.ui.theme.SteelBlue60
 
 @Composable
 fun TopicShortComposeView(
-    topic: Topic, category: String, modifier: Modifier = Modifier,
-    context: Context? = null
+    navController: NavController,
+    topic: Topic,
+    category: String,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier
@@ -116,7 +119,7 @@ fun TopicShortComposeView(
         // Topic Content
         Column(
             modifier = Modifier
-                .padding(top = 12.dp)
+                .padding(top = 8.dp)
                 .clickable(onClick = {
                     /*TODO(NavigateToTopic)*/
                 })
@@ -164,43 +167,39 @@ fun TopicShortComposeView(
                         .padding(0.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        IconButton(
-                            onClick = { /*TODO(topic rating increases - patch request,button color - maib primary)*/ },
-                            modifier = Modifier
-                                .padding(5.dp)
-                                .size(20.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_up),
-                                contentDescription = stringResource(R.string.contentdescription_increase),
-                            )
-                        }
-                    }
-                    Column {
-                        Text(
-                            text = "${topic.rating}",
-                            fontFamily = FontFamily.ManropeBoldW700,
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            color = DarkBlue40,
-                            maxLines = 1
+                    IconButton(
+                        onClick = { /*TODO(topic rating increases - patch request,button color - maib primary)*/ },
+                        modifier = Modifier
+                            .padding(top = 5.dp, bottom = 5.dp, start = 4.dp, end = 1.dp)
+                            .size(20.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.arrow_up),
+                            contentDescription = stringResource(R.string.contentdescription_increase),
                         )
                     }
-                    Column {
-                        IconButton(
-                            onClick = { /*TODO(topic rating decreases - patch request, button color ~ red)*/ },
+                    Text(
+                        text = "${topic.rating}",
+                        fontFamily = FontFamily.ManropeBoldW700,
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        color = DarkBlue40,
+                        maxLines = 1,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.defaultMinSize(minWidth = 42.dp)
+                    )
+                    IconButton(
+                        onClick = { /*TODO(topic rating decreases - patch request, button color ~ red)*/ },
+                        modifier = Modifier
+                            .padding(top = 5.dp, bottom = 5.dp, start = 1.dp, end = 4.dp)
+                            .size(20.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.arrow_up),
+                            contentDescription = stringResource(R.string.contentdescription_decrease),
                             modifier = Modifier
-                                .padding(5.dp)
-                                .size(20.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_up),
-                                contentDescription = stringResource(R.string.contentdescription_decrease),
-                                modifier = Modifier
-                                    .rotate(180f)
-                            )
-                        }
+                                .rotate(180f)
+                        )
                     }
                 }
                 //Comments
@@ -208,15 +207,16 @@ fun TopicShortComposeView(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .weight(1f)
+
                 ) {
                     Row(
                         modifier = Modifier
                             .clip(CircleShape)
                             .border(1.dp, BorderLight, CircleShape)
-                            .padding(end = 30.dp)
                             .clickable(onClick = {
                                 /*TODO("Navigate to Topic -> scrollTo comments")*/
-                            }),
+                            }).padding(end = 30.dp)
+                           ,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(
@@ -282,18 +282,19 @@ fun TopicShortComposeView(
 @Composable
 fun TopicShortComposeViewPreview() {
     val topic = CurrentTopicViewModel().getTopic()
+    val currentContext = LocalContext.current
     Column(
         modifier = Modifier
             .background(color = Color.Black)
             .fillMaxSize()
     ) {
         TopicShortComposeView(
+            navController = NavController(currentContext),
             topic = topic,
             category = Categories.BUG.getStringValue(),
             modifier = Modifier
                 .padding(horizontal = 28.dp, vertical = 30.dp)
                 .background(LightText),
-            LocalContext.current
         )
     }
 }

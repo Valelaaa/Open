@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.data.viewModel.CurrentTopicViewModel
-import com.example.openmind.ui.components.topic.TopAppBarArticle
+import com.example.openmind.ui.components.topic.TopAppBarTopic
 import com.example.openmind.ui.components.topic.TopicBodyTextField
 import com.example.openmind.ui.components.topic.TopicTitleTextField
 import com.example.openmind.ui.screen.Screen
@@ -48,7 +48,7 @@ fun CreateTopicLayout(
 
     Scaffold(
         topBar = {
-            TopAppBarArticle(navController = navController, "", topicViewModel)
+            TopAppBarTopic(navController = navController, "", topicViewModel)
         },
         content = { scaffoldPaddings ->
             Column(
