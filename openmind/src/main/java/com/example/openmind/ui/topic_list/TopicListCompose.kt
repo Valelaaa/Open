@@ -1,13 +1,11 @@
 package com.example.openmind.ui.screen.ArticleList
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -46,10 +44,10 @@ fun TopicListLayout(
             Modifier
                 .fillMaxSize()
                 .padding(horizontal = 30.dp)
+
         ) {
             SortByComponent(topicListViewModel)
-            Spacer(modifier = Modifier.height(30.dp))
-            LazyColumn {
+            LazyColumn(modifier.padding(top = 30.dp)) {
                 items(items = topicListViewModel.loadedTopics, itemContent = { item ->
                     TopicShortComposeView(item, Categories.BUG.getStringValue(), modifier = Modifier.padding(bottom = 12.dp))
                 })

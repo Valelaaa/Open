@@ -18,7 +18,6 @@ import com.example.openmind.ui.screen.ArticleList.TopicListLayout
 @Composable
 fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
     val navController = rememberNavController()
-    val globalModifier: Modifier = Modifier.fillMaxSize()
     NavHost(navController = navController, startDestination = Screen.CategoriesScreen.route) {
         composable(Screen.CategoriesScreen.route) {
             BaseComposeScreen(
@@ -29,8 +28,6 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier
                     )
                 },
-                toolbar = null,
-                modifier = globalModifier,
                 screenTitle = Screen.CategoriesScreen.title
             )
 
@@ -44,8 +41,6 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier = modifier
                     )
                 },
-                toolbar = null,
-                modifier = globalModifier,
                 screenTitle = Screen.TopicListScreen.title
 
             )
@@ -60,8 +55,6 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier
                     )
                 },
-                toolbar = null,
-                modifier = globalModifier,
                 screenTitle = Screen.TopicScreen.title
             )
         }

@@ -4,4 +4,9 @@
     <string name="create_topic_body_text">body text (optional)</string>
     <string name="button_next_text">Next</string>
     <string name="create_button">Create</string>
+    <string name="read_more_label">Read more...</string>
+    <string name="contentdescription_increase">increase</string>
+    <string name="contentdescription_decrease">decrease</string>
+    <string name="contentdescription_more">more</string>
+    <string name="comments_count">%1$s Comments</string>
 </resources>

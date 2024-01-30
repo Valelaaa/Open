@@ -1,6 +1,5 @@
 package com.example.openmind.ui.screen
 
-import androidx.appcompat.widget.Toolbar
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,11 +14,12 @@ import androidx.navigation.NavController
 fun BaseComposeScreen(
     navController: NavController,
     screenTitle: String,
-    content: @Composable (NavController, Modifier) -> Unit,
-    toolbar: Toolbar?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.fillMaxSize(),
+    topBar: @Composable () -> Unit = {},
+    content: @Composable (NavController, Modifier) -> Unit
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        topBar
     }, content = { padding ->
         Box(modifier = Modifier.padding(padding)) {
             content(navController, modifier)

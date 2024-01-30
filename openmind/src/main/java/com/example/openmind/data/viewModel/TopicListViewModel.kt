@@ -9,18 +9,7 @@ import com.example.openmind.data.topic.Topic
 
 class TopicListViewModel : ViewModel() {
     val topicRepository: TopicRepository = TopicRepositoryImpl()
-    var loadedTopics: List<Topic> = listOf(
-        Topic("How to manage your money better, daily? Any available lessons?", "description"),
-        Topic(
-            "I would like to save money online like in my banking account, but to not touch them. Is it possible?",
-            "description"
-        ),
-        Topic(
-            "Can we expedite transaction confirma-tions? Cuz yesterday I just tried some and no result...",
-            "description"
-        ),
-        topicRepository.getMockTopic()
-        )
+    var loadedTopics: List<Topic> = topicRepository.getMockTopicList()
     private lateinit var _activeCategory: MutableState<Categories>
 
     private var _activeSortType: MutableState<SortBy> = mutableStateOf(SortBy.HOT)
