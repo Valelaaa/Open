@@ -36,7 +36,7 @@ import com.example.openmind.ui.theme.colorthemes.ColorTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SortByComponent(topicListViewModel: TopicListViewModel, modifier: Modifier = Modifier) {
+fun SortingSelector(topicListViewModel: TopicListViewModel, modifier: Modifier = Modifier) {
     val sortTypes = SortBy.values()
 
     val colorTokens: ColorTokens = when {
@@ -107,6 +107,6 @@ fun SortByComponentPreview() {
             .padding(vertical = 40.dp, horizontal = 40.dp)
     ) {
 
-        SortByComponent(topicListViewModel = viewModel())
+        SortingSelector(topicListViewModel = viewModel())
     }
 }

@@ -1,23 +1,22 @@
 package com.example.openmind.ui.navigation
 
-import android.view.View
-import androidx.appcompat.widget.Toolbar
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.openmind.ui.screen.BaseComposeScreen
-import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.categories.CategoriesLayout
 import com.example.openmind.ui.create_topic.CreateTopicLayout
 import com.example.openmind.ui.screen.Article.TopicLayout
 import com.example.openmind.ui.screen.ArticleList.TopicListLayout
+import com.example.openmind.ui.screen.BaseComposeScreen
+import com.example.openmind.ui.screen.Screen
 
 @Composable
-fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
-    val navController = rememberNavController()
+fun Navigation(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = Screen.CategoriesScreen.route) {
         composable(Screen.CategoriesScreen.route) {
             BaseComposeScreen(
@@ -28,7 +27,7 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier
                     )
                 },
-                screenTitle = Screen.CategoriesScreen.title
+                screen = Screen.CategoriesScreen
             )
 
         }
@@ -41,7 +40,7 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier = modifier
                     )
                 },
-                screenTitle = Screen.TopicListScreen.title
+                screen = Screen.TopicListScreen
 
             )
 
@@ -55,7 +54,7 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
                         modifier
                     )
                 },
-                screenTitle = Screen.TopicScreen.title
+                screen = Screen.TopicScreen
             )
         }
         composable(Screen.CreateTopicScreen.route) {
@@ -64,7 +63,8 @@ fun Navigation(toolbar: Toolbar? = null, contentView: View? = null) {
     }
 }
 
-
-
-
-
+@Preview
+@Composable
+fun NavigatationPreview(){
+    Navigation()
+}

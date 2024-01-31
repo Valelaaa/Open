@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 @Composable
 fun BaseComposeScreen(
     navController: NavController,
-    screenTitle: String,
+    screen: Screen,
     modifier: Modifier = Modifier.fillMaxSize(),
     topBar: @Composable () -> Unit = {},
     content: @Composable (NavController, Modifier) -> Unit

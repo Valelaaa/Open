@@ -8,23 +8,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.openmind.ui.navigation.Navigation
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 class MainFragment : Fragment() {
-    private var _contentView: View? = null
-    private var contentView: View
-        get() = _contentView!!
-        set(value) {
-            _contentView = value
-        }
-    private var _toolbar: Toolbar? = null;
-
-    private var toolbar: Toolbar
-        set(value) {
-            _toolbar = value
-        }
-        get() = _toolbar!!
+    private lateinit var navController: NavHostController
 
     companion object {
         fun newInstance() = MainFragment()
@@ -45,7 +35,8 @@ class MainFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 OpenMindProjectTheme {
-                    Navigation()
+                    navController = rememberNavController()
+                    Navigation(navController)
                 }
             }
         }
