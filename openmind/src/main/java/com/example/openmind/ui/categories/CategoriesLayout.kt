@@ -21,9 +21,9 @@ fun CategoriesLayout(navController: NavController, modifier: Modifier = Modifier
     ) {
         Text(text = "Categories List Layout")
         Button({
-            navController.navigate(Screen.TopicListScreen.route)
+            navController.navigate(Screen.PostListScreen.route)
         }, modifier = Modifier.padding(top = 10.dp)) {
-            Text(text = "To Article List")
+            Text(text = "To Post List")
         }
     }
 }

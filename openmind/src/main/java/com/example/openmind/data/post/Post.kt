@@ -1,19 +1,18 @@
-package com.example.openmind.data.topic
+package com.example.openmind.data.post
 
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class Topic(
+data class Post(
     var title: String,
     var description: String = "",
     val author: String = "Unknown",
     val createdDateTime: LocalDateTime = LocalDateTime.now(),
-    var editedDateTime: LocalDateTime = LocalDateTime.now(),
     var rating: Int = 0,
     var comments: List<UserComment> = listOf(),
 ) {
-    var topicId: String = UUID.randomUUID().toString()
+    var postId: String = UUID.randomUUID().toString()
     private var commentCount: Int
 
     init {

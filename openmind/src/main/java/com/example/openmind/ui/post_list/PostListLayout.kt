@@ -1,5 +1,3 @@
-package com.example.openmind.ui.screen.ArticleList
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -25,40 +23,39 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.TopicListViewModel
+import com.example.openmind.data.viewModel.PostListViewModel
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.topiclist.selectSortingType.SortingSelector
-import com.example.openmind.ui.components.topiclist.topic.TopicShortView
+import com.example.openmind.ui.components.postlist.post.PostShortView
+import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.Delimiter
 
 
 @Composable
-fun TopicListLayout(
+fun PostListLayout(
     navController: NavController,
     categories: Categories = Categories.BUG,
     modifier: Modifier = Modifier.fillMaxSize(),
-    topicListViewModel: TopicListViewModel = viewModel(),
+    postListViewModel: PostListViewModel = viewModel<PostListViewModel>(),
 ) {
 
-    val topicList = remember { mutableStateOf(topicListViewModel.loadedTopics) }
-    //For better optimization we should use these objects for all views
+    val postList = remember { postListViewModel.loadedPosts }
     val currentCategory = remember { categories }
 
     Box(modifier = modifier) {
         LazyColumn(modifier.borderBottom(1.dp, Delimiter)) {
             item {
                 SortingSelector(
-                    topicListViewModel,
+                    postListViewModel,
                     modifier = Modifier.padding(bottom = 30.dp, start = 28.dp)
                 )
             }
-            items(items = topicList.value,
-                key = { item -> item.topicId },
+            items(items = postList,
+                key = { item -> item.postId },
                 itemContent = { item ->
-                    TopicShortView(
+                    PostShortView(
                         navController = navController,
-                        topic = item,
+                        post = item,
                         category = currentCategory,
                     )
                 })
@@ -70,12 +67,12 @@ fun TopicListLayout(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun TopicListPreview() {
+fun PostListPreview() {
     val navController = NavController(LocalContext.current)
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Topics") },
+                title = { Text("Posts") },
                 navigationIcon = {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -83,9 +80,9 @@ fun TopicListPreview() {
                     ) {
                         Row {
                             Button({
-                                navController.navigate(Screen.TopicScreen.route)
+                                navController.navigate(Screen.PostScreen.route)
                             }) {
-                                Text(text = "To Topic")
+                                Text(text = "To Post")
                             }
 
                         }
@@ -94,10 +91,10 @@ fun TopicListPreview() {
                         }
                         Row {
                             Button({
-                                navController.navigate(Screen.CreateTopicScreen.route)
+                                navController.navigate(Screen.CreatePostScreen.route)
                             })
                             {
-                                Text(text = "Create new Topic")
+                                Text(text = "Create new Post")
                             }
                         }
                     }
@@ -106,7 +103,7 @@ fun TopicListPreview() {
             )
         },
         content = { padding ->
-            TopicListLayout(
+            PostListLayout(
                 navController = navController,
                 modifier = Modifier.padding(padding),
             )

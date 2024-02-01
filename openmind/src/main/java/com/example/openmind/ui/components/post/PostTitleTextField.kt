@@ -1,13 +1,16 @@
-package com.example.openmind.ui.components.topic
+package com.example.openmind.ui.components.post
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -20,45 +23,58 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.viewModel.CurrentTopicViewModel
+import com.example.openmind.data.post.Post
+import com.example.openmind.data.viewModel.CreatePostViewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.theme.DarkGray20
-import com.example.openmind.ui.theme.ManropeRegularW400
+import com.example.openmind.ui.theme.ManropeExtraBoldW800
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopicBodyTextField(
-    topicViewModel: CurrentTopicViewModel,
-    modifier: Modifier = Modifier.fillMaxSize()
+fun PostTitleTextField(
+    viewModel: CreatePostViewModel,
+    modifier: Modifier = Modifier
 ) {
-    val topicDescriptionSize = 16.sp
+    val titleMaxSize = 300
+
+    val postTitle = remember {
+        viewModel.title
+    }
     CustomTextField(
-        value = topicViewModel.currentTopic.value.description,
+        value = postTitle.value,
         onValueChange = { inputString ->
-            topicViewModel.updateDescription(inputString)
+            postTitle.value = inputString.take(titleMaxSize)
+            viewModel.updateTitle(postTitle.value)
         },
+        keyboardActions = KeyboardActions(
+            onNext = {
+
+            }
+        ),
         placeholder = {
             Text(
-                text = stringResource(R.string.create_topic_body_text),
-                fontSize = topicDescriptionSize,
-                fontWeight = FontWeight.W400,
+                text = stringResource(R.string.create_post_title),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W800,
                 color = DarkGray20,
-                fontFamily = FontFamily.ManropeRegularW400
+                lineHeight = 30.sp,
+                fontFamily = FontFamily.ManropeExtraBoldW800
             )
         },
         contentPadding = PaddingValues(
-            top = 5.dp,
             start = 15.dp,
+            top = 10.dp,
             end = 15.dp,
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Next
         ),
         textStyle = TextStyle(
-            fontSize = topicDescriptionSize,
-            fontWeight = FontWeight.W400,
-            fontFamily = FontFamily.ManropeRegularW400,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.W800,
+            fontFamily = FontFamily.ManropeExtraBoldW800,
+            lineHeight = 30.sp,
             color = DarkGray20,
             textAlign = TextAlign.Justify
         ),

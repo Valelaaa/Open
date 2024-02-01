@@ -1,4 +1,4 @@
-package com.example.openmind.data.topic
+package com.example.openmind.data.post
 
 import com.example.openmind.R
 

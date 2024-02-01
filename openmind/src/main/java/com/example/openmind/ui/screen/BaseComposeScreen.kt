@@ -26,9 +26,9 @@ fun BaseComposeScreen(
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(title = { /*TODO*/ }, actions = {
             IconButton(onClick = {
-                navController.navigate(Screen.CreateTopicScreen.route)
+                navController.navigate(Screen.CreatePostScreen.route)
             }) {
-                Icon(Icons.Default.Add, contentDescription = "CreateTopic")
+                Icon(Icons.Default.Add, contentDescription = "CreatePost")
             }
 
         })

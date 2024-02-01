@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.topiclist.topic
+package com.example.openmind.ui.components.postlist.post
 
 import NoRippleInteractionSource
 import android.util.Log
@@ -38,12 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.topic.Topic
+import com.example.openmind.data.post.Post
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.CurrentTopicViewModel
+import com.example.openmind.data.viewModel.CreatePostViewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.topic.ShareTopic
-import com.example.openmind.ui.components.topic.TopicRating
+import com.example.openmind.ui.components.post.SharePost
+import com.example.openmind.ui.components.post.PostRating
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -54,26 +54,26 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
 
-const val tag = "TopicShortView"
+const val tag = "PostShortView"
 
 @Composable
-fun TopicShortView(
+fun PostShortView(
     navController: NavController,
-    topic: Topic,
+    post: Post,
     category: Categories,
     modifier: Modifier = Modifier,
 ) {
-    val currentTopic = remember {
-        topic
+    val currentPost = remember {
+        post
     }
 
     Row(
         modifier
             .fillMaxWidth()
             .clickable(onClick = {
-                /*TODO(NavigateToTopic)*/
-                navController.navigate(Screen.TopicScreen.route)
-                Log.d(tag, "Navigate to Topic: ${currentTopic.topicId}")
+                /*TODO(NavigateToPost)*/
+                navController.navigate(Screen.PostScreen.route)
+                Log.d(tag, "Navigate to Post: ${currentPost.postId}")
             })
     ) {
         Column(
@@ -108,7 +108,7 @@ fun TopicShortView(
 
                     //Created Time
                     Text(
-                        text = currentTopic.formatElapsedTime(),
+                        text = currentPost.formatElapsedTime(),
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         maxLines = 1,
@@ -138,7 +138,7 @@ fun TopicShortView(
                 }
             }
 
-            // Topic Content
+            // Post Content
             Column(
                 modifier = Modifier
                     .padding(top = 8.dp),
@@ -148,9 +148,9 @@ fun TopicShortView(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    //Topic Title
+                    //Post Title
                     Text(
-                        text = currentTopic.title.trimIndent(), fontSize = 14.sp,
+                        text = currentPost.title.trimIndent(), fontSize = 14.sp,
                         fontFamily = FontFamily.ManropeBoldW700,
                         color = DarkBlue40,
                         maxLines = 3,
@@ -175,7 +175,7 @@ fun TopicShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    TopicRating(currentTopic.topicId, currentTopic.rating, Modifier)
+                    PostRating(currentPost.postId, currentPost.rating, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier
@@ -188,8 +188,8 @@ fun TopicShortView(
                                 .clip(CircleShape)
                                 .border(1.dp, BorderLight, CircleShape)
                                 .clickable(onClick = {
-                                    /*TODO("Navigate to Topic -> scrollTo comments")*/
-                                    Log.d(tag, "Navigate to Topic -> scrollTo comments")
+                                    /*TODO("Navigate to Post -> scrollTo comments")*/
+                                    Log.d(tag, "Navigate to Post -> scrollTo comments")
                                 })
                                 .padding(end = 20.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -209,7 +209,7 @@ fun TopicShortView(
                             Text(
                                 text = stringResource(
                                     R.string.comments_count,
-                                    currentTopic.getCommentsCount()
+                                    currentPost.getCommentsCount()
                                 ),
                                 fontFamily = FontFamily.ManropeBoldW700,
                                 fontSize = 14.sp,
@@ -219,7 +219,7 @@ fun TopicShortView(
                             )
                         }
                     }
-                    ShareTopic(currentTopic.topicId)
+                    SharePost(currentPost.postId)
                 }
             }
         }
@@ -229,17 +229,17 @@ fun TopicShortView(
 
 @Preview
 @Composable
-fun TopicShortComposeViewPreview() {
-    val topic = CurrentTopicViewModel().getTopic()
+fun PostShortComposeViewPreview() {
+    val post = CreatePostViewModel().createPost()
     val currentContext = LocalContext.current
     Column(
         modifier = Modifier
             .background(color = Color.Black)
             .fillMaxSize()
     ) {
-        TopicShortView(
+        PostShortView(
             navController = NavController(currentContext),
-            topic = topic,
+            post = post,
             category = Categories.BUG,
             modifier = Modifier
                 .padding(horizontal = 28.dp, vertical = 30.dp)

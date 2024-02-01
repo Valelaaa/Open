@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.topic
+package com.example.openmind.ui.components.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,7 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.repository.TopicRepositoryImpl
+import com.example.openmind.data.repository.PostRepositoryImpl
+import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibError
@@ -39,7 +40,7 @@ import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 
 @Composable
-fun TopicRating(topicId: String, rating: Int, modifier: Modifier = Modifier) {
+fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
 
     val mutableRating by remember { mutableIntStateOf(rating) }
 
@@ -63,7 +64,7 @@ fun TopicRating(topicId: String, rating: Int, modifier: Modifier = Modifier) {
     ) {
         IconButton(
             onClick = {
-                /*TODO(topic rating increases - patch request,button color - maib primary)*/
+                /*TODO(post rating increases - patch request,button color - maib primary)*/
                 liked = !liked
                 disliked = false
             },
@@ -88,7 +89,7 @@ fun TopicRating(topicId: String, rating: Int, modifier: Modifier = Modifier) {
             modifier = Modifier.defaultMinSize(minWidth = 42.dp)
         )
         IconButton(
-            onClick = { /*TODO(topic rating decreases - patch request, button color ~ red)*/
+            onClick = { /*TODO(post rating decreases - patch request, button color ~ red)*/
                 disliked = !disliked
                 liked = false
             },
@@ -109,15 +110,15 @@ fun TopicRating(topicId: String, rating: Int, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun RatingPreview() {
-    val mockTopic = TopicRepositoryImpl().getMockTopic()
+    val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
             .padding(start = 35.dp, top = 35.dp)
     ) {
-        TopicRating(
-            topicId = mockTopic.topicId, rating = mockTopic.rating, modifier = Modifier.background(
+        PostRating(
+            postId = mockPost.postId, rating = mockPost.rating, modifier = Modifier.background(
                 Color.White
             )
         )

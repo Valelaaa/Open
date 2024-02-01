@@ -1,17 +1,15 @@
 package com.example.openmind.ui.navigation
 
-import androidx.compose.foundation.layout.padding
+import PostLayout
+import PostListLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.ui.categories.CategoriesLayout
-import com.example.openmind.ui.create_topic.CreateTopicLayout
-import com.example.openmind.ui.screen.Article.TopicLayout
-import com.example.openmind.ui.screen.ArticleList.TopicListLayout
+import com.example.openmind.ui.create_post.CreatePostLayout
 import com.example.openmind.ui.screen.BaseComposeScreen
 import com.example.openmind.ui.screen.Screen
 
@@ -31,34 +29,34 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
             )
 
         }
-        composable(Screen.TopicListScreen.route) {
+        composable(Screen.PostListScreen.route) {
             BaseComposeScreen(
                 navController = navController,
                 content = { controller, modifier ->
-                    TopicListLayout(
+                    PostListLayout(
                         navController = controller,
                         modifier = modifier
                     )
                 },
-                screen = Screen.TopicListScreen
+                screen = Screen.PostListScreen
 
             )
 
         }
-        composable(Screen.TopicScreen.route) {
+        composable(Screen.PostScreen.route) {
             BaseComposeScreen(
                 navController = navController,
                 content = { controller, modifier ->
-                    TopicLayout(
+                    PostLayout(
                         navController = controller,
                         modifier
                     )
                 },
-                screen = Screen.TopicScreen
+                screen = Screen.PostScreen
             )
         }
-        composable(Screen.CreateTopicScreen.route) {
-            CreateTopicLayout(navController = navController, screen = Screen.CreateTopicScreen)
+        composable(Screen.CreatePostScreen.route) {
+            CreatePostLayout(navController = navController, screen = Screen.CreatePostScreen)
         }
     }
 }

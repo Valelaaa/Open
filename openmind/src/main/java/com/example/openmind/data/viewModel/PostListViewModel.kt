@@ -3,13 +3,12 @@ package com.example.openmind.data.viewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.openmind.data.repository.TopicRepository
-import com.example.openmind.data.repository.TopicRepositoryImpl
-import com.example.openmind.data.topic.Topic
+import com.example.openmind.data.repository.PostRepository
+import com.example.openmind.data.repository.PostRepositoryProvider
 
-class TopicListViewModel : ViewModel() {
-    val topicRepository: TopicRepository = TopicRepositoryImpl()
-    var loadedTopics: List<Topic> = topicRepository.getMockTopicList()
+class PostListViewModel : ViewModel() {
+    private val postRepository: PostRepository = PostRepositoryProvider.provideRepository()
+    var loadedPosts = postRepository.getMockPostList()
     private lateinit var _activeCategory: MutableState<Categories>
 
     private var _activeSortType: MutableState<SortBy> = mutableStateOf(SortBy.HOT)

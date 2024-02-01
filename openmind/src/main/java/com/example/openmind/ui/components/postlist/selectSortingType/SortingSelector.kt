@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.topiclist.selectSortingType
+package com.example.openmind.ui.components.postlist.selectSortingType
 
 import NoRippleInteractionSource
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.openmind.data.viewModel.SortBy
-import com.example.openmind.data.viewModel.TopicListViewModel
+import com.example.openmind.data.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.colorthemes.ColorDarkTokens
@@ -36,7 +36,7 @@ import com.example.openmind.ui.theme.colorthemes.ColorTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SortingSelector(topicListViewModel: TopicListViewModel, modifier: Modifier = Modifier) {
+fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = Modifier) {
     val sortTypes = SortBy.values()
 
     val colorTokens: ColorTokens = when {
@@ -69,9 +69,9 @@ fun SortingSelector(topicListViewModel: TopicListViewModel, modifier: Modifier =
                     ) {
                         Button(
                             onClick = {
-                                topicListViewModel.setActiveSortType(item)
+                                postListViewModel.setActiveSortType(item)
                             },
-                            colors = if (topicListViewModel.activeSortType.value == item)
+                            colors = if (postListViewModel.activeSortType.value == item)
                                 activeColors
                             else inactiveColors,
                             modifier = Modifier
@@ -107,6 +107,6 @@ fun SortByComponentPreview() {
             .padding(vertical = 40.dp, horizontal = 40.dp)
     ) {
 
-        SortingSelector(topicListViewModel = viewModel())
+        SortingSelector(postListViewModel = viewModel())
     }
 }

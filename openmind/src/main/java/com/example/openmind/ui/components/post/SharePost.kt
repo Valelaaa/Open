@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.topic
+package com.example.openmind.ui.components.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,11 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.openmind.R
-import com.example.openmind.data.repository.TopicRepositoryImpl
+import com.example.openmind.data.repository.PostRepositoryImpl
+import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.ui.theme.BorderLight
 
 @Composable
-fun ShareTopic(topicId: String, modifier: Modifier = Modifier) {
+fun SharePost(postId: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .clip(CircleShape)
@@ -49,14 +50,14 @@ fun ShareTopic(topicId: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun ShareTopicPreview() {
-    val mockTopic = TopicRepositoryImpl().getMockTopic()
+fun SharePostPreview() {
+    val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
     Column(
         Modifier
             .background(Color.Black)
             .fillMaxSize()
             .padding(35.dp)
     ) {
-        ShareTopic(topicId = mockTopic.topicId, modifier = Modifier.background(Color.White))
+        SharePost(postId = mockPost.postId, modifier = Modifier.background(Color.White))
     }
 }
