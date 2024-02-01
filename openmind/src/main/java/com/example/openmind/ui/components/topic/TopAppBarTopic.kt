@@ -3,7 +3,10 @@ package com.example.openmind.ui.components.topic
 import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +36,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
+import com.example.openmind.data.repository.TopicRepositoryImpl
 import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.example.openmind.ui.theme.LightText
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
@@ -63,8 +67,8 @@ fun TopAppBarTopic(
         actions = {
             Button(
                 onClick = {
-                          //TODO()
-                          },
+                    TopicRepositoryImpl().addNewTopic(topicViewModel.currentTopic.value)
+                },
                 modifier = Modifier
                     .defaultMinSize(minHeight = 22.dp, minWidth = 42.dp),
                 shape = RoundedCornerShape(18.dp),
@@ -107,10 +111,13 @@ fun TopAppBarArticlePreview() {
         Scaffold(topBar = {
             TopAppBarTopic(null, topicViewModel = viewModel())
         }, content = { paddingValues ->
-            Text(
-                text = "Text",
-                modifier = Modifier.padding(paddingValues)
-            )
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+                    .padding(paddingValues)){
+
+            }
         })
     }
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,11 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,12 +42,13 @@ import com.example.openmind.data.topic.Topic
 import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.CurrentTopicViewModel
 import com.example.openmind.ui.components.general.borderBottom
+import com.example.openmind.ui.components.topic.ShareTopic
+import com.example.openmind.ui.components.topic.TopicRating
+import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.LightText
-import com.example.openmind.ui.theme.MaibError
-import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
@@ -70,19 +66,13 @@ fun TopicShortView(
     val currentTopic = remember {
         topic
     }
-    var liked by remember { mutableStateOf(false) }
-    var disliked by remember { mutableStateOf(false) }
-    val likeColor = if (liked) MaibPrimary else DarkBlue40
-    val dislikeColor = if (disliked) MaibError else DarkBlue40
-
-    val currentRating =
-        if (liked) topic.rating + 1 else if (disliked) topic.rating - 1 else topic.rating
 
     Row(
         modifier
             .fillMaxWidth()
             .clickable(onClick = {
                 /*TODO(NavigateToTopic)*/
+                navController.navigate(Screen.TopicScreen.route)
                 Log.d(tag, "Navigate to Topic: ${currentTopic.topicId}")
             })
     ) {
@@ -151,9 +141,13 @@ fun TopicShortView(
             // Topic Content
             Column(
                 modifier = Modifier
-                    .padding(top = 8.dp)
-            ) {
-                Row {
+                    .padding(top = 8.dp),
+
+                ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     //Topic Title
                     Text(
                         text = currentTopic.title.trimIndent(), fontSize = 14.sp,
@@ -161,27 +155,17 @@ fun TopicShortView(
                         color = DarkBlue40,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = (Modifier
-                            .weight(1f))
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 20.dp)
                     )
 
-                    IconButton(onClick = { /*TODO("Just IconButton Style")*/
-                        Log.d(tag, "Navigation to topic by right arrow")
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.KeyboardArrowRight,
-                            contentDescription = stringResource(R.string.contentdescription_more),
-                            tint = SteelBlue60,
-                        )
-                    }
-
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowRight,
+                        contentDescription = stringResource(R.string.contentdescription_more),
+                        tint = SteelBlue60,
+                    )
                 }
-                Text(
-                    text = stringResource(R.string.read_more_label),
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    color = SteelBlue60,
-                )
             }
             // FeedBack and Share
             Column {
@@ -191,56 +175,7 @@ fun TopicShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    Row(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .border(1.dp, BorderLight, CircleShape)
-                            .padding(0.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(
-                            onClick = {
-                                /*TODO(topic rating increases - patch request,button color - maib primary)*/
-                                liked = !liked
-                                disliked = false
-                            },
-                            modifier = Modifier
-                                .padding(top = 5.dp, bottom = 5.dp, start = 4.dp, end = 1.dp)
-                                .size(20.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_up),
-                                contentDescription = stringResource(R.string.contentdescription_increase),
-                                tint = likeColor
-                            )
-                        }
-                        Text(
-                            text = "$currentRating",
-                            fontFamily = FontFamily.ManropeBoldW700,
-                            fontSize = 14.sp,
-                            lineHeight = 20.sp,
-                            color = DarkBlue40,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.defaultMinSize(minWidth = 42.dp)
-                        )
-                        IconButton(
-                            onClick = { /*TODO(topic rating decreases - patch request, button color ~ red)*/
-                                disliked = !disliked
-                                liked = false
-                            },
-                            modifier = Modifier
-                                .padding(top = 5.dp, bottom = 5.dp, start = 1.dp, end = 4.dp)
-                                .rotate(180f)
-                                .size(20.dp),
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_up),
-                                contentDescription = stringResource(R.string.contentdescription_decrease),
-                                tint = dislikeColor
-                            )
-                        }
-                    }
+                    TopicRating(currentTopic.topicId, currentTopic.rating, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier
@@ -256,11 +191,12 @@ fun TopicShortView(
                                     /*TODO("Navigate to Topic -> scrollTo comments")*/
                                     Log.d(tag, "Navigate to Topic -> scrollTo comments")
                                 })
-                                .padding(end = 30.dp),
+                                .padding(end = 20.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                onClick = { /*TODO(import styles, use box )*/ },
+                            Icon(
+                                painter = painterResource(id = R.drawable.message),
+                                contentDescription = stringResource(id = R.string.contentdescription_decrease),
                                 modifier = Modifier
                                     .padding(
                                         start = 10.dp,
@@ -269,13 +205,7 @@ fun TopicShortView(
                                         end = 6.dp
                                     )
                                     .size(20.dp)
-
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.message),
-                                    contentDescription = stringResource(id = R.string.contentdescription_decrease),
-                                )
-                            }
+                            )
                             Text(
                                 text = stringResource(
                                     R.string.comments_count,
@@ -289,29 +219,7 @@ fun TopicShortView(
                             )
                         }
                     }
-
-                    Column(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .border(1.dp, BorderLight, CircleShape),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        IconButton(
-                            onClick = { /*TODO("open Share hamburger menu")*/ },
-                            modifier = Modifier
-                                .padding(
-                                    vertical = 5.dp,
-                                    horizontal = 8.dp
-                                )
-                                .size(20.dp)
-
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.export),
-                                contentDescription = "export",
-                            )
-                        }
-                    }
+                    ShareTopic(currentTopic.topicId)
                 }
             }
         }

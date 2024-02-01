@@ -8,6 +8,18 @@ android {
     namespace = "com.example.openmindproject"
     compileSdk = 34
 
+    signingConfigs {
+        getByName("debug") {
+
+        }
+        create("release") {
+            keyAlias = "my_key_alias"
+            keyPassword = "password"
+            storeFile = file("../keystore/release.keystore")
+            storePassword = "password"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.openmindproject"
         minSdk = 24
@@ -22,12 +34,15 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
+
             isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = true
+        }
+        getByName("debug"){
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

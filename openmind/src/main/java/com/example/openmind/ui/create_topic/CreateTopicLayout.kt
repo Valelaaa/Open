@@ -36,15 +36,6 @@ fun CreateTopicLayout(
     screen: Screen,
     topicViewModel: CurrentTopicViewModel = viewModel()
 ) {
-    var titleText by remember {
-        mutableStateOf("")
-    }
-    var articleDescription by remember {
-        mutableStateOf("")
-    }
-    var buttonState by remember {
-        mutableStateOf(false)
-    }
 
     Scaffold(
         topBar = {
