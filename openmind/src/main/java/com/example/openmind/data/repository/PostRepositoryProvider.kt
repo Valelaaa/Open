@@ -5,5 +5,5 @@ import androidx.compose.runtime.mutableStateOf
 object PostRepositoryProvider {
     private val repository = PostRepositoryImpl()
 
-    fun provideRepository():PostRepositoryImpl = repository
+    fun provideRepository():PostRepository = repository
 }

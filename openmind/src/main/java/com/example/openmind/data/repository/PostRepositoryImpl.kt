@@ -1,5 +1,6 @@
 package com.example.openmind.data.repository
 
+import androidx.compose.runtime.mutableStateListOf
 import com.example.openmind.data.post.Post
 import com.example.openmind.data.post.User
 import com.example.openmind.data.post.UserComment
@@ -10,7 +11,7 @@ class PostRepositoryImpl : PostRepository {
     private val mockPostList: MutableList<Post>
 
     init {
-        mockPostList = mutableListOf(
+        mockPostList = mutableStateListOf(
             Post("How to manage your money better, daily? Any available lessons?", "description"),
             Post(
                 "I would like to save money online like in my banking account, but to not touch them. Is it possible?",
@@ -32,6 +33,7 @@ class PostRepositoryImpl : PostRepository {
             ),
             getMockPost()
         )
+        mockPostList.sortBy{post -> post.createdDateTime}
     }
 
     override fun getMockPost(): Post = Post(

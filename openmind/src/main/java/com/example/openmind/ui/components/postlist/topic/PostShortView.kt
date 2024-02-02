@@ -125,7 +125,7 @@ fun PostShortView(
 
                     },
                     modifier = Modifier
-                        .size(24.dp),
+                        .size(24.dp).padding(end = 10.dp),
                     interactionSource = NoRippleInteractionSource.INSTANCE
                 ) {
                     Icon(
@@ -164,6 +164,7 @@ fun PostShortView(
                         imageVector = Icons.Filled.KeyboardArrowRight,
                         contentDescription = stringResource(R.string.contentdescription_more),
                         tint = SteelBlue60,
+                        modifier = Modifier.padding(end = 5.dp)
                     )
                 }
             }

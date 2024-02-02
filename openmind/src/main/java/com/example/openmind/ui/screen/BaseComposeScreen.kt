@@ -30,7 +30,6 @@ fun BaseComposeScreen(
             }) {
                 Icon(Icons.Default.Add, contentDescription = "CreatePost")
             }
-
         })
     }, content = { padding ->
         Box(modifier = Modifier.padding(padding)) {
