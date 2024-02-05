@@ -9,12 +9,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -53,7 +50,6 @@ import com.example.openmind.data.post.User
 import com.example.openmind.data.post.UserComment
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.PostRating
 import com.example.openmind.ui.components.post.SharePost
@@ -88,7 +84,7 @@ fun PostContentLayout(
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(28.dp)
+                .padding(vertical = 23.dp , horizontal = 28.dp)
                 .clickable(onClick = {
                     /*TODO(NavigateToPost)*/
                     navController.navigate(Screen.PostScreen.route)

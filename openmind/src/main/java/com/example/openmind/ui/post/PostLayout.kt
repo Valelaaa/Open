@@ -24,11 +24,17 @@ fun PostLayout(
     screen: Screen,
     viewModel: PostViewModel = viewModel()
 ) {
-//    Scaffold(topBar = {
-//        TopBarOpenMind(navController = navController, currentScreen = screen)
-//    }) { scaffoldPaddings ->
-//        PostContentLayout(currentPost = post, modifier = Modifier.padding(scaffoldPaddings))
-//    }
+    val post = PostRepositoryProvider.provideRepository().getMockPost()
+
+    Scaffold(topBar = {
+        TopBarOpenMind(navController = navController, currentScreen = screen)
+    }) { scaffoldPaddings ->
+        PostContentLayout(
+            navController = navController,
+            currentPost = post,
+            modifier = Modifier.padding(scaffoldPaddings)
+        )
+    }
 
 }
 
