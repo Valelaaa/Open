@@ -38,7 +38,6 @@ import com.example.openmind.ui.theme.colorthemes.ColorTokens
 @Composable
 fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = Modifier) {
     val sortTypes = SortBy.values()
-
     val colorTokens: ColorTokens = when {
         isSystemInDarkTheme() -> ColorDarkTokens
         else -> ColorLightTokens
@@ -60,7 +59,6 @@ fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = M
             verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .defaultMinSize(minHeight = 22.dp)
-                .padding(vertical = 1.dp)
         ) {
             sortTypes.forEach { item ->
                 Column {
@@ -75,19 +73,21 @@ fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = M
                                 activeColors
                             else inactiveColors,
                             modifier = Modifier
-                                .defaultMinSize(minWidth = 40.dp, minHeight = 20.dp)
-                                .padding(0.dp),
+                                .defaultMinSize(minWidth = 60.dp, minHeight = 30.dp)
+                                .padding(1.dp),
                             interactionSource = NoRippleInteractionSource.INSTANCE,
                             shape = RoundedCornerShape(50),
                             contentPadding = PaddingValues(
-                                0.dp
+                                vertical = 8.dp,
+                                horizontal = 10.dp
                             )
 
                         ) {
                             Text(
                                 text = item.string,
                                 fontFamily = FontFamily.ManropeRegularW400,
-                                fontSize = 14.sp
+                                fontSize = 14.sp,
+                                lineHeight = 20.sp,
                             )
                         }
                     }

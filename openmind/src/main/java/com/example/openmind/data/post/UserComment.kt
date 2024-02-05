@@ -2,7 +2,7 @@ package com.example.openmind.data.post
 
 import java.time.LocalDateTime
 
-class UserComment(
+data class UserComment(
     val author: User,
     val message: String,
     val rating: Int = 0,

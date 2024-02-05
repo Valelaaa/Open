@@ -30,30 +30,21 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
 
         }
         composable(Screen.PostListScreen.route) {
-            BaseComposeScreen(
-                navController = navController,
-                content = { controller, modifier ->
-                    PostListLayout(
-                        navController = controller,
-                        modifier = modifier
-                    )
-                },
-                screen = Screen.PostListScreen
-
-            )
+            PostListLayout(Screen.PostListScreen,navController = navController)
 
         }
         composable(Screen.PostScreen.route) {
-            BaseComposeScreen(
-                navController = navController,
-                content = { controller, modifier ->
-                    PostLayout(
-                        navController = controller,
-                        modifier
-                    )
-                },
-                screen = Screen.PostScreen
-            )
+            PostLayout(navController = navController, screen = Screen.PostScreen)
+//            BaseComposeScreen(
+//                navController = navController,
+//                content = { controller, modifier ->
+//                    PostLayout(
+//                        navController = controller,
+//                        modifier
+//                    )
+//                },
+//                screen = Screen.PostScreen
+//            )
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostLayout(navController = navController, screen = Screen.CreatePostScreen)

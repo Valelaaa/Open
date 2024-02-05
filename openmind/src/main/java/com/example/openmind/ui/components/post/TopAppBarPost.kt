@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.repository.PostRepositoryImpl
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.CreatePostViewModel.CreatePostViewModel
 import com.example.openmind.ui.theme.DarkBlue40

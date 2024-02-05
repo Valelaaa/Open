@@ -2,6 +2,7 @@ package com.example.openmind.ui.components.post
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.data.repository.PostRepositoryImpl
 import com.example.openmind.data.repository.PostRepositoryProvider
+import com.example.openmind.ui.components.general.borderRight
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibError
@@ -50,7 +52,8 @@ fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
     val dislikeColor = if (disliked) MaibError else DarkBlue40
 
 
-    val actionColor =  if (liked) MaibPrimary else if (disliked) MaibError else DarkBlue40
+    val actionColor = if (liked) MaibPrimary else if (disliked) MaibError else DarkBlue40
+    val strokeActionColor = if (liked) MaibPrimary else if (disliked) MaibError else BorderLight
 
     val currentRating =
         if (liked) mutableRating + 1 else if (disliked) mutableRating - 1 else mutableRating
@@ -58,7 +61,7 @@ fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .clip(CircleShape)
-            .border(1.dp, BorderLight, CircleShape)
+            .border(1.dp, strokeActionColor, CircleShape)
             .padding(0.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -78,16 +81,20 @@ fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
                 tint = likeColor
             )
         }
-        Text(
-            text = "$currentRating",
-            fontFamily = FontFamily.ManropeBoldW700,
-            fontSize = 14.sp,
-            lineHeight = 20.sp,
-            color =  actionColor,
-            maxLines = 1,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.defaultMinSize(minWidth = 42.dp)
-        )
+        Box(Modifier.padding(end = 6.dp)) {
+            Text(
+                text = "$currentRating",
+                fontFamily = FontFamily.ManropeBoldW700,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                color = actionColor,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 42.dp)
+                    .borderRight(0.5.dp, BorderLight)
+            )
+        }
         IconButton(
             onClick = { /*TODO(post rating decreases - patch request, button color ~ red)*/
                 disliked = !disliked
@@ -118,7 +125,9 @@ fun RatingPreview() {
             .padding(start = 35.dp, top = 35.dp)
     ) {
         PostRating(
-            postId = mockPost.postId, rating = mockPost.rating, modifier = Modifier.background(
+            postId = mockPost.postId,
+            rating = mockPost.rating,
+            modifier = Modifier.background(
                 Color.White
             )
         )

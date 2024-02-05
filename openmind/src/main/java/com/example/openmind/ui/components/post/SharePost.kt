@@ -21,6 +21,7 @@ import com.example.openmind.R
 import com.example.openmind.data.repository.PostRepositoryImpl
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.ui.theme.BorderLight
+import com.example.openmind.ui.theme.MaibPrimary
 
 @Composable
 fun SharePost(postId: String, modifier: Modifier = Modifier) {
@@ -43,6 +44,7 @@ fun SharePost(postId: String, modifier: Modifier = Modifier) {
             Icon(
                 painter = painterResource(id = R.drawable.export),
                 contentDescription = "export",
+                tint = MaibPrimary
             )
         }
     }

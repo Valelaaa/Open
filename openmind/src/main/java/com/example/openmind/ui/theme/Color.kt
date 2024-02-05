@@ -2,6 +2,8 @@ package com.example.openmind.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+
+val IconColor = Color(0xFFC3C7DB)
 val DarkBlue40 = Color(0xFF293946)
 val LightGray80 = Color(0xFFEEF1F4)
 val BackgroundColor = Color(0xFFFFFFFF)

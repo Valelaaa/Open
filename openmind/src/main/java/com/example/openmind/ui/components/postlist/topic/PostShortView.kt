@@ -49,6 +49,7 @@ import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.LightText
+import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
@@ -205,7 +206,8 @@ fun PostShortView(
                                         bottom = 5.dp,
                                         end = 6.dp
                                     )
-                                    .size(20.dp)
+                                    .size(20.dp),
+                                tint = MaibPrimary
                             )
                             Text(
                                 text = stringResource(
