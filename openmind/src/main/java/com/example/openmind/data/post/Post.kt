@@ -1,14 +1,13 @@
 package com.example.openmind.data.post
 
-import java.time.Duration
-import java.time.LocalDateTime
+import java.util.Date
 import java.util.UUID
 
 data class Post(
     var title: String,
     var description: String = "",
     val author: String = "Unknown",
-    val createdDateTime: LocalDateTime = LocalDateTime.now(),
+    var createdDate: Date = Date(System.currentTimeMillis()),
     var rating: Int = 0,
     var comments: List<UserComment> = listOf(),
 ) {
@@ -41,17 +40,23 @@ data class Post(
     }
 
     fun formatElapsedTime(): String {
-        val now = LocalDateTime.now()
-        val duration = Duration.between(createdDateTime, now)
+//        val nowMillis = Date(System.currentTimeMillis()).time
+//        var durationMillis: Long = nowMillis - (createdDate.time)
 
+        val nowMillis = System.currentTimeMillis()
+        val createdDateMillis = createdDate.time
+        val durationMillis: Long = nowMillis - createdDateMillis
+
+        val durationInMinutes = durationMillis / 60000
+        val durationInDays = durationInMinutes / (60 * 24)
 
         return when {
-            duration.toHours() < 1 -> String.format("%d m", duration.toMinutes())
-            duration.toDays() < 1 -> String.format("%d h", duration.toHours())
-            duration.toDays() < 7 -> String.format("%d d", duration.toDays())
-            duration.toDays() < 30 -> String.format("%d w", duration.toDays() / 7)
-            duration.toDays() < 365 -> String.format("%d M", duration.toDays() / 30)
-            else -> String.format("%d Y", duration.toDays() / 365)
+            durationInMinutes / 60 < 1 -> String.format("%d m", durationInMinutes)
+            durationInDays < 1 -> String.format("%d h", durationInMinutes / 60)
+            durationInDays < 7 -> String.format("%d d", durationInDays)
+            durationInDays < 30 -> String.format("%d w", durationInDays / 7)
+            durationInDays < 365 -> String.format("%d M", durationInDays / 30)
+            else -> String.format("%d Y", durationInDays / 365)
         }
     }
 

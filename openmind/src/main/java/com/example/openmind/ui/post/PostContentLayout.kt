@@ -9,8 +9,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,6 +31,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +53,7 @@ import com.example.openmind.data.post.User
 import com.example.openmind.data.post.UserComment
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
+import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.PostRating
 import com.example.openmind.ui.components.post.SharePost
@@ -70,26 +74,21 @@ import com.example.openmind.ui.theme.SteelBlue60
 @Composable
 fun PostContentLayout(
     navController: NavController,
-    currentPost: Post,
+    category:Categories = Categories.BUG,
+    postId: String,
     modifier: Modifier = Modifier
 ) {
-    val category = Categories.BUG
-    val comment = remember {
-        UserComment(User("@anamaria"), "")
+    val currentPost = remember {
+        PostRepositoryProvider.provideRepository().getPostById(postId)
     }
     var commentMessage = remember {
-        ""
+        mutableStateOf("")
     }
     Box(modifier = modifier) {
         Column(
             Modifier
-                .fillMaxWidth()
-                .padding(vertical = 23.dp , horizontal = 28.dp)
-                .clickable(onClick = {
-                    /*TODO(NavigateToPost)*/
-                    navController.navigate(Screen.PostScreen.route)
-                    Log.d(tag, "Navigate to Post: ${currentPost.postId}")
-                })
+                .fillMaxSize()
+                .padding(vertical = 23.dp, horizontal = 28.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -137,7 +136,6 @@ fun PostContentLayout(
                         onClick = {
 //                        TODO("Open Hamburger menu for additional actions")
                             Log.d(tag, "Open Hamburger menu")
-
                         },
                         modifier = Modifier
                             .size(24.dp)
@@ -169,17 +167,6 @@ fun PostContentLayout(
                     lineHeight = 16.sp, fontFamily = FontFamily.ManropeRegularW400,
                     modifier = Modifier.padding(top = 6.dp)
                 )
-                //Future Implementation
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .defaultMinSize(minHeight = 80.dp)
-                        .background(Color.Transparent)
-                        .padding(top = 14.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .border(1.dp, BorderLight, RoundedCornerShape(8.dp))
-                ) {}
-
 
                 // FeedBack and Share
                 Row(
@@ -243,52 +230,37 @@ fun PostContentLayout(
                         .fillMaxWidth()
                         .border(2.dp, BorderLight, RoundedCornerShape(6.dp))
                         .padding(vertical = 5.dp, horizontal = 10.dp),
-//                        .clip(RoundedCornerShape(6.dp))
-//                        .defaultMinSize(minHeight = 40.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         Icons.Default.AccountCircle,
                         "userPicture",
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(30.dp),
+                        tint = MaibPrimary
                     )
-//                        CustomTextField(
-//                            value = commentMessage, onValueChange = { commentMessage = it },
-//                            placeholder = {
-//                                Text(
-//                                    text = stringResource(R.string.comment_placeholder),
-//                                    color = IconColor,
-//                                    fontFamily = FontFamily.ManropeSemiBoldW600,
-//                                    fontSize = 16.sp,
-//                                    lineHeight = 24.sp,
-//                                )
-//                            },
-//
-//                        )
-//                    }
-                    OutlinedTextField(
-                        value = commentMessage,
-                        onValueChange = { commentMessage = it },
+                    CustomTextField(
+                        value = commentMessage.value, onValueChange = { commentMessage.value = it },
                         shape = RoundedCornerShape(6.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Color.Transparent
+                        colors = TextFieldDefaults.textFieldColors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            containerColor = Color.Transparent,
                         ),
+                        contentPadding = PaddingValues(5.dp),
                         placeholder = {
                             Text(
-//                                text = stringResource(R.string.comment_placeholder),
-                                text = "Comments...",
+                                text = stringResource(R.string.comment_placeholder),
                                 color = IconColor,
                                 fontFamily = FontFamily.ManropeSemiBoldW600,
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp,
+                                modifier = Modifier.fillMaxWidth()
                             )
                         },
                         modifier = Modifier
                             .defaultMinSize(minHeight = 40.dp)
-                            .padding(start = 14.dp, top = 0.dp, bottom = 0.dp),
-
-                        )
+                            .padding(start = 14.dp, top = 5.dp, bottom = 5.dp),
+                    )
                 }
             }
         }
@@ -310,7 +282,7 @@ fun PostContentLayoutPreview() {
     }) { scaffoldPaddings ->
         PostContentLayout(
             navController = navController,
-            currentPost = post,
+            postId = post.postId,
             modifier = Modifier.padding(scaffoldPaddings)
         )
     }

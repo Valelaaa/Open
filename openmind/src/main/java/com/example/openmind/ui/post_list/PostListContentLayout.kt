@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.PostListViewModel
+import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.postlist.post.PostShortView
 import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
@@ -46,7 +47,7 @@ fun PostListContentLayout(
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,
-                        post = item,
+                        postId = item.postId,
                         category = currentCategory,
                     )
                 })

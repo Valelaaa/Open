@@ -1,4 +1,4 @@
-package com.example.openmind.data.viewModel.CreatePostViewModel
+package com.example.openmind.data.viewModel.createpost
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf

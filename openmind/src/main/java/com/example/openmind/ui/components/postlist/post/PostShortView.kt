@@ -38,13 +38,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.post.Post
+import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.CreatePostViewModel.CreatePostViewModel
+import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.SharePost
 import com.example.openmind.ui.components.post.PostRating
-import com.example.openmind.ui.screen.Screen
+import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
@@ -60,12 +60,12 @@ const val tag = "PostShortView"
 @Composable
 fun PostShortView(
     navController: NavController,
-    post: Post,
+    postId: String,
     category: Categories,
     modifier: Modifier = Modifier,
 ) {
     val currentPost = remember {
-        post
+        PostRepositoryProvider.provideRepository().getPostById(postId)
     }
 
     Row(
@@ -73,8 +73,9 @@ fun PostShortView(
             .fillMaxWidth()
             .clickable(onClick = {
                 /*TODO(NavigateToPost)*/
-                navController.navigate(Screen.PostScreen.route)
-                Log.d(tag, "Navigate to Post: ${currentPost.postId}")
+//                navController.navigate(Screen.PostScreen.route)
+                navController.navigateToPost(postId = currentPost.postId)
+//                Log.d(tag, "Navigate to Post: ${currentPost.postId}")
             })
     ) {
         Column(
@@ -126,7 +127,8 @@ fun PostShortView(
 
                     },
                     modifier = Modifier
-                        .size(24.dp).padding(end = 10.dp),
+                        .size(24.dp)
+                        .padding(end = 10.dp),
                     interactionSource = NoRippleInteractionSource.INSTANCE
                 ) {
                     Icon(
@@ -242,7 +244,7 @@ fun PostShortComposeViewPreview() {
     ) {
         PostShortView(
             navController = NavController(currentContext),
-            post = post,
+            postId = post.postId,
             category = Categories.BUG,
             modifier = Modifier
                 .padding(horizontal = 28.dp, vertical = 30.dp)

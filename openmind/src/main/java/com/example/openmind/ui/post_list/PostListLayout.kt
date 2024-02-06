@@ -4,13 +4,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.PostListViewModel
+import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
 import com.example.openmind.ui.post_list.PostListContentLayout
 import com.example.openmind.ui.screen.Screen
@@ -19,15 +21,14 @@ import com.example.openmind.ui.screen.Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostListLayout(
-    currentScreen: Screen,
+    screen: Screen,
     navController: NavController,
     category: Categories = Categories.BUG,
     modifier: Modifier = Modifier.fillMaxSize(),
     postListViewModel: PostListViewModel = viewModel<PostListViewModel>(),
 ) {
-
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        TopBarOpenMind(navController = navController, currentScreen = currentScreen)
+        TopBarOpenMind(navController = navController, currentScreen = screen)
     }, content = { padding ->
         PostListContentLayout(
             navController,
@@ -45,7 +46,7 @@ fun PostListLayoutPreview() {
     val navController = NavController(LocalContext.current)
     Box {
         PostListLayout(
-            currentScreen = Screen.PostListScreen,
+            screen = Screen.PostListScreen,
             navController = navController,
             category = Categories.FEATURE,
             postListViewModel = PostListViewModel()

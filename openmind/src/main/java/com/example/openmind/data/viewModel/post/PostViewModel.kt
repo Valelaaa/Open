@@ -1,4 +1,4 @@
-package com.example.openmind.data.viewModel.postviewmodel
+package com.example.openmind.data.viewModel.post
 
 import androidx.lifecycle.ViewModel
 

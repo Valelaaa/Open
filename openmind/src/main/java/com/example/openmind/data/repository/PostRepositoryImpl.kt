@@ -1,18 +1,25 @@
 package com.example.openmind.data.repository
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import com.example.openmind.data.post.Post
+import com.example.openmind.data.post.PostMapper
+import com.example.openmind.data.post.ShortPost
 import com.example.openmind.data.post.User
 import com.example.openmind.data.post.UserComment
-import java.time.LocalDateTime
-import java.time.Month
+import com.example.openmind.data.viewModel.SortBy
+import java.util.Date
 
 class PostRepositoryImpl : PostRepository {
     private val mockPostList: MutableList<Post>
+    private val mockShortPostList: MutableList<ShortPost>
 
     init {
         mockPostList = mutableStateListOf(
-            Post("How to manage your money better, daily? Any available lessons?", "description"),
+            Post(
+                "How to manage your money better, daily? Any available lessons?",
+                "description"
+            ),
             Post(
                 "I would like to save money online like in my banking account, but to not touch them. Is it possible?",
                 "description"
@@ -22,7 +29,10 @@ class PostRepositoryImpl : PostRepository {
                 "description"
             ),
             getMockPost(),
-            Post("How to manage your money better, daily? Any available lessons?", "description"),
+            Post(
+                "How to manage your money better, daily? Any available lessons?",
+                "description"
+            ),
             Post(
                 "I would like to save money online like in my banking account, but to not touch them. Is it possible?",
                 "description"
@@ -31,9 +41,13 @@ class PostRepositoryImpl : PostRepository {
                 "Can we expedite transaction confirma-tions? Cuz yesterday I just tried some and no result...",
                 "description"
             ),
-            getMockPost()
+            getMockPost(),
         )
-        mockPostList.sortBy { post -> post.createdDateTime }
+
+        mockPostList.sortBy { it.createdDate }
+        mockPostList.reverse()
+        mockShortPostList =
+            mockPostList.map(PostMapper.Companion::postToShortPost).toMutableList()
     }
 
     override fun getMockPost(): Post = Post(
@@ -63,14 +77,38 @@ class PostRepositoryImpl : PostRepository {
             ),
             UserComment(author = User("John Snow"), message = "Winter is coming")
         ),
-        createdDateTime = LocalDateTime.of(
-            2024, Month.JANUARY, 20,
+        createdDate = Date(
+            2024 - 1900, 0, 20,
             21, 30
         ),
     )
 
-    override fun getMockPostList(): MutableList<Post> = mockPostList
 
-    override fun addNewPost(post: Post): Boolean = mockPostList.add(post)
+    override fun getMockPostList(activeSortType: MutableState<SortBy>): MutableList<ShortPost> {
+        when (activeSortType.value) {
+            SortBy.HOT -> {
+                mockShortPostList.sortBy { it.rating }
+                mockShortPostList.reverse()
+            }
+
+            SortBy.FRESH -> mockShortPostList.sortBy {
+                it.createdDate
+            }
+
+            SortBy.OLD -> {
+                mockShortPostList.sortBy { it.createdDate }
+                mockShortPostList.reverse()
+            }
+        }
+        return mockShortPostList
+    }
+
+    override fun addNewPost(post: Post): Boolean {
+        mockShortPostList.add(PostMapper.postToShortPost(post))
+        return mockPostList.add(post)
+    }
+
+    override fun getPostById(postId: String): Post =
+        mockPostList.first { postId == it.postId }
 
 }

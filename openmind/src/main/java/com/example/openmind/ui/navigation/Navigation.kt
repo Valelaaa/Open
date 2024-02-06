@@ -2,12 +2,17 @@ package com.example.openmind.ui.navigation
 
 import PostLayout
 import PostListLayout
+import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.ui.categories.CategoriesLayout
 import com.example.openmind.ui.create_post.CreatePostLayout
 import com.example.openmind.ui.screen.BaseComposeScreen
@@ -29,22 +34,48 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
             )
 
         }
-        composable(Screen.PostListScreen.route) {
-            PostListLayout(Screen.PostListScreen,navController = navController)
 
-        }
-        composable(Screen.PostScreen.route) {
-            PostLayout(navController = navController, screen = Screen.PostScreen)
-//            BaseComposeScreen(
-//                navController = navController,
-//                content = { controller, modifier ->
-//                    PostLayout(
-//                        navController = controller,
-//                        modifier
-//                    )
-//                },
-//                screen = Screen.PostScreen
-//            )
+        navigation(
+            route = Screen.PostListScreen.route,
+            startDestination = "${Screen.PostListScreen.route}/{category}"
+        ) {
+            composable(
+                route = "${Screen.PostListScreen.route}/{category}",
+                arguments = listOf(navArgument("category") { type = NavType.StringType })
+            ) { backStackEntry ->
+//                val category = backStackEntry.arguments?.getString("category")
+                //TODO(Change to backStackEntry)
+                val category = Categories.BUG.toString()
+
+
+                if (category != null) {
+                    PostListLayout(
+                        screen = Screen.PostListScreen,
+                        navController = navController,
+                        category = Categories.valueOf(category)
+                    )
+                } else {
+                    // Handle missing category argument
+                    Log.d("Navigation", "missed Category Argument")
+                }
+            }
+            composable(
+                route = "${Screen.PostScreen.route}/{postId}",
+                arguments = listOf(navArgument("postId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val postId = backStackEntry.arguments?.getString("postId")
+                if (postId != null) {
+                    PostLayout(
+                        navController = navController,
+                        screen = Screen.PostScreen,
+                        postId = postId
+                    )
+                } else {
+                    // Handle missing postId argument
+                    Log.d("Navigation", "missed PostId Argument")
+
+                }
+            }
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostLayout(navController = navController, screen = Screen.CreatePostScreen)
@@ -52,8 +83,5 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
     }
 }
 
-@Preview
-@Composable
-fun NavigatationPreview(){
-    Navigation()
-}
+fun NavController.navigateToPost(postId: String) =
+    this.navigate(Screen.PostScreen.route + "/$postId")

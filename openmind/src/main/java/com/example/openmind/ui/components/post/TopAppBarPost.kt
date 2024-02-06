@@ -33,7 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.data.repository.PostRepositoryProvider
-import com.example.openmind.data.viewModel.CreatePostViewModel.CreatePostViewModel
+import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.LightText

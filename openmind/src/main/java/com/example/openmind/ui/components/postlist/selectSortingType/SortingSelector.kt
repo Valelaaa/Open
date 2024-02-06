@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.openmind.data.viewModel.SortBy
-import com.example.openmind.data.viewModel.PostListViewModel
+import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.colorthemes.ColorDarkTokens

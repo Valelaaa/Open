@@ -1,5 +1,7 @@
 package com.example.openmind.ui.screen
 
+import com.example.openmind.data.viewModel.Categories
+
 sealed class Screen(val route: String = "", val title: String = "") {
     object CategoriesScreen : Screen(route = "categories_screen", title = "Categories")
     object PostListScreen : Screen(route = "post_list_screen", title = "Posts")
