@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.repository.PostRepositoryImpl
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.ui.components.general.borderRight
 import com.example.openmind.ui.theme.BorderLight

@@ -42,8 +42,8 @@ import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.post.SharePost
 import com.example.openmind.ui.components.post.PostRating
+import com.example.openmind.ui.components.post.SharePost
 import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -73,9 +73,7 @@ fun PostShortView(
             .fillMaxWidth()
             .clickable(onClick = {
                 /*TODO(NavigateToPost)*/
-//                navController.navigate(Screen.PostScreen.route)
                 navController.navigateToPost(postId = currentPost.postId)
-//                Log.d(tag, "Navigate to Post: ${currentPost.postId}")
             })
     ) {
         Column(

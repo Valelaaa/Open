@@ -9,7 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +30,7 @@ fun PostListContentLayout(
     currentCategory: Categories,
     modifier: Modifier = Modifier
 ) {
-    val postList = remember { viewModel.loadedPosts }
+    val postList = remember { viewModel.getPostList() }
     val currentCategory = remember { currentCategory }
 
     Box(modifier = modifier) {
@@ -63,7 +62,7 @@ fun PostListPreview() {
     val navController = NavController(LocalContext.current)
     Scaffold(
         topBar = {
-            TopAppBar(title = {Text("Title")})
+            TopAppBar(title = { Text("Title") })
         },
         content = { padding ->
 

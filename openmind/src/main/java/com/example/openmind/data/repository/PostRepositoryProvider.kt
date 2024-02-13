@@ -1,9 +1,9 @@
 package com.example.openmind.data.repository
 
-import androidx.compose.runtime.mutableStateOf
+import com.example.openmind.data.post.Post
 
 object PostRepositoryProvider {
-    private val repository = PostRepositoryImpl()
+    private val repository = PostRepository()
 
-    fun provideRepository():PostRepository = repository
+    fun provideRepository(): Repository<Post> = repository
 }

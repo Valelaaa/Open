@@ -10,8 +10,9 @@ data class Post(
     var createdDate: Date = Date(System.currentTimeMillis()),
     var rating: Int = 0,
     var comments: List<UserComment> = listOf(),
+    val postId: String = UUID.randomUUID().toString()
 ) {
-    var postId: String = UUID.randomUUID().toString()
+
     private var commentCount: Int
 
     init {
@@ -40,8 +41,6 @@ data class Post(
     }
 
     fun formatElapsedTime(): String {
-//        val nowMillis = Date(System.currentTimeMillis()).time
-//        var durationMillis: Long = nowMillis - (createdDate.time)
 
         val nowMillis = System.currentTimeMillis()
         val createdDateMillis = createdDate.time
@@ -58,6 +57,7 @@ data class Post(
             durationInDays < 365 -> String.format("%d M", durationInDays / 30)
             else -> String.format("%d Y", durationInDays / 365)
         }
+
     }
 
 }

@@ -1,9 +1,10 @@
 package com.example.openmind.ui.post
 
 import NoRippleInteractionSource
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,20 +12,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -42,25 +43,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.post.Post
-import com.example.openmind.data.post.User
-import com.example.openmind.data.post.UserComment
-import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
+import com.example.openmind.data.viewModel.Sortable
+import com.example.openmind.data.viewModel.post.PostViewModel
+import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.PostRating
 import com.example.openmind.ui.components.post.SharePost
 import com.example.openmind.ui.components.postlist.post.tag
-import com.example.openmind.ui.screen.Screen
+import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
+import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.MaibPrimary
@@ -70,20 +72,23 @@ import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostContentLayout(
+fun <T> PostContentLayout(
     navController: NavController,
-    category:Categories = Categories.BUG,
+    category: Categories = Categories.BUG,
     postId: String,
+    viewModel: T,
     modifier: Modifier = Modifier
-) {
+) where T : PostViewModel, T : Sortable {
     val currentPost = remember {
-        PostRepositoryProvider.provideRepository().getPostById(postId)
+        viewModel.getPostById(postId)
     }
     var commentMessage = remember {
         mutableStateOf("")
     }
+
     Box(modifier = modifier) {
         Column(
             Modifier
@@ -224,7 +229,18 @@ fun PostContentLayout(
                 }
             }
             //TODO(CommentsSection)
-            Column(modifier = Modifier.padding(top = 28.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                SortingSelector(
+                    sortableViewModel = viewModel,
+                    contentPaddings = PaddingValues(vertical = 5.dp, horizontal = 0.dp)
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+//                CommentsSection()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -232,13 +248,6 @@ fun PostContentLayout(
                         .padding(vertical = 5.dp, horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(
-                        Icons.Default.AccountCircle,
-                        "userPicture",
-                        modifier = Modifier
-                            .size(30.dp),
-                        tint = MaibPrimary
-                    )
                     CustomTextField(
                         value = commentMessage.value, onValueChange = { commentMessage.value = it },
                         shape = RoundedCornerShape(6.dp),
@@ -260,6 +269,14 @@ fun PostContentLayout(
                         modifier = Modifier
                             .defaultMinSize(minHeight = 40.dp)
                             .padding(start = 14.dp, top = 5.dp, bottom = 5.dp),
+                        textStyle = androidx.compose.ui.text.TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = FontFamily.ManropeSemiBoldW600,
+                            lineHeight = 24.sp,
+                            color = DarkGray20,
+                            textAlign = TextAlign.Justify
+                        ),
                     )
                 }
             }
@@ -267,12 +284,16 @@ fun PostContentLayout(
     }
 }
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun PostContentLayoutPreview() {
     val navController = NavController(LocalContext.current)
-    val post = PostRepositoryProvider.provideRepository().getMockPost()
+    val viewModel = PostViewModel()
+    val postViewModel = PostListViewModel()
+    val post = postViewModel.getPostList().first()
     Scaffold(topBar = {
         TopAppBar(
             title = { /*TODO*/ }, colors = TopAppBarDefaults.smallTopAppBarColors(
@@ -283,7 +304,8 @@ fun PostContentLayoutPreview() {
         PostContentLayout(
             navController = navController,
             postId = post.postId,
-            modifier = Modifier.padding(scaffoldPaddings)
+            modifier = Modifier.padding(scaffoldPaddings),
+            viewModel = viewModel
         )
     }
 }

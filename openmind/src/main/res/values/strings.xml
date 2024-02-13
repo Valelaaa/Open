@@ -10,4 +10,6 @@
     <string name="contentdescription_more">more</string>
     <string name="comments_count">%1$s Comments</string>
     <string name="comment_placeholder">Comment...</string>
+    <string name="ask">ask</string>
+    <string name="desk">desk</string>
 </resources>

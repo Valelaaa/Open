@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.openmind.data.viewModel.SortBy
-import com.example.openmind.data.viewModel.postlist.PostListViewModel
+import com.example.openmind.data.viewModel.Sortable
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.colorthemes.ColorDarkTokens
@@ -36,8 +36,15 @@ import com.example.openmind.ui.theme.colorthemes.ColorTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = Modifier) {
-    val sortTypes = SortBy.values()
+fun <T> SortingSelector(
+    sortableViewModel: T,
+    modifier: Modifier = Modifier,
+    contentPaddings: PaddingValues = PaddingValues(
+        vertical = 8.dp,
+        horizontal = 10.dp
+    )
+) where T : ViewModel, T : Sortable {
+    val sortingList = sortableViewModel.getSortingList()
     val colorTokens: ColorTokens = when {
         isSystemInDarkTheme() -> ColorDarkTokens
         else -> ColorLightTokens
@@ -60,16 +67,16 @@ fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = M
             modifier = Modifier
                 .defaultMinSize(minHeight = 22.dp)
         ) {
-            sortTypes.forEach { item ->
+            sortingList.forEach { item ->
                 Column {
                     CompositionLocalProvider(
                         LocalMinimumTouchTargetEnforcement provides false,
                     ) {
                         Button(
                             onClick = {
-                                postListViewModel.setActiveSortType(item)
+                                sortableViewModel.setActiveSortType(item)
                             },
-                            colors = if (postListViewModel.activeSortType.value == item)
+                            colors = if (sortableViewModel.activeSortType() == item)
                                 activeColors
                             else inactiveColors,
                             modifier = Modifier
@@ -77,10 +84,7 @@ fun SortingSelector(postListViewModel: PostListViewModel, modifier: Modifier = M
                                 .padding(1.dp),
                             interactionSource = NoRippleInteractionSource.INSTANCE,
                             shape = RoundedCornerShape(50),
-                            contentPadding = PaddingValues(
-                                vertical = 8.dp,
-                                horizontal = 10.dp
-                            )
+                            contentPadding = contentPaddings
 
                         ) {
                             Text(
@@ -107,6 +111,6 @@ fun SortByComponentPreview() {
             .padding(vertical = 40.dp, horizontal = 40.dp)
     ) {
 
-        SortingSelector(postListViewModel = viewModel())
+        SortingSelector(sortableViewModel = viewModel())
     }
 }

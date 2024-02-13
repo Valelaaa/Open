@@ -1,3 +1,5 @@
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,13 +11,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.post.PostViewModel
+import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
 import com.example.openmind.ui.post.PostContentLayout
 import com.example.openmind.ui.screen.Screen
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun PostLayout(
@@ -31,17 +34,19 @@ fun PostLayout(
         PostContentLayout(
             navController = navController,
             postId = postId,
-            modifier = Modifier.padding(scaffoldPaddings)
+            modifier = Modifier.padding(scaffoldPaddings),
+            viewModel = viewModel
         )
     }
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 fun PostViewPreview() {
     val mockNavController = NavController(LocalContext.current)
-    val mockPost = PostRepositoryProvider.provideRepository().getMockPostList().first()
+    val mockPost = PostListViewModel().getPostList().first()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {

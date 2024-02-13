@@ -1,10 +1,10 @@
 package com.example.openmind.data.post
 
-import com.example.openmind.data.repository.PostRepository
 import com.example.openmind.data.repository.PostRepositoryProvider
+import com.example.openmind.data.repository.Repository
 
 class PostMapper {
-    val repository: PostRepository = PostRepositoryProvider.provideRepository()
+    val repository: Repository<Post> = PostRepositoryProvider.provideRepository()
 
     companion object {
         fun postToShortPost(post: Post): ShortPost {
@@ -18,7 +18,5 @@ class PostMapper {
         }
     }
 
-    fun shortPostToPost(shortPost: ShortPost): Post {
-        return repository.getPostById(shortPost.postId)
-    }
+
 }

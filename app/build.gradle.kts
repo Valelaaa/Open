@@ -10,7 +10,6 @@ android {
 
     signingConfigs {
         getByName("debug") {
-
         }
         create("release") {
             keyAlias = "my_key_alias"
@@ -35,14 +34,18 @@ android {
 
     buildTypes {
         getByName("release") {
-
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
 //            isDebuggable = true
         }
-        getByName("debug"){
+        getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
+            isDebuggable = true
         }
     }
     compileOptions {

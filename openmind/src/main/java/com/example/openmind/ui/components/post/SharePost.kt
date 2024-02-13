@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.openmind.R
-import com.example.openmind.data.repository.PostRepositoryImpl
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
