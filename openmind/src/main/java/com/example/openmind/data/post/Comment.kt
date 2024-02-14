@@ -3,42 +3,15 @@ package com.example.openmind.data.post
 import java.util.Date
 import java.util.UUID
 
-open class Post(
-    var title: String,
-    var description: String = "",
-    val author: String = "Unknown",
-    var createdDate: Date = Date(System.currentTimeMillis()),
-    var rating: Int = 0,
-    var comments: List<Comment> = listOf(),
-    val postId: String = UUID.randomUUID().toString()
+data class Comment(
+    val author: User,
+    val message: String,
+    val rating: Int = 0,
+    val createdDate: Date = Date(System.currentTimeMillis()),
+    val modificationDate: Date = Date(System.currentTimeMillis()),
+    val subComments: List<Comment> = listOf(),
+    val commentId: UUID = UUID.randomUUID()
 ) {
-    private var commentCount: Int
-
-    init {
-        commentCount = deepCommentCount()
-    }
-
-    fun getCommentsCount(): Int = commentCount
-    private fun deepCommentCount(): Int {
-        var count = 0
-
-        for (subComment in comments) {
-            count += countComments(subComment)
-        }
-
-        return count
-    }
-
-    private fun countComments(comment: Comment): Int {
-        var subCommentCount = 1
-
-        for (subComment in comment.subComments) {
-            subCommentCount += countComments(subComment)
-        }
-
-        return subCommentCount
-    }
-
     fun formatElapsedTime(): String {
 
         val nowMillis = System.currentTimeMillis()
@@ -60,3 +33,12 @@ open class Post(
     }
 }
 
+fun countComments(comment: Comment): Int {
+    var count = 1
+
+    for (subComment in comment.subComments) {
+        count += countComments(subComment)
+    }
+
+    return count
+}

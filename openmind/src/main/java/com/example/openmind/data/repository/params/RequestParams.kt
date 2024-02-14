@@ -1,4 +1,4 @@
-package com.example.openmind.data.repository
+package com.example.openmind.data.repository.params
 
 import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.SortBy

@@ -1,4 +1,4 @@
-package com.example.openmind.data.repository
+package com.example.openmind.data.repository.params
 
 data class PaginationParams (
     val currentPage: Int = 1,

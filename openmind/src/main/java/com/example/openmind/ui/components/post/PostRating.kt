@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,22 +40,33 @@ import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 
 @Composable
-fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
+fun RatingLayout(
+    id: String,
+    rating: Int,
+    modifier: Modifier = Modifier,
+    isComment: Boolean = false
+) {
 
     val mutableRating by remember { mutableIntStateOf(rating) }
+    var rated by remember {// 0 - not rated, 1 - liked, -1 - disliked
+        mutableIntStateOf(0)
+    }
+    val likeColor = if (rated == 1) MaibPrimary else DarkBlue40
+    val dislikeColor = if (rated == -1) MaibError else DarkBlue40
+    ///TODO("Стоит ли вынести Comments в отдельную сущность?"
 
-    var liked by remember { mutableStateOf(false) }
-    var disliked by remember { mutableStateOf(false) }
-    val likeColor = if (liked) MaibPrimary else DarkBlue40
-    val dislikeColor = if (disliked) MaibError else DarkBlue40
-
-
-    val actionColor = if (liked) MaibPrimary else if (disliked) MaibError else DarkBlue40
-    val strokeActionColor = if (liked) MaibPrimary else if (disliked) MaibError else BorderLight
+    val actionColor = if (rated == 1) MaibPrimary else if (rated == -1) MaibError else DarkBlue40
+    var strokeActionColor =
+        if (rated == 1) MaibPrimary else if (rated == -1) MaibError else BorderLight
 
     val currentRating =
-        if (liked) mutableRating + 1 else if (disliked) mutableRating - 1 else mutableRating
+        if (rated == 1) mutableRating + 1 else if (rated == -1) mutableRating - 1 else mutableRating
+    var strokeColor = BorderLight
 
+    if (isComment) {
+        strokeColor = Color.Transparent
+        strokeActionColor = Color.Transparent
+    }
     Row(
         modifier = modifier
             .clip(CircleShape)
@@ -67,8 +77,8 @@ fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
         IconButton(
             onClick = {
                 /*TODO(post rating increases - patch request,button color - maib primary)*/
-                liked = !liked
-                disliked = false
+                rated = if (rated == 1) 0 else 1
+//                repository.updateRating(id, rated)
             },
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 5.dp, start = 4.dp, end = 1.dp)
@@ -91,13 +101,13 @@ fun PostRating(postId: String, rating: Int, modifier: Modifier = Modifier) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .defaultMinSize(minWidth = 42.dp)
-                    .borderRight(0.5.dp, BorderLight)
+                    .borderRight(0.5.dp, strokeColor)
             )
         }
         IconButton(
             onClick = { /*TODO(post rating decreases - patch request, button color ~ red)*/
-                disliked = !disliked
-                liked = false
+                rated = if (rated == -1) 0 else -1
+//                repository.updateRating(id, rated)
             },
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 5.dp, start = 1.dp, end = 4.dp)
@@ -123,8 +133,8 @@ fun RatingPreview() {
             .background(Color.Black)
             .padding(start = 35.dp, top = 35.dp)
     ) {
-        PostRating(
-            postId = mockPost.postId,
+        RatingLayout(
+            id = mockPost.postId,
             rating = mockPost.rating,
             modifier = Modifier.background(
                 Color.White

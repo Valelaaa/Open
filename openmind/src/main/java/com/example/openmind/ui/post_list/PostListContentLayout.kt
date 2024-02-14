@@ -38,11 +38,10 @@ fun PostListContentLayout(
             item {
                 SortingSelector(
                     viewModel,
-                    modifier = Modifier.padding(bottom = 28.dp, start = 28.dp)
+                    modifier = Modifier.padding(top = 20.dp, bottom = 28.dp, start = 28.dp)
                 )
             }
             items(items = postList,
-                key = { item -> item.postId },
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,

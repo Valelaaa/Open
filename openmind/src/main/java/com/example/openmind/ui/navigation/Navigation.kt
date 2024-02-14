@@ -2,7 +2,9 @@ package com.example.openmind.ui.navigation
 
 import PostLayout
 import PostListLayout
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -18,6 +20,7 @@ import com.example.openmind.ui.create_post.CreatePostLayout
 import com.example.openmind.ui.screen.BaseComposeScreen
 import com.example.openmind.ui.screen.Screen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = Screen.CategoriesScreen.route) {

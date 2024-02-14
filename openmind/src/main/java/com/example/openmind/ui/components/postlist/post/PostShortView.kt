@@ -38,11 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
+import com.example.openmind.data.post.EmptyPost
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.post.PostRating
+import com.example.openmind.ui.components.post.RatingLayout
 import com.example.openmind.ui.components.post.SharePost
 import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
@@ -54,6 +55,8 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 
 const val tag = "PostShortView"
 
@@ -64,13 +67,19 @@ fun PostShortView(
     category: Categories,
     modifier: Modifier = Modifier,
 ) {
+    val repository = PostRepositoryProvider.provideRepository()
     val currentPost = remember {
-        PostRepositoryProvider.provideRepository().getPostById(postId)
+        runBlocking {
+            if (repository.getById(postId).firstOrNull() != null) repository.getById(postId)
+                .firstOrNull()!! else EmptyPost
+        }
+
     }
 
     Row(
         modifier
             .fillMaxWidth()
+            .padding(vertical = 8.dp)
             .clickable(onClick = {
                 /*TODO(NavigateToPost)*/
                 navController.navigateToPost(postId = currentPost.postId)
@@ -177,7 +186,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    PostRating(currentPost.postId, currentPost.rating, Modifier)
+                    RatingLayout(currentPost.postId, currentPost.rating, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier

@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.openmind.data.post.Post
 import com.example.openmind.data.viewModel.post.PostViewModel
 import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
@@ -45,14 +46,17 @@ fun PostLayout(
 @Preview
 @Composable
 fun PostViewPreview() {
-    val mockNavController = NavController(LocalContext.current)
-    val mockPost = PostListViewModel().getPostList().first()
+    val navController = NavController(LocalContext.current)
+    val viewModel = PostViewModel()
+    val postViewModel = PostListViewModel()
+    val post = postViewModel.getPostList().first { post: Post -> post.getCommentsCount() != 0 }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         PostLayout(
-            postId = mockPost.postId,
-            navController = mockNavController,
+            postId = post.postId,
+            navController = navController,
             screen = Screen.PostScreen
         )
     }
