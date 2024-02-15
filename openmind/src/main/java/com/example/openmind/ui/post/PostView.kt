@@ -15,14 +15,14 @@ import com.example.openmind.data.post.Post
 import com.example.openmind.data.viewModel.post.PostViewModel
 import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
-import com.example.openmind.ui.post.PostContentLayout
+import com.example.openmind.ui.post.PostContentView
 import com.example.openmind.ui.screen.Screen
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun PostLayout(
+fun PostView(
     postId: String,
     navController: NavController,
     screen: Screen,
@@ -32,7 +32,7 @@ fun PostLayout(
     Scaffold(topBar = {
         TopBarOpenMind(navController = navController, currentScreen = screen)
     }) { scaffoldPaddings ->
-        PostContentLayout(
+        PostContentView(
             navController = navController,
             postId = postId,
             modifier = Modifier.padding(scaffoldPaddings),
@@ -54,7 +54,7 @@ fun PostViewPreview() {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        PostLayout(
+        PostView(
             postId = post.postId,
             navController = navController,
             screen = Screen.PostScreen

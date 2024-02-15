@@ -1,5 +1,6 @@
 package com.example.openmind.data.viewModel.postlist
 
+import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.data.post.Post
 import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.repository.Repository
@@ -11,8 +12,8 @@ class PostListViewState(
     private val repository: Repository<Post> = PostRepositoryProvider.provideRepository()
 ) {
     private var requestParams = repository.getFetchParams()
-
-    var loadedPosts = mutableListOf<Post>()
+    private var activeSortType = mutableStateOf(requestParams.sortType)
+    private var loadedPosts = mutableListOf<Post>()
     private val sortingList: List<SortType> = listOf(
         SortType.HOT,
         SortType.OLD,
@@ -29,9 +30,8 @@ class PostListViewState(
 
     fun getSortingList() = sortingList
     fun setActiveSortType(sortType: SortType) {
-        requestParams.sortType = sortType
+        activeSortType.value = sortType
     }
 
-    fun getActiveSortType(): SortType = requestParams.sortType
+    fun getActiveSortType(): SortType = activeSortType.value
 }
-//    private val dataSource =

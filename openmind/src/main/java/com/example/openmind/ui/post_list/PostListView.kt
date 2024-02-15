@@ -12,13 +12,13 @@ import androidx.navigation.NavController
 import com.example.openmind.data.viewModel.Categories
 import com.example.openmind.data.viewModel.postlist.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
-import com.example.openmind.ui.post_list.PostListContentLayout
+import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.screen.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostListLayout(
+fun PostListView(
     screen: Screen,
     navController: NavController,
     category: Categories = Categories.BUG,
@@ -28,7 +28,7 @@ fun PostListLayout(
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopBarOpenMind(navController = navController, currentScreen = screen)
     }, content = { padding ->
-        PostListContentLayout(
+        PostListContentView(
             navController,
             viewModel = postListViewModel,
             currentCategory = category,
@@ -40,10 +40,10 @@ fun PostListLayout(
 
 @Preview
 @Composable
-fun PostListLayoutPreview() {
+fun PostListViewPreview() {
     val navController = NavController(LocalContext.current)
     Box {
-        PostListLayout(
+        PostListView(
             screen = Screen.PostListScreen,
             navController = navController,
             category = Categories.FEATURE,

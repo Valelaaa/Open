@@ -13,17 +13,14 @@ class CommentsRepository : Repository<Comment> {
                 Comment(
                     author = User("John Doe"),
                     message = "Sounds good",
-                    subComments = listOf(
+                    subComments = mutableListOf(
                         Comment(
                             author = User("John Wick"), message = "You wrong",
-                            subComments = listOf(
-                                Comment(
-                                    author = User("John Wick"),
-                                    message = "Mb u r wrong?"
-                                )
-                            )
                         ),
-
+                        Comment(
+                            author = User("John Wick"),
+                            message = "@JohnWick Mb u r wrong?"
+                        ),
                         Comment(author = User("John Sick"), message = "I like ponies")
                     )
 
@@ -31,17 +28,15 @@ class CommentsRepository : Repository<Comment> {
                 Comment(
                     author = User("John Doe"),
                     message = "Sounds good",
-                    subComments = listOf(
+                    subComments = mutableListOf(
                         Comment(
                             author = User("John Wick"), message = "You wrong",
-                            subComments = listOf(
-                                Comment(
-                                    author = User("John Wick"),
-                                    message = "Mb u r wrong?"
-                                )
-                            )
                         ),
 
+                        Comment(
+                            author = User("John Wick"),
+                            message = "Mb u r wrong?"
+                        ),
                         Comment(author = User("John Sick"), message = "I like ponies")
                     )
 

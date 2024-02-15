@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 import com.example.openmind.ui.screen.Screen
 
 @Composable
-fun CategoriesLayout(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
+fun CategoriesView(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
     Column(
         verticalArrangement = Arrangement.Center, modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally

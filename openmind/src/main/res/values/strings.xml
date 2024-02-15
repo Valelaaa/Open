@@ -9,7 +9,8 @@
     <string name="contentdescription_decrease">decrease</string>
     <string name="contentdescription_more">more</string>
     <string name="comments_count">%1$s Comments</string>
-    <string name="comment_placeholder">Comment...</string>
+    <string name="comment_placeholder">Add a comment...</string>
     <string name="ask">ask</string>
     <string name="desk">desk</string>
+    <string name="show_less">show less</string>
 </resources>

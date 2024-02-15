@@ -1,7 +1,7 @@
 package com.example.openmind.ui.navigation
 
-import PostLayout
-import PostListLayout
+import PostListView
+import PostView
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -15,8 +15,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.ui.categories.CategoriesLayout
-import com.example.openmind.ui.create_post.CreatePostLayout
+import com.example.openmind.ui.categories.CategoriesView
+import com.example.openmind.ui.create_post.CreatePostView
 import com.example.openmind.ui.screen.BaseComposeScreen
 import com.example.openmind.ui.screen.Screen
 
@@ -28,7 +28,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
             BaseComposeScreen(
                 navController = navController,
                 content = { controller, modifier ->
-                    CategoriesLayout(
+                    CategoriesView(
                         navController = controller,
                         modifier
                     )
@@ -52,7 +52,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
 
 
                 if (category != null) {
-                    PostListLayout(
+                    PostListView(
                         screen = Screen.PostListScreen,
                         navController = navController,
                         category = Categories.valueOf(category)
@@ -68,7 +68,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
             ) { backStackEntry ->
                 val postId = backStackEntry.arguments?.getString("postId")
                 if (postId != null) {
-                    PostLayout(
+                    PostView(
                         navController = navController,
                         screen = Screen.PostScreen,
                         postId = postId
@@ -81,7 +81,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
             }
         }
         composable(Screen.CreatePostScreen.route) {
-            CreatePostLayout(navController = navController, screen = Screen.CreatePostScreen)
+            CreatePostView(navController = navController, screen = Screen.CreatePostScreen)
         }
     }
 }

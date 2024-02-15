@@ -59,7 +59,25 @@ class PostRepository : Repository<Post> {
 
 
     override fun postData(data: Post): Boolean {
-        TODO("Not yet implemented")
+        val postId = data.postId
+        var currentPost: Post?
+        runBlocking {
+            currentPost = data
+            if (getData().first().firstOrNull { post: Post -> post.postId == postId } != null) {
+                //request to update Post
+                //updatePost(post)
+                mockPostList.forEachIndexed { index, post: Post ->
+                    if (post.postId == postId) {
+                        mockPostList[index] = currentPost!!
+                    }
+                }
+            } else {
+                //request to create Post
+                //createPost(post)
+                mockPostList.add(currentPost!!)
+            }
+        }
+        return true
     }
 
     override fun getData(): Flow<List<Post>> {
@@ -86,22 +104,43 @@ class PostRepository : Repository<Post> {
         description = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.",
 
         rating = 302,
-        comments = listOf(
+        comments = mutableListOf(
             Comment(
                 author = User("John Doe"),
                 message = "Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur",
-                subComments = listOf(
+                subComments = mutableListOf(
                     Comment(
-                        author = User("John Wick"), message = "Hala Madrid!",
-                        subComments = listOf(
-                            Comment(
-                                author = User("John Wick"),
-                                message = "Mb u r wrong?"
-                            )
-                        )
+                        author = User("John Wick"), message = "@RichardMcClintock Hala Madrid!",
                     ),
-
-                    Comment(author = User("John Sick"), message = "I like ponies")
+                    Comment(
+                        author = User("John Wick"),
+                        message = "@JohnWick Mb u r wrong?"
+                    ),
+                    Comment(author = User("John Sick"), message = "I like ponies"),
+                    Comment(
+                        author = User("John Wick"), message = "@RichardMcClintock Hala Madrid!",
+                    ),
+                    Comment(
+                        author = User("John Wick"),
+                        message = "@JohnWick Mb u r wrong?"
+                    ),
+                    Comment(author = User("John Sick"), message = "I like ponies"),
+                    Comment(
+                        author = User("John Wick"), message = "@RichardMcClintock Hala Madrid!",
+                    ),
+                    Comment(
+                        author = User("John Wick"),
+                        message = "@JohnWick Mb u r wrong?"
+                    ),
+                    Comment(author = User("John Sick"), message = "I like ponies"),
+                    Comment(
+                        author = User("John Wick"), message = "@RichardMcClintock Hala Madrid!",
+                    ),
+                    Comment(
+                        author = User("John Wick"),
+                        message = "@JohnWick Mb u r wrong?"
+                    ),
+                    Comment(author = User("John Sick"), message = "I like ponies"),
                 )
 
             ),

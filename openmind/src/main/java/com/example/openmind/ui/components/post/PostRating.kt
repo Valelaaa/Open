@@ -40,7 +40,7 @@ import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 
 @Composable
-fun RatingLayout(
+fun RatingView(
     id: String,
     rating: Int,
     modifier: Modifier = Modifier,
@@ -133,7 +133,7 @@ fun RatingPreview() {
             .background(Color.Black)
             .padding(start = 35.dp, top = 35.dp)
     ) {
-        RatingLayout(
+        RatingView(
             id = mockPost.postId,
             rating = mockPost.rating,
             modifier = Modifier.background(

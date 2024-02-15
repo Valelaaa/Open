@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -29,7 +28,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
@@ -114,13 +112,10 @@ fun CustomTextFieldPreview() {
                 value = commentMessage,
                 onValueChange = { commentMessage = it },
                 shape = RoundedCornerShape(6.dp),
-//                colors = TextFieldDefaults.textFieldColors(
-//                    disabledIndicatorColor = Color.Transparent
-//                ),
                 placeholder = {
                     Text(
 //                                text = stringResource(R.string.comment_placeholder),
-                        text = "Comments...",
+                        text = "Add a comment...",
                         color = IconColor,
                         fontFamily = FontFamily.ManropeSemiBoldW600,
                         fontSize = 16.sp,

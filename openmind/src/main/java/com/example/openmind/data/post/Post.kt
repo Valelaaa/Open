@@ -12,13 +12,7 @@ open class Post(
     var comments: List<Comment> = listOf(),
     val postId: String = UUID.randomUUID().toString()
 ) {
-    private var commentCount: Int
-
-    init {
-        commentCount = deepCommentCount()
-    }
-
-    fun getCommentsCount(): Int = commentCount
+    fun getCommentsCount(): Int = deepCommentCount()
     private fun deepCommentCount(): Int {
         var count = 0
 

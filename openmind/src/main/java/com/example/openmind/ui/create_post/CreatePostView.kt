@@ -26,7 +26,7 @@ import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreatePostLayout(
+fun CreatePostView(
     navController: NavController?,
     modifier: Modifier = Modifier,
     screen: Screen,
@@ -65,7 +65,7 @@ fun CreatePostLayout(
 @Composable
 fun PreviewCreatePostView() {
     OpenMindProjectTheme {
-        CreatePostLayout(navController = null, screen = Screen.CreatePostScreen)
+        CreatePostView(navController = null, screen = Screen.CreatePostScreen)
     }
 
 }

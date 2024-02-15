@@ -24,7 +24,7 @@ import com.example.openmind.ui.components.postlist.selectSortingType.SortingSele
 import com.example.openmind.ui.theme.Delimiter
 
 @Composable
-fun PostListContentLayout(
+fun PostListContentView(
     navController: NavController,
     viewModel: PostListViewModel,
     currentCategory: Categories,
@@ -65,7 +65,7 @@ fun PostListPreview() {
         },
         content = { padding ->
 
-            PostListContentLayout(
+            PostListContentView(
                 navController = navController,
                 viewModel = viewModel(),
                 currentCategory = Categories.FEATURE,
