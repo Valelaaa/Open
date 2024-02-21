@@ -45,6 +45,10 @@ fun CommentView(item: Comment) {
     val showLessLabel = stringResource(R.string.show_less)
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
+
+    val commentChunkSize = 5;
+    val currentActiveComments = remember { mutableIntStateOf(0) }
+
     Row(modifier = Modifier.padding(bottom = 8.dp)) {
         Row(
             modifier = Modifier
@@ -158,27 +162,43 @@ fun CommentView(item: Comment) {
                     color = MaibPrimary,
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
+                        currentActiveComments.intValue =
+                            (currentActiveComments.intValue + 5) % item.subComments.size
                     }
                 )
             } else {
-                item.subComments.forEachIndexed { index, subItem ->
-                    if (index == item.subComments.size - 1) {
-                        SubCommentView(subItem)
-                        Text(
-                            text = "hide ${item.subComments.size} replies",
-                            fontFamily = FontFamily.ManropeSemiBoldW600,
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                            color = MaibPrimary,
-                            modifier = Modifier.clickable {
-                                isShowVisible.value = !isShowVisible.value
-                            }
-                        )
-                    } else {
-                        SubCommentView(subItem)
-                    }
+                item.subComments.take(currentActiveComments.intValue)
+                    .forEachIndexed { index, subItem ->
+                        if (index == item.subComments.size - 1) {
+                            SubCommentView(subItem)
+                            Text(
+                                text = "hide ${item.subComments.size} replies",
+                                fontFamily = FontFamily.ManropeSemiBoldW600,
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                                color = MaibPrimary,
+                                modifier = Modifier.clickable {
+                                    isShowVisible.value = !isShowVisible.value
+                                    currentActiveComments.intValue = 0
+                                }
+                            )
+                        } else if (index == currentActiveComments.intValue - 1) {
+                            SubCommentView(subItem)
+                            Text(
+                                text = "show ${item.subComments.size - currentActiveComments.intValue} replies",
+                                fontFamily = FontFamily.ManropeSemiBoldW600,
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                                color = MaibPrimary,
+                                modifier = Modifier.clickable {
+                                    currentActiveComments.intValue = (currentActiveComments.intValue + 5)
+                                }
+                            )
+                        } else {
+                            SubCommentView(subItem)
+                        }
 
-                }
+                    }
             }
         }
     }
@@ -186,6 +206,13 @@ fun CommentView(item: Comment) {
 
 @Composable
 fun SubCommentView(item: Comment) {
+    val defaultMaxLine = remember { mutableIntStateOf(3) }
+
+    val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()
+    val showLessLabel = stringResource(R.string.show_less)
+    val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
+    val linesCount = remember { mutableIntStateOf(1) }
+
     Row {
         Row(
             modifier = Modifier
@@ -241,17 +268,28 @@ fun SubCommentView(item: Comment) {
                     lineHeight = 16.sp,
                     color = DarkGray20,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 3
+                    maxLines = defaultMaxLine.intValue,
+                    onTextLayout = { textLayoutResult ->
+                        linesCount.intValue = textLayoutResult.lineCount
+                    }
                 )
-                Text(
-                    text = stringResource(R.string.read_more_label).lowercase(),
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    fontSize = 14.sp,
-                    lineHeight = 16.sp,
-                    color = BorderLight,
-                    maxLines = 1
-                )
+                if (linesCount.intValue >= 3) {
+                    Text(
+                        text = extendButtonLabel.value,
+                        fontWeight = FontWeight.W400,
+                        fontFamily = FontFamily.ManropeRegularW400,
+                        fontSize = 14.sp,
+                        lineHeight = 16.sp,
+                        color = BorderLight,
+                        maxLines = 1,
+                        modifier = Modifier.clickable {
+                            defaultMaxLine.intValue =
+                                if (defaultMaxLine.intValue == 3) Int.MAX_VALUE else 3
+                            extendButtonLabel.value =
+                                if (extendButtonLabel.value == readMoreLabel) showLessLabel else readMoreLabel
+                        }
+                    )
+                }
             }
             Row {
 //                                TODO("RATING SECTION, REPLY")

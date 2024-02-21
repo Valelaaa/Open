@@ -107,12 +107,15 @@ fun <T> PostContentView(
     }
     val keyboardController = LocalSoftwareKeyboardController.current
     val commentPlaceholderText = stringResource(id = R.string.comment_placeholder)
-    Box(
+    Column(
         modifier = modifier
             .padding(horizontal = 28.dp)
             .fillMaxSize()
     ) {
-        LazyColumn(Modifier.padding(bottom = 20.dp)) {
+        LazyColumn(
+            Modifier
+                .weight(1f)
+        ) {
             item {
                 Column {
                     Column(
@@ -275,90 +278,88 @@ fun <T> PostContentView(
             }
 
         }
-        Column(
+        Row(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 10.dp)
-                .align(Alignment.BottomCenter)
+                .background(color = Color.White)
+                .border(2.dp, BorderLight, RoundedCornerShape(6.dp))
+                .padding(bottom = 5.dp, start = 10.dp, end = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .background(color = Color.White)
-                    .border(2.dp, BorderLight, RoundedCornerShape(6.dp))
-                    .padding(vertical = 5.dp, horizontal = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CustomTextField(
-                    value = commentMessage.value,
-                    onValueChange = { commentMessage.value = it },
-                    shape = RoundedCornerShape(6.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        unfocusedIndicatorColor = Color.Transparent,
-                        containerColor = Color.Transparent,
-                    ),
-                    contentPadding = PaddingValues(5.dp),
-                    placeholder = {
-                        Text(
-                            text = commentPlaceholderText,
-                            color = IconColor,
-                            fontFamily = FontFamily.ManropeSemiBoldW600,
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    },
-                    modifier = Modifier
-                        .defaultMinSize(minHeight = 40.dp)
-                        .padding(start = 14.dp, top = 5.dp, bottom = 5.dp)
-                        .weight(1f),
-                    textStyle = androidx.compose.ui.text.TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W600,
+            CustomTextField(
+                value = commentMessage.value,
+                onValueChange = { commentMessage.value = it },
+                shape = RoundedCornerShape(6.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent,
+                    containerColor = Color.Transparent,
+                ),
+                contentPadding = PaddingValues(5.dp),
+                placeholder = {
+                    Text(
+                        text = commentPlaceholderText,
+                        color = IconColor,
                         fontFamily = FontFamily.ManropeSemiBoldW600,
+                        fontSize = 16.sp,
                         lineHeight = 24.sp,
-                        color = DarkGray20,
-                        textAlign = TextAlign.Justify
-                    ),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            comments.add(
-                                Comment(
-                                    User("@janedoe"),
-                                    message = commentMessage.value
-                                )
-                            )
-                            viewModel.updateComments(comments)
-                            commentMessage.value = ""
-                            keyboardController?.hide()
-                        }
+                        modifier = Modifier.fillMaxWidth()
                     )
-                )
-                Icon(
-                    Icons.Default.Send,
-                    contentDescription = "send", modifier = Modifier
-                        .clickable {
-                            comments.add(
-                                Comment(
-                                    User("@janedoe"),
-                                    message = commentMessage.value
-                                )
-                            )
-                            viewModel.updateComments(comments)
-                            commentMessage.value = ""
-                            keyboardController?.hide()
-                        }
-                        .size(30.dp),
-                    tint = MaibPrimary
-                )
-            }
+                },
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 40.dp)
+                    .padding(start = 14.dp, top = 5.dp, bottom = 5.dp)
+                    .weight(1f),
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W600,
+                    fontFamily = FontFamily.ManropeSemiBoldW600,
+                    lineHeight = 24.sp,
+                    color = DarkGray20,
+                    textAlign = TextAlign.Justify
+                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        comments.add(
+                            Comment(
 
+                                //TODO(Add @OtherPerson tag)
+                                User("@janedoe"),
+                                message = commentMessage.value
+                            )
+                        )
+                        viewModel.updateComments(comments)
+                        commentMessage.value = ""
+                        keyboardController?.hide()
+                    }
+                )
+            )
+            Icon(
+                Icons.Default.Send,
+                contentDescription = "send", modifier = Modifier
+                    .clickable {
+                        comments.add(
+                            Comment(
+                                User("@janedoe"),
+                                message = commentMessage.value
+                            )
+                        )
+                        viewModel.updateComments(comments)
+                        commentMessage.value = ""
+                        keyboardController?.hide()
+                    }
+                    .size(30.dp),
+                tint = MaibPrimary
+            )
         }
+
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(
+    showSystemUi = true
+)
 @Composable
 fun PostContentViewPreview() {
     val navController = NavController(LocalContext.current)
@@ -366,18 +367,10 @@ fun PostContentViewPreview() {
     val postViewModel = PostListViewModel()
     val post =
         postViewModel.getPostList().first { post: Post -> post.getCommentsCount() != 0 }
-    Scaffold(topBar = {
-        TopAppBar(
-            title = { /*TODO*/ }, colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = Color.Black,
-            )
-        )
-    }) { scaffoldPaddings ->
-        PostContentView(
-            navController = navController,
-            postId = post.postId,
-            modifier = Modifier.padding(scaffoldPaddings),
-            viewModel = viewModel
-        )
-    }
+    PostContentView(
+        navController = navController,
+        postId = post.postId,
+        viewModel = viewModel
+    )
+
 }

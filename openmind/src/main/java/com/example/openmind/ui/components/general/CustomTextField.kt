@@ -112,9 +112,11 @@ fun CustomTextFieldPreview() {
                 value = commentMessage,
                 onValueChange = { commentMessage = it },
                 shape = RoundedCornerShape(6.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
                 placeholder = {
                     Text(
-//                                text = stringResource(R.string.comment_placeholder),
                         text = "Add a comment...",
                         color = IconColor,
                         fontFamily = FontFamily.ManropeSemiBoldW600,

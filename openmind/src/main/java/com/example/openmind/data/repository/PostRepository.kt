@@ -51,7 +51,7 @@ class PostRepository : Repository<Post> {
             ),
             getMockPost(),
         )
-        mockPostList.sortBy { it.createdDate }
+        mockPostList.sortBy { it.comments.size }
         mockPostList.reverse()
         mockShortPostList = mockPostList.map(PostMapper.Companion::postToShortPost).toMutableList()
 
