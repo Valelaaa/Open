@@ -22,10 +22,11 @@ class PostViewModel : ViewModel(), Sortable {
             viewState.setPost(post = result!!);
         return result
     }
-
     fun updateComments(comments: MutableList<Comment>) {
         viewState.updatePostComments(comments);
     }
+    fun getShortCommentLinesCount() = viewState.defaultCommentLines
+    fun getCommentBatchSize() = viewState.commentsBatchSize
 
     fun getComments(): MutableList<Comment> = viewState.getComments()
     override fun getSortingList(): List<SortType> = viewState.getSortingList()

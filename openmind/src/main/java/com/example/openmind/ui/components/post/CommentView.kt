@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.data.post.Comment
+import com.example.openmind.data.viewModel.post.PostViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.MaibPrimary
@@ -37,16 +38,16 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 @Composable
-fun CommentView(item: Comment) {
+fun CommentView(viewModel: PostViewModel, item: Comment) {
     val isShowVisible = remember { mutableStateOf(true) }
-    val defaultMaxLine = remember { mutableIntStateOf(3) }
+    val currentLinesCount = remember { mutableIntStateOf(viewModel.getShortCommentLinesCount()) }
 
     val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()
-    val showLessLabel = stringResource(R.string.show_less)
+    val showLessLabel = stringResource(id = R.string.show_less)
+
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
 
-    val commentChunkSize = 5;
     val currentActiveComments = remember { mutableIntStateOf(0) }
 
     Row(modifier = Modifier.padding(bottom = 8.dp)) {
@@ -104,12 +105,12 @@ fun CommentView(item: Comment) {
                     lineHeight = 16.sp,
                     color = DarkGray20,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = defaultMaxLine.intValue,
+                    maxLines = currentLinesCount.intValue,
                     onTextLayout = { textLayoutResult ->
                         linesCount.intValue = textLayoutResult.lineCount
                     }
                 )
-                if (linesCount.intValue >= 3) {
+                if (linesCount.intValue >= viewModel.getShortCommentLinesCount()) {
                     Text(
                         text = extendButtonLabel.value,
                         fontWeight = FontWeight.W400,
@@ -119,8 +120,8 @@ fun CommentView(item: Comment) {
                         color = BorderLight,
                         maxLines = 1,
                         modifier = Modifier.clickable {
-                            defaultMaxLine.intValue =
-                                if (defaultMaxLine.intValue == 3) Int.MAX_VALUE else 3
+                            currentLinesCount.intValue =
+                                if (currentLinesCount.intValue == viewModel.getShortCommentLinesCount()) Int.MAX_VALUE else viewModel.getShortCommentLinesCount()
                             extendButtonLabel.value =
                                 if (extendButtonLabel.value == readMoreLabel) showLessLabel else readMoreLabel
                         }
@@ -163,7 +164,7 @@ fun CommentView(item: Comment) {
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
                         currentActiveComments.intValue =
-                            (currentActiveComments.intValue + 5) % item.subComments.size
+                            (currentActiveComments.intValue + viewModel.getCommentBatchSize()) % item.subComments.size
                     }
                 )
             } else {
@@ -191,7 +192,8 @@ fun CommentView(item: Comment) {
                                 lineHeight = 16.sp,
                                 color = MaibPrimary,
                                 modifier = Modifier.clickable {
-                                    currentActiveComments.intValue = (currentActiveComments.intValue + 5)
+                                    currentActiveComments.intValue =
+                                        (currentActiveComments.intValue + viewModel.getCommentBatchSize())
                                 }
                             )
                         } else {
@@ -209,9 +211,10 @@ fun SubCommentView(item: Comment) {
     val defaultMaxLine = remember { mutableIntStateOf(3) }
 
     val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()
-    val showLessLabel = stringResource(R.string.show_less)
+    val showLessLabel = stringResource(id = R.string.show_less)
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
+
 
     Row {
         Row(

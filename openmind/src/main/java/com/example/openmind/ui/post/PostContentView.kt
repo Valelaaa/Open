@@ -32,11 +32,8 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -274,7 +271,7 @@ fun <T> PostContentView(
             //TODO(CommentsSection)
 
             items(items = comments) { item ->
-                CommentView(item = item)
+                CommentView(viewModel = viewModel, item = item)
             }
 
         }
@@ -321,7 +318,6 @@ fun <T> PostContentView(
                     onDone = {
                         comments.add(
                             Comment(
-
                                 //TODO(Add @OtherPerson tag)
                                 User("@janedoe"),
                                 message = commentMessage.value
@@ -356,7 +352,6 @@ fun <T> PostContentView(
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     showSystemUi = true
 )

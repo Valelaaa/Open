@@ -10,6 +10,10 @@ import com.example.openmind.data.repository.PostRepositoryProvider
 import com.example.openmind.data.viewModel.SortType
 
 class PostViewState {
+
+    val defaultCommentLines = 3
+    val commentsBatchSize = 5
+
     private var repository: PostRepository = PostRepositoryProvider.provideRepository()
     private var activeSortType: MutableState<SortType> = mutableStateOf(SortType.HOT)
     private var post: MutableState<Post> = mutableStateOf(Post("", ""))
@@ -19,6 +23,7 @@ class PostViewState {
         SortType.NEW,
         SortType.OLD
     )
+
 
     fun getComments(): MutableList<Comment> = comments
     fun setPost(post: Post) {
@@ -39,4 +44,5 @@ class PostViewState {
     }
 
     fun getActiveSortType(): MutableState<SortType> = mutableStateOf(activeSortType.value)
+    fun getDefaultCommentLines() = defaultCommentLines
 }

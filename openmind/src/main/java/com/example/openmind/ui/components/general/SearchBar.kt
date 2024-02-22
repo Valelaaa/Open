@@ -47,7 +47,7 @@ import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     onSearch: (KeyboardActionScope.() -> Unit)? = null,
