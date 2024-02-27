@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.postlist.PostListViewModel
+import com.example.openmind.utils.Categories
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.components.general.TopBarOpenMind
 import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.screen.Screen

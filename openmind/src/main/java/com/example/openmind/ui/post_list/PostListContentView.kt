@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.postlist.PostListViewModel
+import com.example.openmind.utils.Categories
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.postlist.post.PostShortView
 import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector

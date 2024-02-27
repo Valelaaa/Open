@@ -38,10 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.post.EmptyPost
-import com.example.openmind.data.repository.PostRepositoryProvider
-import com.example.openmind.data.viewModel.Categories
-import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
+import com.example.openmind.domain.model.post.EmptyPost
+import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.utils.Categories
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.RatingView
 import com.example.openmind.ui.components.post.SharePost
@@ -75,7 +75,8 @@ fun PostShortView(
         }
 
     }
-
+//    val postRating = remember { currentPost.ratingInfo.rating.value }
+    val postRating = remember { currentPost.ratingInfo }
     Row(
         modifier
             .fillMaxWidth()
@@ -186,7 +187,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    RatingView(currentPost.postId, currentPost.rating, Modifier)
+                    RatingView(rating = postRating, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier

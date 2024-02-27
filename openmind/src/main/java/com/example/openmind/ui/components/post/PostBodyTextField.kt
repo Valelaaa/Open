@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.CustomTextField
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeRegularW400
@@ -36,7 +36,7 @@ fun PostBodyTextField(
     val postDescriptionSize = 16.sp
 
     var description = remember {
-        viewModel.description
+        viewModel.getDescription()
     }
     CustomTextField(
         value = description.value,
@@ -81,10 +81,4 @@ fun PostBodyTextField(
         modifier = modifier
     )
 
-//    LaunchedEffect(key1 = description) {
-//        Log.d("LaunchedEffect","LaunchedEffect")
-//        delay(2000)
-//        // print or emit to your viewmodel
-//        viewModel.updateDescription(description.value)
-//    }
 }

@@ -31,7 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.repository.PostRepositoryProvider
+import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.borderRight
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -41,15 +42,13 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 
 @Composable
 fun RatingView(
-    id: String,
-    rating: Int,
+    rating: RatingInfo,
     modifier: Modifier = Modifier,
     isComment: Boolean = false
 ) {
-
-    val mutableRating by remember { mutableIntStateOf(rating) }
+    val mutableRating by remember { rating.rating }
     var rated by remember {// 0 - not rated, 1 - liked, -1 - disliked
-        mutableIntStateOf(0)
+        rating.isRated
     }
     val likeColor = if (rated == 1) MaibPrimary else DarkBlue40
     val dislikeColor = if (rated == -1) MaibError else DarkBlue40
@@ -127,6 +126,7 @@ fun RatingView(
 @Composable
 fun RatingPreview() {
     val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
+    val ratingValue = remember { mockPost.ratingInfo.rating }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -134,8 +134,8 @@ fun RatingPreview() {
             .padding(start = 35.dp, top = 35.dp)
     ) {
         RatingView(
-            id = mockPost.postId,
-            rating = mockPost.rating,
+//            rating = mockPost.rating,
+            rating = RatingInfo(mockPost.postId),
             modifier = Modifier.background(
                 Color.White
             )

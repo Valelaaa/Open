@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.repository.PostRepositoryProvider
-import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
+import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.LightText
@@ -71,7 +71,7 @@ fun TopAppBarPost(
                 },
                 modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),
                 shape = RoundedCornerShape(18.dp),
-                enabled = createPostViewModel.isButtonEnabled.value,
+                enabled = createPostViewModel.getButtonState(),
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = DarkBlue40,

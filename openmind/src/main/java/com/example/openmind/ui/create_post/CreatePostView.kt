@@ -1,6 +1,8 @@
 package com.example.openmind.ui.create_post
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,12 +13,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.data.viewModel.createpost.CreatePostViewModel
+import clickableWithoutRipple
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.post.PostBodyTextField
 import com.example.openmind.ui.components.post.PostTitleTextField
 import com.example.openmind.ui.components.post.TopAppBarPost
@@ -32,6 +39,7 @@ fun CreatePostView(
     screen: Screen,
     createPostViewModel: CreatePostViewModel = viewModel()
 ) {
+    var focusRequester = remember { FocusRequester() }
     Scaffold(
         topBar = {
             TopAppBarPost(navController = navController, createPostViewModel)
@@ -54,8 +62,17 @@ fun CreatePostView(
                     modifier = Modifier
                         .padding(bottom = 30.dp)
                         .fillMaxSize()
+                        .weight(1f)
+                        .clickableWithoutRipple(interactionSource = NoRippleInteractionSource.INSTANCE,
+                            onClick =
+                            { focusRequester.requestFocus() }
+                        )
                 ) {
-                    PostBodyTextField(createPostViewModel, modifier = Modifier.fillMaxSize())
+                    PostBodyTextField(
+                        createPostViewModel,
+                        modifier = Modifier
+                            .focusRequester(focusRequester = focusRequester)
+                    )
                 }
             }
         })

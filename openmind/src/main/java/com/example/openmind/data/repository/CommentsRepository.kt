@@ -1,8 +1,9 @@
 package com.example.openmind.data.repository
 
-import com.example.openmind.data.post.Comment
-import com.example.openmind.data.post.User
-import com.example.openmind.data.repository.params.RequestParams
+import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.user.User
+import com.example.openmind.domain.api.params.RequestParams
+import com.example.openmind.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

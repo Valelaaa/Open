@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.openmind.data.viewModel.Categories
+import com.example.openmind.utils.Categories
 import com.example.openmind.ui.categories.CategoriesView
 import com.example.openmind.ui.create_post.CreatePostView
 import com.example.openmind.ui.screen.BaseComposeScreen
