@@ -22,8 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -35,7 +39,9 @@ import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
+import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
+import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 @Composable
 fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
@@ -46,6 +52,14 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
     val rating = remember { item.ratingInfo }
+    val tagSpanStyle = SpanStyle(
+        fontWeight = FontWeight.W800,
+        fontFamily = FontFamily.ManropeExtraBoldW800,
+        fontStyle = FontStyle.Italic,
+        fontSize = 12.sp,
+        color = Color.Black
+    )
+
 
     Row {
         Row(
@@ -95,7 +109,14 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
             Column {
 //                                TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
-                    text = item.message,
+                    text =
+                    if (item.message.contains("@")) {
+                        withStylishTags(
+                            item.message, tagSpanStyle
+                        )
+                    } else {
+                        AnnotatedString(item.message)
+                    },
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W400,
