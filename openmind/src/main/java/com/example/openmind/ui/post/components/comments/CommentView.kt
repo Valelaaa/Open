@@ -98,7 +98,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                 }
             }
             Column {
-//                                TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
+//          TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
                     text = item.message,
                     fontFamily = FontFamily.ManropeRegularW400,
@@ -131,7 +131,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                 }
             }
             Row {
-//                                TODO("RATING SECTION, REPLY")
+//          TODO("RATING SECTION, REPLY")
                 RatingView(
                     rating = rating,
                     isComment = true
@@ -154,7 +154,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                 }
 
             }
-//                            TODO("REPLY")
+//          TODO("REPLY")
             if (item.subComments.isNotEmpty() && isShowVisible.value) {
                 Text(
                     text = "show ${item.subComments.size} replies",

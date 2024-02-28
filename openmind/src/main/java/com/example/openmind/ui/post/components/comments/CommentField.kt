@@ -24,26 +24,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,12 +51,10 @@ import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.MaibPrimary
-import com.example.openmind.ui.theme.ManropeBoldW700
-import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentField(
     viewModel: PostViewModel,
@@ -79,8 +71,8 @@ fun CommentField(
     val comments = remember {
         viewModel.getComments()
     }
-    val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     val commentPlaceholderText = stringResource(id = R.string.comment_placeholder)
     Row(
         modifier = modifier
@@ -89,7 +81,6 @@ fun CommentField(
             .padding(bottom = 5.dp, start = 10.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         BasicTextField(
             value = commentMessage.value,
             onValueChange = {
@@ -143,8 +134,8 @@ fun CommentField(
                     replyTo.value = null
 
                     viewModel.updateComments(comments)
+                    focusManager.clearFocus()
                     commentMessage.value = TextFieldValue("")
-                    keyboardController?.hide()
                 }
 
             ),
@@ -209,8 +200,8 @@ fun CommentField(
                     replyTo.value = null
 
                     viewModel.updateComments(comments)
+                    focusManager.clearFocus()
                     commentMessage.value = TextFieldValue("")
-                    keyboardController?.hide()
                 }
                 .size(30.dp),
             tint = MaibPrimary
@@ -230,7 +221,6 @@ fun CommentField(
             focusRequester.requestFocus()
         }
     }
-
 }
 
 

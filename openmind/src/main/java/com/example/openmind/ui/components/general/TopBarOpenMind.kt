@@ -49,7 +49,7 @@ fun TopBarOpenMind(navController: NavController, currentScreen: Screen) {
     val isSearchBarHidden = remember {
         mutableStateOf(false)
     }
-    val keyboardController = LocalSoftwareKeyboardController.current
+//    val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
     Box {
@@ -115,7 +115,8 @@ fun TopBarOpenMind(navController: NavController, currentScreen: Screen) {
         if (isSearchBarHidden.value && !WindowInsets.isImeVisible) {
             Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
                 SearchBar(onSearch = {
-                    keyboardController?.hide()
+//                    keyboardController?.hide()
+                    focusManager.clearFocus()
                     isSearchBarHidden.value = !isSearchBarHidden.value
                     //TODO REQUEST TO FIND LIST OR POST
                 })
@@ -123,7 +124,6 @@ fun TopBarOpenMind(navController: NavController, currentScreen: Screen) {
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
