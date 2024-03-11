@@ -22,7 +22,7 @@ fun withStylishTags(
     val result = AnnotatedString.Builder()
     val delimiter = " "
 
-    var words = text.split(delimiter)
+    val words = text.split(delimiter)
     for (word in words) {
         if (word.indexOf("@") == 0) {
             result.withStyle(style = styleSpan) { append(word) }

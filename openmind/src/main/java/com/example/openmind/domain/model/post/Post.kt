@@ -2,6 +2,7 @@ package com.example.openmind.domain.model.post
 
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.rating.RatingInfo
+import com.example.openmind.utils.PostCategories
 import com.example.openmind.utils.Rateable
 import java.util.Date
 import java.util.UUID
@@ -11,10 +12,10 @@ open class Post(
     var description: String = "",
     val author: String = "Unknown",
     var createdDate: Date = Date(System.currentTimeMillis()),
-//    var rating: Int = 0,
     var comments: List<Comment> = listOf(),
     val postId: String = UUID.randomUUID().toString(),
-    val ratingInfo: RatingInfo = RatingInfo(postId)
+    val ratingInfo: RatingInfo = RatingInfo(postId),
+    val category: PostCategories = PostCategories.BUG
 ) : Rateable {
 
     fun getCommentsCount(): Int = deepCommentCount()

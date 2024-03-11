@@ -28,10 +28,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,7 +63,6 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
-import com.example.openmind.utils.Categories
 import com.example.openmind.utils.Sortable
 
 
@@ -73,7 +70,6 @@ import com.example.openmind.utils.Sortable
 @Composable
 fun <T> PostContentView(
     navController: NavController,
-    category: Categories = Categories.BUG,
     postId: String,
     viewModel: T,
     modifier: Modifier = Modifier
@@ -85,7 +81,7 @@ fun <T> PostContentView(
         viewModel.getComments()
     }
     val postRating = remember { currentPost.ratingInfo }
-    var commentToReply = remember { mutableStateOf<Comment?>(null) }
+    val commentToReply = remember { mutableStateOf<Comment?>(null) }
     Column(
         modifier = modifier
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
@@ -119,7 +115,7 @@ fun <T> PostContentView(
 
                                 //Category name
                                 Text(
-                                    text = category.getStringValue(),
+                                    text = currentPost.category.getStringValue(),
                                     fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     maxLines = 1,

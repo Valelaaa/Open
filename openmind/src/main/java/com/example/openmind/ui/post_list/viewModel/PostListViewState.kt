@@ -23,7 +23,7 @@ class PostListViewState(
     fun fetchPosts(): MutableList<Post> {
 
         runBlocking {
-            repository.getData().collect { it -> loadedPosts.addAll(it) }
+            repository.getData().collect { loadedPosts.addAll(it) }
         }
         return loadedPosts
     }

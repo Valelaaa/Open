@@ -12,6 +12,7 @@ import com.example.openmind.domain.repository.Repository
 import com.example.openmind.utils.SortType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import java.util.Date
@@ -156,7 +157,8 @@ class PostRepository : Repository<Post> {
     fun updateRating(postId: String, rating: Int) {
         //TODO("REQUEST TO UPDATE POST RATING")
         runBlocking {
-            getData().first().first { post: Post -> post.postId == postId }.ratingInfo.rating.value += rating
+            getData().first()
+                .first { post: Post -> post.postId == postId }.ratingInfo.rating.value += rating
 //            getData().first().first { post: Post -> post.postId == postId }.rating += rating
         }
     }
@@ -202,6 +204,15 @@ class PostRepository : Repository<Post> {
     override fun updateFetchParams(requestParams: RequestParams): Boolean {
 
         TODO("Not yet implemented")
+    }
+
+    fun findPostBySubstring(subString: String): Flow<List<Post>> = flow {
+        val splitedSubStrings = subString.lowercase().split(" ")
+        val found = mutableListOf<Post>()
+        splitedSubStrings.any { splitedSubString ->
+            found.addAll(mockPostList.filter { post -> post.title.contains(splitedSubString) })
+        }
+        emit(found.toList())
     }
 
 }

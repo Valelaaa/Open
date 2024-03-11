@@ -171,34 +171,38 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
             } else {
                 item.subComments.take(currentActiveCommentsCount.intValue)
                     .forEachIndexed { index, subItem ->
-                        if (index == item.subComments.size - 1) {
-                            SubCommentView(subItem, onReplyClick = onReplyClick)
-                            Text(
-                                text = "hide ${item.subComments.size} replies",
-                                fontFamily = FontFamily.ManropeSemiBoldW600,
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                color = MaibPrimary,
-                                modifier = Modifier.clickable {
-                                    isShowVisible.value = !isShowVisible.value
-                                    currentActiveCommentsCount.intValue = 0
-                                }
-                            )
-                        } else if (index == currentActiveCommentsCount.intValue - 1) {
-                            SubCommentView(subItem, onReplyClick = onReplyClick)
-                            Text(
-                                text = "show ${item.subComments.size - currentActiveCommentsCount.intValue} replies",
-                                fontFamily = FontFamily.ManropeSemiBoldW600,
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                color = MaibPrimary,
-                                modifier = Modifier.clickable {
-                                    currentActiveCommentsCount.intValue =
-                                        (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize())
-                                }
-                            )
-                        } else {
-                            SubCommentView(subItem, onReplyClick = onReplyClick)
+                        when (index) {
+                            item.subComments.size - 1 -> {
+                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                                Text(
+                                    text = "hide ${item.subComments.size} replies",
+                                    fontFamily = FontFamily.ManropeSemiBoldW600,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = MaibPrimary,
+                                    modifier = Modifier.clickable {
+                                        isShowVisible.value = !isShowVisible.value
+                                        currentActiveCommentsCount.intValue = 0
+                                    }
+                                )
+                            }
+                            currentActiveCommentsCount.intValue - 1 -> {
+                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                                Text(
+                                    text = "show ${item.subComments.size - currentActiveCommentsCount.intValue} replies",
+                                    fontFamily = FontFamily.ManropeSemiBoldW600,
+                                    fontSize = 12.sp,
+                                    lineHeight = 16.sp,
+                                    color = MaibPrimary,
+                                    modifier = Modifier.clickable {
+                                        currentActiveCommentsCount.intValue =
+                                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize())
+                                    }
+                                )
+                            }
+                            else -> {
+                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                            }
                         }
 
                     }

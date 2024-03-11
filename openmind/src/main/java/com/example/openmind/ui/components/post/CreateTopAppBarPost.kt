@@ -44,7 +44,7 @@ const val TAG: String = "PostTopAppBar"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarPost(
+fun CreateTopAppBarPost(
     navController: NavController?,
     createPostViewModel: CreatePostViewModel,
 ) {
@@ -113,7 +113,7 @@ fun TopAppBarPost(
 fun TopAppBarPostPreview() {
     OpenMindProjectTheme {
         Scaffold(topBar = {
-            TopAppBarPost(null, createPostViewModel = viewModel())
+            CreateTopAppBarPost(null, createPostViewModel = viewModel())
         }, content = { paddingValues ->
             Column(
                 Modifier

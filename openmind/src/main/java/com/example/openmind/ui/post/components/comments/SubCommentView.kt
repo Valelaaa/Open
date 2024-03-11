@@ -41,7 +41,6 @@ import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
-import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 @Composable
 fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {

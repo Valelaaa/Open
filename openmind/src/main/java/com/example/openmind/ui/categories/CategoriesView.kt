@@ -14,9 +14,9 @@ import androidx.navigation.NavController
 import com.example.openmind.ui.screen.Screen
 
 @Composable
-fun CategoriesView(navController: NavController, modifier: Modifier = Modifier.fillMaxSize()) {
+fun CategoriesView(navController: NavController, modifier: Modifier = Modifier) {
     Column(
-        verticalArrangement = Arrangement.Center, modifier = modifier,
+        verticalArrangement = Arrangement.Center, modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Categories List Layout")
@@ -24,6 +24,11 @@ fun CategoriesView(navController: NavController, modifier: Modifier = Modifier.f
             navController.navigate(Screen.PostListScreen.route)
         }, modifier = Modifier.padding(top = 10.dp)) {
             Text(text = "To Post List")
+        }
+        Button({
+            navController.navigate(Screen.CreatePostScreen.route)
+        }, modifier = Modifier.padding(top = 30.dp)) {
+            Text(text = "create New Post")
         }
     }
 }

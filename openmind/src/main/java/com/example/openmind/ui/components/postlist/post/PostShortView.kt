@@ -40,7 +40,7 @@ import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.EmptyPost
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
-import com.example.openmind.utils.Categories
+import com.example.openmind.utils.PostCategories
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.RatingView
@@ -64,7 +64,7 @@ const val tag = "PostShortView"
 fun PostShortView(
     navController: NavController,
     postId: String,
-    category: Categories,
+    category: PostCategories,
     modifier: Modifier = Modifier,
 ) {
     val repository = PostRepositoryProvider.provideRepository()
@@ -253,7 +253,7 @@ fun PostShortComposeViewPreview() {
         PostShortView(
             navController = NavController(currentContext),
             postId = post.postId,
-            category = Categories.BUG,
+            category = PostCategories.BUG,
             modifier = Modifier
                 .padding(horizontal = 28.dp, vertical = 30.dp)
                 .background(LightText),

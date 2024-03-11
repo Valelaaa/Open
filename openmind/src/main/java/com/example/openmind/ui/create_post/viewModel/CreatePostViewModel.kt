@@ -1,12 +1,12 @@
 package com.example.openmind.ui.create_post.viewModel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import com.example.openmind.domain.model.post.Post
+import com.example.openmind.utils.GlobalViewModel
 
 const val tag = "CreatePostViewModel"
 
-class CreatePostViewModel : ViewModel() {
+class CreatePostViewModel : GlobalViewModel() {
     private val viewState: CreatePostViewState = CreatePostViewState()
 
 

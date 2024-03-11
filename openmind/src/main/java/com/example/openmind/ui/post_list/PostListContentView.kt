@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.utils.Categories
+import com.example.openmind.utils.PostCategories
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.postlist.post.PostShortView
@@ -27,7 +27,7 @@ import com.example.openmind.ui.theme.Delimiter
 fun PostListContentView(
     navController: NavController,
     viewModel: PostListViewModel,
-    currentCategory: Categories,
+    currentCategory: PostCategories,
     modifier: Modifier = Modifier
 ) {
     val postList = remember { viewModel.getPostList() }
@@ -68,7 +68,7 @@ fun PostListPreview() {
             PostListContentView(
                 navController = navController,
                 viewModel = viewModel(),
-                currentCategory = Categories.FEATURE,
+                currentCategory = PostCategories.FEATURE,
                 modifier = Modifier.padding(padding),
             )
         })

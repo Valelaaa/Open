@@ -1,8 +1,95 @@
 package com.example.openmind.ui.screen
 
-sealed class Screen(val route: String = "", val title: String = "") {
-    object CategoriesScreen : Screen(route = "categories_screen", title = "Categories")
-    object PostListScreen : Screen(route = "post_list_screen", title = "Posts")
-    object PostScreen : Screen(route = "post_screen", title = "Post")
-    object CreatePostScreen : Screen(route = "create_post_screen", title = "Create Post")
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.example.openmind.ui.categories.CategoriesView
+import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
+import com.example.openmind.ui.components.general.TopAppBarOpenMind
+import com.example.openmind.ui.components.post.CreateTopAppBarPost
+import com.example.openmind.ui.create_post.CreatePostContentView
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
+import com.example.openmind.ui.post.PostContentView
+import com.example.openmind.ui.post.viewmodel.PostViewModel
+import com.example.openmind.ui.post_list.PostListContentView
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
+import com.example.openmind.utils.PostCategories
+
+sealed class Screen<T : ViewModel>(
+    val route: String = "", val title: String = "",
+    val topAppBar: @Composable (T, NavController) -> Unit,
+    val content: @Composable (T, NavController, Map<String, String>, Modifier) -> Unit,
+    //Map for args
+    val viewModelClass: Class<T>
+) {
+    object CategoriesScreen : Screen<CategoriesViewModel>(
+        route = "categories_screen", title = "Categories",
+        viewModelClass = CategoriesViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            TopAppBarOpenMind(
+                viewModel = viewModel,
+                navController = navController,
+                currentScreen = CategoriesScreen,
+            )
+        },
+        content = { viewModel, navController, args, modifier ->
+            CategoriesView(navController = navController, modifier = modifier)
+        }
+    )
+
+    object PostListScreen : Screen<PostListViewModel>(
+        route = "post_list_screen", title = "Posts",
+        viewModelClass = PostListViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            TopAppBarOpenMind(
+                viewModel = viewModel,
+                navController = navController,
+                currentScreen = PostListScreen,
+            )
+        },
+        content = { viewModel, navController, args, modifier ->
+            val category = args["category"]
+            PostListContentView(
+                navController = navController, viewModel = viewModel,
+                currentCategory = category?.let { PostCategories.valueOf(it.uppercase()) }
+                    ?: PostCategories.BUG,
+                modifier = modifier
+            )
+        }
+    )
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    object PostScreen : Screen<PostViewModel>(route = "post_screen", title = "Post",
+        viewModelClass = PostViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            TopAppBarOpenMind(
+                viewModel = viewModel,
+                navController = navController,
+                currentScreen = PostScreen
+            )
+        },
+        content = { viewModel, navController, args, modifier ->
+            val postId = args["postId"]
+            PostContentView(
+                navController = navController, viewModel = viewModel,
+                postId = postId.orEmpty(),
+                modifier = modifier
+            )
+        }
+    )
+
+    object CreatePostScreen : Screen<CreatePostViewModel>(
+        route = "create_post_screen", title = "Create Post",
+        viewModelClass = CreatePostViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            CreateTopAppBarPost(navController = navController, createPostViewModel = viewModel)
+
+        },
+        content = { viewModel, _, _, modifier ->
+            CreatePostContentView(viewModel, modifier)
+        }
+    )
 }

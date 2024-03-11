@@ -12,7 +12,7 @@ data class ShortPost(
 ) {
     fun formatElapsedTime(): String {
         val nowMillis = Date(System.currentTimeMillis()).time
-        var durationMillis: Long = nowMillis - createdDate.time
+        val durationMillis: Long = nowMillis - createdDate.time
 
         val durationInMinutes = durationMillis / 60000
         val durationInDays = durationInMinutes / (60 * 24)

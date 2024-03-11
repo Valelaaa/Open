@@ -1,7 +1,6 @@
 package com.example.openmind.ui.components.post
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,8 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.CustomTextField
+import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeRegularW400
 
@@ -31,11 +30,11 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 @Composable
 fun PostBodyTextField(
     viewModel: CreatePostViewModel,
-    modifier: Modifier = Modifier.fillMaxSize()
+    modifier: Modifier = Modifier
 ) {
     val postDescriptionSize = 16.sp
 
-    var description = remember {
+    val description = remember {
         viewModel.getDescription()
     }
     CustomTextField(

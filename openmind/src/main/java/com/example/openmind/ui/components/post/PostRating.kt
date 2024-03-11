@@ -15,7 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,7 +50,7 @@ fun RatingView(
     var rated by remember {// 0 - not rated, 1 - liked, -1 - disliked
         rating.isRated
     }
-    val likeColor = if (rated == 1) MaibPrimary else DarkBlue40
+    val likeColor by remember { mutableStateOf(if (rated == 1) MaibPrimary else DarkBlue40) }
     val dislikeColor = if (rated == -1) MaibError else DarkBlue40
     ///TODO("Стоит ли вынести Comments в отдельную сущность?"
 
@@ -106,7 +106,7 @@ fun RatingView(
         IconButton(
             onClick = { /*TODO(post rating decreases - patch request, button color ~ red)*/
                 rated = if (rated == -1) 0 else -1
-//                repository.updateRating(id, rated)
+                mutableRating
             },
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 5.dp, start = 1.dp, end = 4.dp)

@@ -48,9 +48,9 @@ import com.example.openmind.ui.theme.MaibPrimary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
+    modifier: Modifier = Modifier,
     onSearch: (KeyboardActionScope.() -> Unit)? = null,
-    onFocusChangeListener: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onFocusChangeListener: (() -> Unit)? = null
 ) {
     var text by remember {
         mutableStateOf("")

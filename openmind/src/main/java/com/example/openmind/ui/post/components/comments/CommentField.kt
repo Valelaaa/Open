@@ -63,7 +63,7 @@ fun CommentField(
 ) {
 
     /*TODO(FIX CURSOR AFTER REPLYING)*/
-    var commentMessage = remember {
+    val commentMessage = remember {
         mutableStateOf(
             TextFieldValue("")
         )
