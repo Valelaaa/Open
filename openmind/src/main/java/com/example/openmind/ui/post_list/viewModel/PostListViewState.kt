@@ -17,9 +17,9 @@ class PostListViewState(
 
     fun getSortingList() = sortingList
     fun setActiveSortType(sortType: SortType) {
-        requestParams.value.sortType = sortType
+        requestParams.value.sortType.value = sortType
         //TODO(REQUEST TO FETCH LIST)
     }
 
-    fun getActiveSortType(): SortType = requestParams.value.sortType
+    fun getActiveSortType(): SortType = requestParams.value.sortType.value
 }
