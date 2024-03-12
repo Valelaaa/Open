@@ -1,37 +1,25 @@
 package com.example.openmind.ui.post_list.viewModel
 
-import androidx.compose.runtime.mutableStateOf
-import com.example.openmind.domain.model.post.Post
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
-import com.example.openmind.domain.repository.Repository
+import androidx.compose.runtime.MutableState
+import com.example.openmind.domain.api.params.RequestParams
 import com.example.openmind.utils.SortType
-import kotlinx.coroutines.runBlocking
 
 //add dependency injection
 class PostListViewState(
-    private val repository: Repository<Post> = PostRepositoryProvider.provideRepository()
+    private var requestParams: MutableState<RequestParams>
 ) {
-    private var requestParams = repository.getFetchParams()
-    private var activeSortType = mutableStateOf(requestParams.sortType)
-    private var loadedPosts = mutableListOf<Post>()
     private val sortingList: List<SortType> = listOf(
         SortType.HOT,
         SortType.OLD,
         SortType.FRESH
     )
 
-    fun fetchPosts(): MutableList<Post> {
-
-        runBlocking {
-            repository.getData().collect { loadedPosts.addAll(it) }
-        }
-        return loadedPosts
-    }
 
     fun getSortingList() = sortingList
     fun setActiveSortType(sortType: SortType) {
-        activeSortType.value = sortType
+        requestParams.value.sortType = sortType
+        //TODO(REQUEST TO FETCH LIST)
     }
 
-    fun getActiveSortType(): SortType = activeSortType.value
+    fun getActiveSortType(): SortType = requestParams.value.sortType
 }

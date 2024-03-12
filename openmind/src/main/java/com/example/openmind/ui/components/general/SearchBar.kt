@@ -1,8 +1,10 @@
 package com.example.openmind.ui.components.general
 
+import Keyboard
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,11 +25,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -40,25 +44,44 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.openmind.R
+import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
+import com.example.openmind.utils.SearchableViewModel
+import keyboardAsState
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: SearchableViewModel,
     onSearch: (KeyboardActionScope.() -> Unit)? = null,
     onFocusChangeListener: (() -> Unit)? = null
 ) {
-    var text by remember {
-        mutableStateOf("")
-    }
-
+    val searchText by viewModel.searchText.collectAsState()
     val focusRequester = remember { FocusRequester() }
     val searchIcon = painterResource(id = R.drawable.search_normal)
+    val keyboardState = keyboardAsState()
 
+    var previousKeyboardState by remember { mutableStateOf(keyboardState.value) }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+    LaunchedEffect(keyboardState.value) {
+        if (previousKeyboardState != keyboardState.value) {
+            when (keyboardState.value) {
+                Keyboard.Closed -> viewModel.updateSearchBarVisibility(false)
+                Keyboard.Opened -> Unit
+            }
+            previousKeyboardState = keyboardState.value
+        }
+    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -68,8 +91,8 @@ fun SearchBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         CustomTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = searchText,
+            onValueChange = { viewModel.onSearchTextChanged(it) },
             placeholder = {
                 Text(text = "Search")
             },
@@ -90,6 +113,9 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     onSearch
+                    navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
+                    viewModel.resetSearch()
+                    viewModel.updateSearchBarVisibility(false)
                 }
             ),
             textStyle = TextStyle(
@@ -103,13 +129,18 @@ fun SearchBar(
             Icon(
                 searchIcon,
                 contentDescription = null,
-                modifier = Modifier.size(22.dp),
-                tint = BorderLight
+                modifier = Modifier
+                    .size(22.dp)
+                    .clickable {
+                        navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
+                        viewModel.resetSearch()
+                        viewModel.updateSearchBarVisibility(false)
+                    },
+                tint = BorderLight,
             )
         }
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-        }
+
+
     }
 }
 
@@ -119,6 +150,6 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview() {
     Column(modifier = Modifier.fillMaxSize()) {
-        SearchBar()
+        SearchBar(Modifier, navController = rememberNavController(), SearchableViewModel())
     }
 }

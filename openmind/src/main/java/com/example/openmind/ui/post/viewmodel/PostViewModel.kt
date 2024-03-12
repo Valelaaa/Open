@@ -3,13 +3,13 @@ package com.example.openmind.ui.post.viewmodel
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.utils.GlobalViewModel
+import com.example.openmind.utils.SearchableViewModel
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
-class PostViewModel : GlobalViewModel(), Sortable {
+class PostViewModel : SearchableViewModel(), Sortable {
 
     //TODO(Inject)
     private val viewState: PostViewState = PostViewState()
@@ -22,9 +22,11 @@ class PostViewModel : GlobalViewModel(), Sortable {
             viewState.setPost(post = result!!)
         return result
     }
+
     fun updateComments(comments: MutableList<Comment>) {
         viewState.updatePostComments(comments)
     }
+
     fun getShortCommentLinesCount() = viewState.defaultCommentLines
     fun getCommentBatchSize() = viewState.commentsBatchSize
 

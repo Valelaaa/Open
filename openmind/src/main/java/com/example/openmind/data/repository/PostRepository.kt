@@ -1,18 +1,13 @@
 package com.example.openmind.data.repository
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import com.example.openmind.domain.api.params.RequestParams
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.domain.model.post.PostMapper
-import com.example.openmind.domain.model.post.ShortPost
 import com.example.openmind.domain.model.user.User
 import com.example.openmind.domain.repository.Repository
-import com.example.openmind.utils.SortType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import java.util.Date
@@ -20,9 +15,6 @@ import java.util.Date
 class PostRepository : Repository<Post> {
     private var requestParams: RequestParams = RequestParams()
     private val mockPostList: MutableList<Post>
-
-
-    private val mockShortPostList: MutableList<ShortPost>
 
     init {
         mockPostList = mutableStateListOf(
@@ -55,7 +47,6 @@ class PostRepository : Repository<Post> {
         )
         mockPostList.sortBy { it.comments.size }
         mockPostList.reverse()
-        mockShortPostList = mockPostList.map(PostMapper.Companion::postToShortPost).toMutableList()
 
     }
 
@@ -163,32 +154,8 @@ class PostRepository : Repository<Post> {
         }
     }
 
-    fun getMockPostList(activeSortType: MutableState<SortType>): MutableList<ShortPost> {
-
-        when (activeSortType.value) {
-            SortType.HOT -> {
-                mockShortPostList.sortBy { it.rating }
-                mockShortPostList.reverse()
-            }
-
-            SortType.FRESH -> mockShortPostList.sortBy {
-                it.createdDate
-            }
-
-            SortType.OLD -> {
-                mockShortPostList.sortBy { it.createdDate }
-                mockShortPostList.reverse()
-            }
-
-            SortType.NEW -> mockShortPostList.sortBy {
-                it.createdDate
-            }
-        }
-        return mockShortPostList
-    }
 
     fun addNewPost(post: Post): Boolean {
-        mockShortPostList.add(PostMapper.postToShortPost(post))
         return mockPostList.add(post)
     }
 
@@ -206,13 +173,17 @@ class PostRepository : Repository<Post> {
         TODO("Not yet implemented")
     }
 
-    fun findPostBySubstring(subString: String): Flow<List<Post>> = flow {
-        val splitedSubStrings = subString.lowercase().split(" ")
+    fun findPostBySubstring(subString: String): List<Post> {
+        if (subString.isBlank())
+            return emptyList()
+        val splitSubStrings = subString.trim().lowercase().split(" ")
         val found = mutableListOf<Post>()
-        splitedSubStrings.any { splitedSubString ->
-            found.addAll(mockPostList.filter { post -> post.title.contains(splitedSubString) })
+        splitSubStrings.any { splitedSubString ->
+            found.addAll(mockPostList.filter { post ->
+                post.title.lowercase().contains(splitedSubString)
+            })
         }
-        emit(found.toList())
+        return found.toList()
     }
 
 }

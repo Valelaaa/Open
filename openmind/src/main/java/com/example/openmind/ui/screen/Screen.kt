@@ -16,6 +16,8 @@ import com.example.openmind.ui.post.PostContentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
 import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
+import com.example.openmind.ui.search_result.SearchResultContentView
+import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
 import com.example.openmind.utils.PostCategories
 
 sealed class Screen<T : ViewModel>(
@@ -90,6 +92,27 @@ sealed class Screen<T : ViewModel>(
         },
         content = { viewModel, _, _, modifier ->
             CreatePostContentView(viewModel, modifier)
+        }
+    )
+
+    object SearchResultsScreen : Screen<SearchResultViewModel>(
+        route = "search_result_screen", title = "Results",
+        viewModelClass = SearchResultViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            TopAppBarOpenMind(
+                viewModel = viewModel,
+                navController = navController,
+                currentScreen = SearchResultsScreen
+            )
+
+        }, content = { viewModel, navController, args, modifier ->
+            val query = args["searchQuery"]
+            SearchResultContentView(
+                navController = navController,
+                viewModel = viewModel,
+                modifier = modifier,
+                query = query.orEmpty()
+            )
         }
     )
 }

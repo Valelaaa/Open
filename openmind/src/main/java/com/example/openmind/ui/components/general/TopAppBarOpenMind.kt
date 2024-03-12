@@ -21,7 +21,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
@@ -41,18 +39,17 @@ import com.example.openmind.ui.components.post.TAG
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
-import com.example.openmind.utils.GlobalViewModel
+import com.example.openmind.utils.SearchableViewModel
 
 @Composable
 @OptIn(
     ExperimentalMaterial3Api::class
 )
 fun TopAppBarOpenMind(
-    viewModel: GlobalViewModel,
+    viewModel: SearchableViewModel,
     navController: NavController,
     currentScreen: Screen<*>
 ) {
-//    val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
     Box {
@@ -127,11 +124,13 @@ fun TopAppBarOpenMind(
             )
         ) {
             Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
-                SearchBar(onSearch = {
-                    focusManager.clearFocus()
-                    viewModel.updateSearchBarVisibility(isVisible = false)
-                    //TODO REQUEST TO FIND LIST OR POST
-                })
+                SearchBar(viewModel = viewModel,
+                    navController = navController,
+                    onSearch = {
+                        focusManager.clearFocus()
+                        viewModel.updateSearchBarVisibility(isVisible = false)
+                        //TODO REQUEST TO FIND LIST OR POST
+                    })
             }
         }
     }

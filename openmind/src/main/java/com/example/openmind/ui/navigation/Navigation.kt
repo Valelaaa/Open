@@ -9,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.openmind.ui.screen.ComposeScreen
 import com.example.openmind.ui.screen.Screen
-import com.example.openmind.utils.ComposeScreen
 import com.example.openmind.utils.PostCategories
 
 @Composable
@@ -42,6 +42,18 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 ComposeScreen(
                     screen = Screen.PostScreen, navController = navController,
                     args = mapOf("postId" to (postId ?: ""))
+                )
+            }
+            composable(
+                route = "${Screen.SearchResultsScreen.route}/{searchQuery}",
+                arguments = listOf(navArgument("searchQuery") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val searchQuery = backStackEntry.arguments?.getString("searchQuery")
+
+                ComposeScreen(
+                    screen = Screen.SearchResultsScreen,
+                    navController = navController,
+                    args = mapOf("searchQuery" to (searchQuery ?: ""))
                 )
             }
         }

@@ -1,5 +1,5 @@
 package com.example.openmind.ui.categories.viewModel
 
-import com.example.openmind.utils.GlobalViewModel
+import com.example.openmind.utils.SearchableViewModel
 
-class CategoriesViewModel:GlobalViewModel()
+class CategoriesViewModel:SearchableViewModel()
