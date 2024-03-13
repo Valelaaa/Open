@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.EmptyPost
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.domain.model.post.Post
 import com.example.openmind.utils.PostCategories
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
@@ -63,27 +64,16 @@ const val tag = "PostShortView"
 @Composable
 fun PostShortView(
     navController: NavController,
-    postId: String,
-    category: PostCategories,
+    post: Post,
     modifier: Modifier = Modifier,
 ) {
-    val repository = PostRepositoryProvider.provideRepository()
-    val currentPost = remember {
-        runBlocking {
-            if (repository.getById(postId).firstOrNull() != null) repository.getById(postId)
-                .firstOrNull()!! else EmptyPost
-        }
-
-    }
-//    val postRating = remember { currentPost.ratingInfo.rating.value }
-    val postRating = remember { currentPost.ratingInfo }
     Row(
         modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable(onClick = {
                 /*TODO(NavigateToPost)*/
-                navController.navigateToPost(postId = currentPost.postId)
+                navController.navigateToPost(postId = post.postId)
             })
     ) {
         Column(
@@ -109,7 +99,7 @@ fun PostShortView(
 
                     //Category name
                     Text(
-                        text = category.getStringValue(),
+                        text = post.category.getStringValue(),
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         maxLines = 1,
@@ -118,7 +108,7 @@ fun PostShortView(
 
                     //Created Time
                     Text(
-                        text = currentPost.formatElapsedTime(),
+                        text = post.formatElapsedTime(),
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         maxLines = 1,
@@ -161,7 +151,7 @@ fun PostShortView(
                 ) {
                     //Post Title
                     Text(
-                        text = currentPost.title.trimIndent(), fontSize = 14.sp,
+                        text = post.title.trimIndent(), fontSize = 14.sp,
                         fontFamily = FontFamily.ManropeBoldW700,
                         color = DarkBlue40,
                         maxLines = 3,
@@ -187,7 +177,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    RatingView(rating = postRating, Modifier)
+                    RatingView(rating = post.ratingInfo, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier
@@ -222,7 +212,7 @@ fun PostShortView(
                             Text(
                                 text = stringResource(
                                     R.string.comments_count,
-                                    currentPost.getCommentsCount()
+                                    post.getCommentsCount()
                                 ),
                                 fontFamily = FontFamily.ManropeBoldW700,
                                 fontSize = 14.sp,
@@ -232,7 +222,7 @@ fun PostShortView(
                             )
                         }
                     }
-                    SharePost(currentPost.postId)
+                    SharePost(post.postId)
                 }
             }
         }
@@ -252,8 +242,7 @@ fun PostShortComposeViewPreview() {
     ) {
         PostShortView(
             navController = NavController(currentContext),
-            postId = post.postId,
-            category = PostCategories.BUG,
+            post = post,
             modifier = Modifier
                 .padding(horizontal = 28.dp, vertical = 30.dp)
                 .background(LightText),

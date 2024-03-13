@@ -34,6 +34,17 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                     args = mapOf("category" to (category ?: PostCategories.BUG.getStringValue()))
                 )
             }
+
+            composable(
+                route = "${Screen.CreatePostScreen.route}/{category}",
+                arguments = listOf(navArgument("category") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category")
+                ComposeScreen(
+                    screen = Screen.CreatePostScreen, navController = navController,
+                    args = mapOf("category" to (category ?: PostCategories.BUG.getStringValue()))
+                )
+            }
             composable(
                 route = "${Screen.PostScreen.route}/{postId}",
                 arguments = listOf(navArgument("postId") { type = NavType.StringType })
@@ -57,9 +68,6 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 )
             }
         }
-        composable(Screen.CreatePostScreen.route) {
-            ComposeScreen(screen = Screen.CreatePostScreen, navController = navController)
-        }
     }
 }
 
@@ -68,3 +76,6 @@ fun NavController.navigateToPost(postId: String) =
 
 fun NavController.navigateToPostList(category: PostCategories) =
     this.navigate(Screen.PostListScreen.route + "/${category}")
+
+fun NavController.navigateToCreatePost(category: PostCategories) =
+    this.navigate(Screen.CreatePostScreen.route + "/${category}")

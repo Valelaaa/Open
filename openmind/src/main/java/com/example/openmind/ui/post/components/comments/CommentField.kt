@@ -62,15 +62,10 @@ fun CommentField(
     replyTo: MutableState<Comment?> = remember { mutableStateOf(null) },
 ) {
 
-    /*TODO(FIX CURSOR AFTER REPLYING)*/
-    val commentMessage = remember {
-        mutableStateOf(
-            TextFieldValue("")
-        )
-    }
-    val comments = remember {
-        viewModel.getComments()
-    }
+    /*TODO(FIX CURSOR AFTER REPLYING)
+    *  This happens because onValueChange invokes with very high frequency
+    * */
+
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val commentPlaceholderText = stringResource(id = R.string.comment_placeholder)
@@ -82,15 +77,8 @@ fun CommentField(
         verticalAlignment = Alignment.CenterVertically
     ) {
         BasicTextField(
-            value = commentMessage.value,
-            onValueChange = {
-                if (commentMessage.value.text.contains("@"))
-                    commentMessage.value = TextFieldValue(
-                        annotatedString = withStylishTags(it.text),
-                        selection = it.selection
-                    )
-                else commentMessage.value = it
-            },
+            value = viewModel.commentMessage().value,
+            onValueChange = viewModel.onCommentChange(),
             modifier = Modifier
                 .defaultMinSize(minHeight = 40.dp)
                 .padding(start = 14.dp, top = 5.dp, bottom = 5.dp)
@@ -108,40 +96,13 @@ fun CommentField(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    if (replyTo.value == null) {
-                        comments.add(
-                            Comment(
-                                //TODO(Add @OtherPerson tag, invoke API request)
-                                User("@janedoe"),
-                                message = commentMessage.value.text
-                            )
-                        )
-                    } else if (replyTo.value!!.parentId == null) {
-                        comments.first { comment: Comment -> comment.commentId == replyTo.value!!.commentId }
-                            .addSubComment(
-                                subCommentAuthor = User("@janedoe"),//my nickname
-                                subCommentMessage = commentMessage.value.text
-                            )
-
-                    } else {
-                        comments.first { comment: Comment -> comment.commentId == replyTo.value!!.parentId }
-                            .addSubComment(
-                                subCommentAuthor = User("@janedoe"),//my nickname
-                                subCommentMessage = commentMessage.value.text
-                            )
-
-                    }
-                    replyTo.value = null
-
-                    viewModel.updateComments(comments)
-                    focusManager.clearFocus()
-                    commentMessage.value = TextFieldValue("")
+                    viewModel.onCommentSend(focusManager, replyTo)
                 }
 
             ),
             decorationBox = @Composable { innerTextField ->
                 TextFieldDefaults.TextFieldDecorationBox(
-                    value = commentMessage.value.text,
+                    value = viewModel.commentMessage().value.text,
                     innerTextField =
                     innerTextField,
                     enabled = true,
@@ -171,49 +132,18 @@ fun CommentField(
         Icon(
             Icons.Default.Send,
             contentDescription = "send", modifier = Modifier
-                .clickable {
-                    if (replyTo.value == null) {
-                        comments.add(
-                            Comment(
-                                //TODO(Add @OtherPerson tag, invoke API request)
-                                User("@janedoe"),
-                                message = commentMessage.value.text
-                            )
-                        )
-                    } else if (replyTo.value!!.parentId == null) {
-                        comments
-                            .first { comment: Comment -> comment.commentId == replyTo.value!!.commentId }
-                            .addSubComment(
-                                subCommentAuthor = User("@janedoe"),//my nickname
-                                subCommentMessage = commentMessage.value.text
-                            )
-
-                    } else {
-                        comments
-                            .first { comment: Comment -> comment.commentId == replyTo.value!!.parentId }
-                            .addSubComment(
-                                subCommentAuthor = User("@janedoe"),//my nickname
-                                subCommentMessage = commentMessage.value.text
-                            )
-
-                    }
-                    replyTo.value = null
-
-                    viewModel.updateComments(comments)
-                    focusManager.clearFocus()
-                    commentMessage.value = TextFieldValue("")
-                }
+                .clickable { viewModel.onCommentSend(focusManager, replyTo) }
                 .size(30.dp),
             tint = MaibPrimary
         )
     }
     LaunchedEffect(replyTo.value) {
-        // Каждый раз, когда изменяется значение replyTo, обновляем commentMessage
+        // Every time the value of replyTo changes, we update commentMessage.
         if (replyTo.value != null) {
             val initialString =
                 withStylishTags("@" + replyTo.value!!.author.nickname.let { "$it, " })
             val selection = TextRange(initialString.length)
-            commentMessage.value =
+            viewModel.commentMessage().value =
                 TextFieldValue(
                     annotatedString = initialString,
                     selection = selection

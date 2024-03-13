@@ -75,6 +75,7 @@ fun <T> SortingSelector(
                         Button(
                             onClick = {
                                 sortableViewModel.setActiveSortType(item)
+                                sortableViewModel.onSelect()
                             },
                             colors = if (sortableViewModel.activeSortType() == item)
                                 activeColors

@@ -20,9 +20,7 @@ fun SearchResultContentView(
     navController: NavController,
     viewModel: SearchResultViewModel,
     modifier: Modifier = Modifier,
-    query: String = ""
 ) {
-    viewModel.onSearchTextChanged(query)
     val searchResults by viewModel.searchResults.collectAsState()
 
     Box(modifier = modifier) {
@@ -31,8 +29,7 @@ fun SearchResultContentView(
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,
-                        postId = item.postId,
-                        category = item.category
+                        post = item,
                     )
                 })
         }

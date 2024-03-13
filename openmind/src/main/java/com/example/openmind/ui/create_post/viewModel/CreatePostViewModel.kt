@@ -2,13 +2,13 @@ package com.example.openmind.ui.create_post.viewModel
 
 import android.util.Log
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.utils.GlobalViewModel
+import com.example.openmind.ui.GlobalViewModel
+import com.example.openmind.utils.PostCategories
 
 const val tag = "CreatePostViewModel"
 
 class CreatePostViewModel : GlobalViewModel() {
     private val viewState: CreatePostViewState = CreatePostViewState()
-
 
     fun getDescription() = viewState.description
     fun getTitle() = viewState.title
@@ -16,6 +16,10 @@ class CreatePostViewModel : GlobalViewModel() {
         Log.d(tag, "Update Title: ${viewState.title}")
         viewState.title.value = newTitle
         checkButtonActivity()
+    }
+
+    fun setCategory(postCategories: PostCategories) {
+        viewState.activeCategory = postCategories
     }
 
     fun updateDescription(newDescription: String) {
@@ -30,6 +34,14 @@ class CreatePostViewModel : GlobalViewModel() {
 
     fun getButtonState() = viewState.isButtonEnabled.value
 
-    fun createPost() =
-        Post(title = viewState.title.value, description = viewState.description.value)
+    fun createPost(): Post {
+        val newPost =
+            Post(
+                title = viewState.title.value,
+                description = viewState.description.value,
+                category = viewState.activeCategory
+            )
+        getRepositoryInstance().addNewPost(newPost)
+        return newPost
+    }
 }

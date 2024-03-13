@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
@@ -48,8 +47,6 @@ fun CreateTopAppBarPost(
     navController: NavController?,
     createPostViewModel: CreatePostViewModel,
 ) {
-    val repository = PostRepositoryProvider.provideRepository()
-
     TopAppBar(
         title = { },
         navigationIcon = {
@@ -66,7 +63,7 @@ fun CreateTopAppBarPost(
         actions = {
             Button(
                 onClick = {
-                    repository.addNewPost(createPostViewModel.createPost())
+                    createPostViewModel.createPost()
                     navController?.navigateUp()
                 },
                 modifier = Modifier.padding(horizontal = 15.dp, vertical = 5.dp),

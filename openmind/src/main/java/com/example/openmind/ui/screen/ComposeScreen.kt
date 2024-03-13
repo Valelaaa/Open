@@ -32,7 +32,7 @@ import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.ManropeRegularW400
-import com.example.openmind.utils.SearchableViewModel
+import com.example.openmind.ui.SearchableViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +42,6 @@ fun <V : ViewModel> ComposeScreen(
     args: Map<String, String> = emptyMap()
 ) {
     val viewModel = viewModel(screen.viewModelClass)
-
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { screen.topAppBar(viewModel, navController) },
         content = { paddingValues ->
@@ -73,10 +72,11 @@ fun <V : ViewModel> ComposeScreen(
                                         .background(color = Color.White)
                                         .borderBottom(1.dp, BorderLight)
                                         .defaultMinSize(minHeight = 60.dp)
-                                        .padding(vertical = 10.dp, horizontal = 20.dp)
                                         .clickable(
                                             onClick = {
                                                 navController.navigateToPost(item.postId)
+                                                viewModel.resetSearch()
+                                                viewModel.updateSearchBarVisibility(false)
                                             }
                                         ),
                                     verticalAlignment = Alignment.CenterVertically
@@ -85,7 +85,12 @@ fun <V : ViewModel> ComposeScreen(
                                         text = item.title,
                                         maxLines = 2,
                                         fontFamily = FontFamily.ManropeRegularW400,
-                                        overflow = TextOverflow.Ellipsis
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.padding(
+                                            vertical = 10.dp,
+                                            horizontal = 20.dp
+                                        )
+
                                     )
                                 }
                             }

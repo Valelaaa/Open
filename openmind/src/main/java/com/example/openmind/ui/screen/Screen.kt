@@ -37,7 +37,7 @@ sealed class Screen<T : ViewModel>(
                 currentScreen = CategoriesScreen,
             )
         },
-        content = { viewModel, navController, args, modifier ->
+        content = { _, navController, _, modifier ->
             CategoriesView(navController = navController, modifier = modifier)
         }
     )
@@ -54,10 +54,11 @@ sealed class Screen<T : ViewModel>(
         },
         content = { viewModel, navController, args, modifier ->
             val category = args["category"]
+            viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
+                ?: PostCategories.BUG)
+
             PostListContentView(
                 navController = navController, viewModel = viewModel,
-                currentCategory = category?.let { PostCategories.valueOf(it.uppercase()) }
-                    ?: PostCategories.BUG,
                 modifier = modifier
             )
         }
@@ -73,11 +74,11 @@ sealed class Screen<T : ViewModel>(
                 currentScreen = PostScreen
             )
         },
-        content = { viewModel, navController, args, modifier ->
+        content = { viewModel, _, args, modifier ->
             val postId = args["postId"]
+            viewModel.setPost(postId = postId.orEmpty())
             PostContentView(
-                navController = navController, viewModel = viewModel,
-                postId = postId.orEmpty(),
+                viewModel = viewModel,
                 modifier = modifier
             )
         }
@@ -90,8 +91,11 @@ sealed class Screen<T : ViewModel>(
             CreateTopAppBarPost(navController = navController, createPostViewModel = viewModel)
 
         },
-        content = { viewModel, _, _, modifier ->
-            CreatePostContentView(viewModel, modifier)
+        content = { viewModel, _, args, modifier ->
+            val category = args["category"]
+            viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
+                ?: PostCategories.BUG)
+            CreatePostContentView(viewModel = viewModel, modifier = modifier)
         }
     )
 
@@ -107,11 +111,11 @@ sealed class Screen<T : ViewModel>(
 
         }, content = { viewModel, navController, args, modifier ->
             val query = args["searchQuery"]
+            viewModel.onSearchTextChanged(query.orEmpty())
             SearchResultContentView(
                 navController = navController,
                 viewModel = viewModel,
                 modifier = modifier,
-                query = query.orEmpty()
             )
         }
     )

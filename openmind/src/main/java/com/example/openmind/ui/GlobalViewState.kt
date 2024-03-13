@@ -1,4 +1,4 @@
-package com.example.openmind.utils
+package com.example.openmind.ui
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

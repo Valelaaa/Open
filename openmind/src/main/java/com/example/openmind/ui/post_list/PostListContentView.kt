@@ -17,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,12 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.postlist.post.PostShortView
 import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
+import com.example.openmind.ui.navigation.navigateToCreatePost
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
-import com.example.openmind.ui.screen.Screen
-import com.example.openmind.ui.theme.Delimiter
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.SteelBlue60
@@ -42,14 +39,10 @@ import com.example.openmind.utils.PostCategories
 fun PostListContentView(
     navController: NavController,
     viewModel: PostListViewModel,
-    currentCategory: PostCategories,
     modifier: Modifier = Modifier
 ) {
-    val postList = remember { viewModel.getPostList() }
-    val currentCategory = remember { currentCategory }
-
     Box(modifier = modifier) {
-        LazyColumn(Modifier.borderBottom(1.dp, Delimiter)) {
+        LazyColumn {
             item {
                 Row(
                     modifier = Modifier
@@ -63,7 +56,7 @@ fun PostListContentView(
                     )
                     Button(
                         onClick = {
-                            navController.navigate(Screen.CreatePostScreen.route)
+                            navController.navigateToCreatePost(category = viewModel.getPostCategory())
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = LightGray80,
@@ -85,12 +78,11 @@ fun PostListContentView(
                     }
                 }
             }
-            items(items = postList,
+            items(items = viewModel.getPostList(),
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,
-                        postId = item.postId,
-                        category = currentCategory,
+                        post = item,
                     )
                 })
         }
@@ -103,6 +95,8 @@ fun PostListContentView(
 @Composable
 fun PostListPreview() {
     val navController = NavController(LocalContext.current)
+    val viewModel = PostListViewModel()
+    viewModel.setCategory(PostCategories.BUG)
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Title") })
@@ -112,7 +106,6 @@ fun PostListPreview() {
             PostListContentView(
                 navController = navController,
                 viewModel = viewModel(),
-                currentCategory = PostCategories.FEATURE,
                 modifier = Modifier.padding(padding),
             )
         })

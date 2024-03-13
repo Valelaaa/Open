@@ -1,4 +1,4 @@
-package com.example.openmind.utils
+package com.example.openmind.ui
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.domain.model.post.Post

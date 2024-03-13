@@ -31,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -47,14 +46,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.R
+import com.example.openmind.ui.SearchableViewModel
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
-import com.example.openmind.utils.SearchableViewModel
 import keyboardAsState
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
@@ -65,7 +64,6 @@ fun SearchBar(
 ) {
     val searchText by viewModel.searchText.collectAsState()
     val focusRequester = remember { FocusRequester() }
-    val searchIcon = painterResource(id = R.drawable.search_normal)
     val keyboardState = keyboardAsState()
 
     var previousKeyboardState by remember { mutableStateOf(keyboardState.value) }
@@ -127,7 +125,7 @@ fun SearchBar(
                 .padding(end = 16.dp),
         ) {
             Icon(
-                searchIcon,
+                painterResource(id = R.drawable.search_normal),
                 contentDescription = null,
                 modifier = Modifier
                     .size(22.dp)
@@ -139,8 +137,6 @@ fun SearchBar(
                 tint = BorderLight,
             )
         }
-
-
     }
 }
 

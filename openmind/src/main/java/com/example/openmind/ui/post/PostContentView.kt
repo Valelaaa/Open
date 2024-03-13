@@ -28,13 +28,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -42,10 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.domain.model.post.EmptyPost
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.RatingView
@@ -68,38 +62,25 @@ import com.example.openmind.utils.Sortable
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun <T> PostContentView(
-    navController: NavController,
-    postId: String,
-    viewModel: T,
+fun PostContentView(
+    viewModel: PostViewModel,
     modifier: Modifier = Modifier
-) where T : PostViewModel, T : Sortable {
-    val currentPost = remember {
-        if (viewModel.getPostById(postId) != null) viewModel.getPostById(postId)!! else EmptyPost
-    }
-    val comments = remember {
-        viewModel.getComments()
-    }
-    val postRating = remember { currentPost.ratingInfo }
-    val commentToReply = remember { mutableStateOf<Comment?>(null) }
+) {
     Column(
         modifier = modifier
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
             .fillMaxSize()
     ) {
         LazyColumn(
-            Modifier
-                .weight(1f)
+            Modifier.weight(1f)
         ) {
             item {
                 Column {
                     Column(
-                        modifier = Modifier
-                            .borderBottom(1.dp, Delimiter)
+                        modifier = Modifier.borderBottom(1.dp, Delimiter)
                     ) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
@@ -115,7 +96,7 @@ fun <T> PostContentView(
 
                                 //Category name
                                 Text(
-                                    text = currentPost.category.getStringValue(),
+                                    text = viewModel.getPost().category.getStringValue(),
                                     fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     maxLines = 1,
@@ -124,7 +105,7 @@ fun <T> PostContentView(
 
                                 //Created Time
                                 Text(
-                                    text = currentPost.formatElapsedTime(),
+                                    text = viewModel.getPost().formatElapsedTime(),
                                     fontSize = 14.sp,
                                     lineHeight = 20.sp,
                                     maxLines = 1,
@@ -136,7 +117,7 @@ fun <T> PostContentView(
                             //more button (three dots)
                             IconButton(
                                 onClick = {
-//                        TODO("Open Hamburger menu for additional actions")
+//                                  TODO("Open Hamburger menu for additional actions")
                                     Log.d(tag, "Open Hamburger menu")
                                 },
                                 modifier = Modifier
@@ -154,18 +135,16 @@ fun <T> PostContentView(
                             }
                         }
 
-                        // Post Content
-
                         //Post Title
                         Text(
-                            text = currentPost.title.take(300), fontSize = 16.sp,
+                            text = viewModel.getPost().title, fontSize = 16.sp,
                             lineHeight = 24.sp,
                             fontFamily = FontFamily.ManropeBoldW700,
                             color = DarkBlue40,
                         )
                         //Post Description
                         Text(
-                            text = currentPost.description,
+                            text = viewModel.getPost().description,
                             fontSize = 12.sp,
                             lineHeight = 16.sp,
                             fontFamily = FontFamily.ManropeRegularW400,
@@ -179,7 +158,7 @@ fun <T> PostContentView(
                                 .fillMaxWidth(),
                         ) {
                             //Rating
-                            RatingView(postRating, Modifier)
+                            RatingView(viewModel.getPostRating(), Modifier)
                             //Comments
                             Column(
                                 modifier = Modifier
@@ -192,11 +171,7 @@ fun <T> PostContentView(
                                         .clip(CircleShape)
                                         .border(1.dp, BorderLight, CircleShape)
                                         .clickable(onClick = {
-                                            /*TODO("Navigate to Post -> scrollTo comments")*/
-                                            Log.d(
-                                                tag,
-                                                "Navigate to Post -> scrollTo comments"
-                                            )
+                                            viewModel.scrollToComments()
                                         })
                                         .padding(end = 20.dp),
                                     verticalAlignment = Alignment.CenterVertically
@@ -217,7 +192,7 @@ fun <T> PostContentView(
                                     Text(
                                         text = stringResource(
                                             R.string.comments_count,
-                                            currentPost.getCommentsCount()
+                                            viewModel.getPost().getCommentsCount()
                                         ),
                                         fontFamily = FontFamily.ManropeBoldW700,
                                         fontSize = 14.sp,
@@ -227,7 +202,7 @@ fun <T> PostContentView(
                                     )
                                 }
                             }
-                            SharePost(currentPost.postId)
+                            SharePost(viewModel.getPost().postId)
                         }
                     }
                 }
@@ -245,17 +220,16 @@ fun <T> PostContentView(
 
                 }
             }
-            //TODO(CommentsSection)
-            items(items = comments) { item ->
+            items(items = viewModel.getComments()) { item ->
                 CommentView(
                     viewModel = viewModel,
                     item = item,
                     onReplyClick = { comment ->
-                        commentToReply.value = comment
+                        viewModel.setReplyComment(comment)
                     })
             }
         }
-        CommentField(viewModel = viewModel, replyTo = commentToReply)
+        CommentField(viewModel = viewModel, replyTo = viewModel.getReplyComment())
     }
 }
 
@@ -265,14 +239,12 @@ fun <T> PostContentView(
 )
 @Composable
 fun PostContentViewPreview() {
-    val navController = NavController(LocalContext.current)
     val viewModel = PostViewModel()
-    val postViewModel = PostListViewModel()
+    val postListViewModel = PostListViewModel()
     val post =
-        postViewModel.getPostList().first { post: Post -> post.getCommentsCount() != 0 }
+        postListViewModel.getPostList().first { post: Post -> post.getCommentsCount() != 0 }
+    viewModel.setPost(postId = post.postId)
     PostContentView(
-        navController = navController,
-        postId = post.postId,
         viewModel = viewModel
     )
 

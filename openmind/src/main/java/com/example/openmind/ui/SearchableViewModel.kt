@@ -1,7 +1,8 @@
-package com.example.openmind.utils
+package com.example.openmind.ui
 
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.domain.model.post.Post
+import com.example.openmind.utils.Searchable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce

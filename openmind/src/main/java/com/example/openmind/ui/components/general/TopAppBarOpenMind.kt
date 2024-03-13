@@ -39,7 +39,7 @@ import com.example.openmind.ui.components.post.TAG
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
-import com.example.openmind.utils.SearchableViewModel
+import com.example.openmind.ui.SearchableViewModel
 
 @Composable
 @OptIn(
@@ -128,8 +128,6 @@ fun TopAppBarOpenMind(
                     navController = navController,
                     onSearch = {
                         focusManager.clearFocus()
-                        viewModel.updateSearchBarVisibility(isVisible = false)
-                        //TODO REQUEST TO FIND LIST OR POST
                     })
             }
         }
