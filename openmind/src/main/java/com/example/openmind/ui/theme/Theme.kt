@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.example.openmind.ui.theme.DarkBlue40
+import com.example.openmind.ui.theme.LightThemeBackgroundColor
 import com.example.openmind.ui.theme.Pink80
 import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.Typography
@@ -34,7 +35,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = SteelBlue60,
     tertiary = DarkBlue40,
 
-    background = Color.White
+    background = LightThemeBackgroundColor
 //    onPrimary: Color = ColorLightTokens.OnPrimary,
 //primaryContainer: Color = ColorLightTokens.PrimaryContainer,
 //onPrimaryContainer: Color = ColorLightTokens.OnPrimaryContainer,

@@ -18,7 +18,8 @@ import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.search_result.SearchResultContentView
 import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
-import com.example.openmind.utils.PostCategories
+import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.ui.categories.components.CategoriesAppBar
 
 sealed class Screen<T : ViewModel>(
     val route: String = "", val title: String = "",
@@ -31,14 +32,14 @@ sealed class Screen<T : ViewModel>(
         route = "categories_screen", title = "Categories",
         viewModelClass = CategoriesViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            TopAppBarOpenMind(
+            CategoriesAppBar(viewModel = viewModel, navController = navController, screen = CategoriesScreen )
+        },
+        content = { viewModel, navController, _, modifier ->
+            CategoriesView(
                 viewModel = viewModel,
                 navController = navController,
-                currentScreen = CategoriesScreen,
+                modifier = modifier
             )
-        },
-        content = { _, navController, _, modifier ->
-            CategoriesView(navController = navController, modifier = modifier)
         }
     )
 
@@ -56,7 +57,7 @@ sealed class Screen<T : ViewModel>(
             val category = args["category"]
             viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
                 ?: PostCategories.BUG)
-
+            viewModel.setActiveCategoryInfo()
             PostListContentView(
                 navController = navController, viewModel = viewModel,
                 modifier = modifier

@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.openmind.ui.screen.ComposeScreen
 import com.example.openmind.ui.screen.Screen
-import com.example.openmind.utils.PostCategories
+import com.example.openmind.domain.model.category.PostCategories
 
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController()) {

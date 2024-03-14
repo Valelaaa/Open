@@ -3,7 +3,7 @@ package com.example.openmind.ui.create_post.viewModel
 import android.util.Log
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.GlobalViewModel
-import com.example.openmind.utils.PostCategories
+import com.example.openmind.domain.model.category.PostCategories
 
 const val tag = "CreatePostViewModel"
 

@@ -2,7 +2,7 @@ package com.example.openmind.domain.api.params
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.example.openmind.utils.PostCategories
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.utils.SortBy
 import com.example.openmind.utils.SortType
 

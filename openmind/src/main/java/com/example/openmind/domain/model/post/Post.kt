@@ -2,7 +2,7 @@ package com.example.openmind.domain.model.post
 
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.utils.PostCategories
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.utils.Rateable
 import java.util.Date
 import java.util.UUID

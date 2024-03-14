@@ -21,7 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,10 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.domain.model.post.EmptyPost
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.utils.PostCategories
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.post.RatingView
@@ -56,8 +52,6 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 
 const val tag = "PostShortView"
 

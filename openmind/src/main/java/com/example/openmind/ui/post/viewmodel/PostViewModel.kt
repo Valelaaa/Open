@@ -26,10 +26,11 @@ class PostViewModel : SearchableViewModel(), Sortable {
             viewState.setPost(post = result!!)
         return result
     }
+
     fun getPost() = viewState.post.value
     fun getPostRating() = viewState.post.value.ratingInfo
     fun getReplyComment() = viewState.commentToReply
-    fun setReplyComment(comment:Comment) {
+    fun setReplyComment(comment: Comment) {
         viewState.commentToReply.value = comment
     }
 
@@ -61,13 +62,13 @@ class PostViewModel : SearchableViewModel(), Sortable {
     fun onCommentSend(focusManager: FocusManager, replyTo: MutableState<Comment?>) {
         val editedComments = viewState.comments.value.toMutableList()
         if (replyTo.value == null) {
-            editedComments.add(
-                Comment(
-                    //TODO(Add @OtherPerson tag, invoke API request)
-                    viewState.currentUser,
-                    message = viewState.commentMessage.value.text
+            if (viewState.commentMessage.value.text.isNotBlank())
+                editedComments.add(
+                    Comment(
+                        viewState.currentUser,
+                        message = viewState.commentMessage.value.text
+                    )
                 )
-            )
         } else if (replyTo.value!!.parentId == null) {
             editedComments.first { comment: Comment -> comment.commentId == replyTo.value!!.commentId }
                 .addSubComment(

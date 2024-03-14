@@ -11,6 +11,8 @@ open class GlobalViewModel : ViewModel() {
     fun updateRequestParams(requestParams: RequestParams) {
         globalState.requestParams.value = requestParams
     }
+
+    fun getCategoriesList() = globalState.categoriesList
     fun getRequestParams() = globalState.requestParams
     fun getRepositoryInstance() = globalState.repository
 }
