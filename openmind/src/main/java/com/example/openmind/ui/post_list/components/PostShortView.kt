@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.postlist.post
+package com.example.openmind.ui.post_list.components
 
 import NoRippleInteractionSource
 import android.util.Log
@@ -38,10 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.Post
+import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.post.RatingView
-import com.example.openmind.ui.components.post.SharePost
+import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40

@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.post
+package com.example.openmind.ui.components.general
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

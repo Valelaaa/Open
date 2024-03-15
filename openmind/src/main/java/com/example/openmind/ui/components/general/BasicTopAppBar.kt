@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,29 +37,32 @@ import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.SearchableViewModel
-import com.example.openmind.ui.components.post.TAG
+import com.example.openmind.ui.create_post.components.TAG
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
+import com.example.openmindproject.ui.theme.NavigationIconStyle
 
 @Composable
 @OptIn(
     ExperimentalMaterial3Api::class
 )
-fun TopAppBarOpenMind(
+fun BasicTopAppBar(
     viewModel: GlobalViewModel,
     navController: NavController,
     currentScreen: Screen<*>,
+    modifier: Modifier = Modifier,
     titleStyle: TextStyle = TextStyle(
         fontFamily = FontFamily.ManropeBoldW700,
         fontSize = 16.sp,
         lineHeight = 25.sp,
         textAlign = TextAlign.Center
-    )
+    ),
+    navIconStyle: NavigationIconStyle = NavigationIconStyle.defaultIconStyle()
 ) {
     val focusManager = LocalFocusManager.current
 
-    Box {
+    Box(modifier.background(lightColorScheme().background)) {
         CenterAlignedTopAppBar(
             title = {
                 Box {
@@ -81,10 +83,10 @@ fun TopAppBarOpenMind(
                         modifier = Modifier.size(30.dp)
                     ) {
                         Icon(
-                            Icons.Outlined.ArrowBack,
+                            painterResource(id = R.drawable.navigation_up),
                             contentDescription = "Back to post list",
-                            tint = IconColor,
-                            modifier = Modifier.size(24.dp)
+                            tint = navIconStyle.iconColor,
+                            modifier = navIconStyle.modifier
                         )
                     }
                 }
@@ -113,7 +115,7 @@ fun TopAppBarOpenMind(
                 }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = Color.White
+                containerColor = lightColorScheme().background
             )
         )
         if (viewModel is SearchableViewModel)
@@ -137,30 +139,4 @@ fun TopAppBarOpenMind(
                 }
             }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun TopBarOpenMindPreview() {
-    val navController = NavController(LocalContext.current)
-    Scaffold(
-        topBar = {
-            TopAppBarOpenMind(
-                viewModel = viewModel(),
-                navController = navController,
-                currentScreen = Screen.PostListScreen,
-            )
-        }
-    ) { paddingValues ->
-        Box(
-            Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-                .padding(paddingValues)
-        ) {
-        }
-
-    }
-
 }

@@ -41,11 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.Post
+import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.post.RatingView
-import com.example.openmind.ui.components.post.SharePost
-import com.example.openmind.ui.components.postlist.post.tag
-import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
+import com.example.openmind.ui.components.general.SharePost
+import com.example.openmind.ui.post_list.components.tag
+import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.post.components.comments.CommentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
@@ -57,7 +57,6 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
-import com.example.openmind.utils.Sortable
 
 
 @RequiresApi(Build.VERSION_CODES.O)

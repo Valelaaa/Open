@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
-import com.example.openmind.ui.components.general.TopAppBarOpenMind
+import com.example.openmind.ui.components.general.BasicTopAppBar
 import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.DarkGray20
@@ -54,61 +54,12 @@ fun CategoriesView(
     }
 }
 
-@Composable
-fun CategoryView(navController: NavController, categoryInfo: CategoryInfo) {
-    Column(modifier = Modifier.padding(top = 22.dp)) {
-        Text(
-            text = categoryInfo.categoryTitle,
-            fontFamily = FontFamily.ManropeBoldW700,
-            fontSize = 16.sp,
-            lineHeight = 24.sp,
-            maxLines = 1,
-            color = DarkGray20,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 100.dp)
-                .background(categoryInfo.backgroundStyle, shape = RoundedCornerShape(8.dp))
-                .clickable {
-                    navController.navigateToPostList(categoryInfo.categoryType)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 22.dp)
-            ) {
-                Text(
-                    text = categoryInfo.categoryDescription.orEmpty(),
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    fontSize = 14.sp,
-                    maxLines = 2,
-                    lineHeight = 20.sp,
-                    color = Color.White,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = categoryInfo.postCount.toString() + " articles",
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp,
-                    color = Color.DarkGray,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun CategoriesViewPreview() {
     Scaffold(topBar = {
-        TopAppBarOpenMind(
+        BasicTopAppBar(
             viewModel = viewModel(),
             navController = rememberNavController(),
             currentScreen = Screen.CategoriesScreen

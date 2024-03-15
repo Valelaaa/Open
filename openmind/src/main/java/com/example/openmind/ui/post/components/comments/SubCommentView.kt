@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.ui.components.post.RatingView
+import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.MaibPrimary

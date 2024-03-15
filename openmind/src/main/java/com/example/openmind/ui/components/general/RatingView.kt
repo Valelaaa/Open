@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.post
+package com.example.openmind.ui.components.general
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -126,7 +126,6 @@ fun RatingView(
 @Composable
 fun RatingPreview() {
     val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
-    val ratingValue = remember { mockPost.ratingInfo.rating }
     Column(
         modifier = Modifier
             .fillMaxSize()

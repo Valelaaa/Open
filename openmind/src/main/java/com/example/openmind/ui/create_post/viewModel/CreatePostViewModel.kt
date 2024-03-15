@@ -1,35 +1,26 @@
 package com.example.openmind.ui.create_post.viewModel
 
 import android.util.Log
+import androidx.compose.ui.text.input.TextFieldValue
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.GlobalViewModel
-import com.example.openmind.domain.model.category.PostCategories
 
 const val tag = "CreatePostViewModel"
 
 class CreatePostViewModel : GlobalViewModel() {
     private val viewState: CreatePostViewState = CreatePostViewState()
 
-    fun getDescription() = viewState.description
-    fun getTitle() = viewState.title
-    fun updateTitle(newTitle: String) {
-        Log.d(tag, "Update Title: ${viewState.title}")
-        viewState.title.value = newTitle
-        checkButtonActivity()
-    }
+    fun getDescription() = viewState.description.value
+    fun getTitle() = viewState.title.value
 
     fun setCategory(postCategories: PostCategories) {
         viewState.activeCategory = postCategories
     }
 
-    fun updateDescription(newDescription: String) {
-        Log.d(tag, "Update Description: ${viewState.description}")
-        viewState.description.value = newDescription
-    }
-
     private fun checkButtonActivity() {
         Log.d(tag, "Check Button Activity")
-        viewState.isButtonEnabled.value = viewState.title.value.isNotBlank()
+        viewState.isButtonEnabled.value = viewState.title.value.text.isNotBlank()
     }
 
     fun getButtonState() = viewState.isButtonEnabled.value
@@ -37,11 +28,25 @@ class CreatePostViewModel : GlobalViewModel() {
     fun createPost(): Post {
         val newPost =
             Post(
-                title = viewState.title.value,
-                description = viewState.description.value,
+                title = viewState.title.value.text,
+                description = viewState.description.value.text,
                 category = viewState.activeCategory
             )
         getRepositoryInstance().addNewPost(newPost)
         return newPost
+    }
+
+
+    fun onTitleChange(): (TextFieldValue) -> Unit = { newTitle ->
+        viewState.title.value = newTitle
+    }
+
+    fun onDescriptionChange(): (TextFieldValue) -> Unit = { newDescription ->
+        viewState.description.value = newDescription
+    }
+
+    fun onCreatePostButton(): () -> Unit = {
+        if (viewState.title.value.text.isNotEmpty())
+            createPost()
     }
 }

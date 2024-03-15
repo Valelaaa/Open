@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.openmind.ui.categories.CategoriesView
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
-import com.example.openmind.ui.components.general.TopAppBarOpenMind
-import com.example.openmind.ui.components.post.CreateTopAppBarPost
+import com.example.openmind.ui.components.general.BasicTopAppBar
+import com.example.openmind.ui.create_post.components.TopAppBarCreatePost
 import com.example.openmind.ui.create_post.CreatePostContentView
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.post.PostContentView
@@ -20,9 +20,11 @@ import com.example.openmind.ui.search_result.SearchResultContentView
 import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.categories.components.CategoriesAppBar
+import com.example.openmind.ui.success_post_register.SuccessRegistrationPostView
+import com.example.openmind.ui.success_post_register.SuccessRegisteredPostViewModel
 
 sealed class Screen<T : ViewModel>(
-    val route: String = "", val title: String = "",
+    val route: String = "", var title: String = "",
     val topAppBar: @Composable (T, NavController) -> Unit,
     val content: @Composable (T, NavController, Map<String, String>, Modifier) -> Unit,
     //Map for args
@@ -32,7 +34,11 @@ sealed class Screen<T : ViewModel>(
         route = "categories_screen", title = "Categories",
         viewModelClass = CategoriesViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            CategoriesAppBar(viewModel = viewModel, navController = navController, screen = CategoriesScreen )
+            CategoriesAppBar(
+                viewModel = viewModel,
+                navController = navController,
+                screen = CategoriesScreen
+            )
         },
         content = { viewModel, navController, _, modifier ->
             CategoriesView(
@@ -47,7 +53,7 @@ sealed class Screen<T : ViewModel>(
         route = "post_list_screen", title = "Posts",
         viewModelClass = PostListViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            TopAppBarOpenMind(
+            BasicTopAppBar(
                 viewModel = viewModel,
                 navController = navController,
                 currentScreen = PostListScreen,
@@ -69,7 +75,7 @@ sealed class Screen<T : ViewModel>(
     object PostScreen : Screen<PostViewModel>(route = "post_screen", title = "Post",
         viewModelClass = PostViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            TopAppBarOpenMind(
+            BasicTopAppBar(
                 viewModel = viewModel,
                 navController = navController,
                 currentScreen = PostScreen
@@ -89,14 +95,18 @@ sealed class Screen<T : ViewModel>(
         route = "create_post_screen", title = "Create Post",
         viewModelClass = CreatePostViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            CreateTopAppBarPost(navController = navController, createPostViewModel = viewModel)
+            TopAppBarCreatePost(
+                navController = navController,
+                viewModel = viewModel,
+                CreatePostScreen
+            )
 
         },
-        content = { viewModel, _, args, modifier ->
+        content = { viewModel, navController, args, modifier ->
             val category = args["category"]
             viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
                 ?: PostCategories.BUG)
-            CreatePostContentView(viewModel = viewModel, modifier = modifier)
+            CreatePostContentView(navController = navController ,viewModel = viewModel, modifier = modifier)
         }
     )
 
@@ -104,7 +114,7 @@ sealed class Screen<T : ViewModel>(
         route = "search_result_screen", title = "Results",
         viewModelClass = SearchResultViewModel::class.java,
         topAppBar = { viewModel, navController ->
-            TopAppBarOpenMind(
+            BasicTopAppBar(
                 viewModel = viewModel,
                 navController = navController,
                 currentScreen = SearchResultsScreen
@@ -118,6 +128,15 @@ sealed class Screen<T : ViewModel>(
                 viewModel = viewModel,
                 modifier = modifier,
             )
+        }
+    )
+    object SuccessRegisteredPostScreen: Screen<SuccessRegisteredPostViewModel>(
+        route = "registered_post_screen", title="registered_post",
+        viewModelClass = SuccessRegisteredPostViewModel::class.java,
+        topAppBar = { _, _ -> },
+        content = { viewModel, navController, _, modifier ->
+            SuccessRegistrationPostView(viewModel, navController, modifier
+        )
         }
     )
 }

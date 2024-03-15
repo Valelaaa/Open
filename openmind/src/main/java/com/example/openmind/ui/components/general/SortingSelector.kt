@@ -1,4 +1,4 @@
-package com.example.openmind.ui.components.postlist.selectSortingType
+package com.example.openmind.ui.components.general
 
 import NoRippleInteractionSource
 import androidx.compose.foundation.background

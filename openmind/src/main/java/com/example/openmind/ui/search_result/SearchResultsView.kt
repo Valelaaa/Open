@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.components.postlist.post.PostShortView
+import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
 import com.example.openmind.ui.theme.Delimiter
 

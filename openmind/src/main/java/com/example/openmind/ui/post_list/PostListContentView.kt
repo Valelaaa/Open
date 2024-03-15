@@ -41,8 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.ui.components.postlist.post.PostShortView
-import com.example.openmind.ui.components.postlist.selectSortingType.SortingSelector
+import com.example.openmind.ui.post_list.components.PostShortView
+import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.LightGray80
@@ -50,6 +50,7 @@ import com.example.openmind.ui.theme.LightText
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
+import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.SteelGray
 
@@ -121,7 +122,7 @@ fun PostListContentView(
                                     fontFamily = FontFamily.ManropeRegularW400,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,
-                                    color = Color(0xFF253746)
+                                    color = NightBlue
                                 )
                             }
                         }

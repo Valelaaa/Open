@@ -13,4 +13,6 @@
     <string name="ask">ask</string>
     <string name="desk">desk</string>
     <string name="show_less">show less</string>
+    <string name="success_create_post">We have successfully\n registered your post.</string>
+    <string name="create_post_info">Your post is going to be processed between \nMo-Fr: 08:00-17:00.\nOn working days we post your post in about 20\n minutes. You will get a notification. \nThank you!</string>
 </resources>

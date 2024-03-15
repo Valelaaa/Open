@@ -3,6 +3,7 @@ package com.example.openmindproject.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -10,12 +11,15 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.openmind.ui.theme.DarkBlue40
+import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.LightThemeBackgroundColor
 import com.example.openmind.ui.theme.Pink80
 import com.example.openmind.ui.theme.SteelBlue60
@@ -29,12 +33,23 @@ private val DarkColorScheme = darkColorScheme(
     background = Color.Black,
 )
 
+open class NavigationIconStyle(
+    var iconColor: Color = IconColor,
+    var modifier: Modifier = Modifier.size(24.dp)
+) {
+    companion object {
+        fun defaultIconStyle() = NavigationIconStyle(
+            iconColor = IconColor,
+            modifier = Modifier.size(24.dp)
+        )
+    }
+
+}
 
 private val LightColorScheme = lightColorScheme(
     primary = DarkBlue40,
     secondary = SteelBlue60,
     tertiary = DarkBlue40,
-
     background = LightThemeBackgroundColor
 //    onPrimary: Color = ColorLightTokens.OnPrimary,
 //primaryContainer: Color = ColorLightTokens.PrimaryContainer,

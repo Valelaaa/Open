@@ -68,6 +68,12 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 )
             }
         }
+        composable(route = "${Screen.SuccessRegisteredPostScreen.route}") {
+            ComposeScreen(
+                screen = Screen.SuccessRegisteredPostScreen,
+                navController = navController
+            )
+        }
     }
 }
 
