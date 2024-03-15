@@ -130,7 +130,8 @@ fun SearchBar(
                 modifier = Modifier
                     .size(22.dp)
                     .clickable {
-                        navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
+                        if (searchText.isNotBlank())
+                            navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
                         viewModel.resetSearch()
                         viewModel.updateSearchBarVisibility(false)
                     },

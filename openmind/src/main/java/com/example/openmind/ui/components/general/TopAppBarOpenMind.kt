@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,20 +36,27 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
+import com.example.openmind.ui.GlobalViewModel
+import com.example.openmind.ui.SearchableViewModel
 import com.example.openmind.ui.components.post.TAG
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
-import com.example.openmind.ui.SearchableViewModel
 
 @Composable
 @OptIn(
     ExperimentalMaterial3Api::class
 )
 fun TopAppBarOpenMind(
-    viewModel: SearchableViewModel,
+    viewModel: GlobalViewModel,
     navController: NavController,
-    currentScreen: Screen<*>
+    currentScreen: Screen<*>,
+    titleStyle: TextStyle = TextStyle(
+        fontFamily = FontFamily.ManropeBoldW700,
+        fontSize = 16.sp,
+        lineHeight = 25.sp,
+        textAlign = TextAlign.Center
+    )
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -58,10 +66,7 @@ fun TopAppBarOpenMind(
                 Box {
                     Text(
                         text = currentScreen.title,
-                        fontFamily = FontFamily.ManropeBoldW700,
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp,
-                        textAlign = TextAlign.Center
+                        style = titleStyle
                     )
 
                 }
@@ -86,51 +91,51 @@ fun TopAppBarOpenMind(
             },
             actions = {
                 Box(modifier = Modifier.padding(end = 30.dp)) {
-
-                    IconButton(
-                        onClick = {
-                            Log.d(TAG, "Clicked 'Search' Button")
-                        },
-                        modifier = Modifier
-                            .size(30.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.search_normal),
-                            contentDescription = "search",
-                            tint = IconColor,
+                    if (viewModel is SearchableViewModel)
+                        IconButton(
+                            onClick = {
+                                Log.d(TAG, "Clicked 'Search' Button")
+                            },
                             modifier = Modifier
-                                .size(24.dp)
-                                .clickable(onClick = {
-                                    viewModel.updateSearchBarVisibility(isVisible = !viewModel.isSearchBarVisible())
-                                })
-                        )
-                    }
+                                .size(30.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search_normal),
+                                contentDescription = "search",
+                                tint = IconColor,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = {
+                                        viewModel.updateSearchBarVisibility(isVisible = !viewModel.isSearchBarVisible())
+                                    })
+                            )
+                        }
                 }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = Color.White
             )
         )
-
-        AnimatedVisibility(
-            visible = viewModel.isSearchBarVisible(),
-            enter = expandHorizontally(
-                expandFrom = Alignment.CenterHorizontally,
-                animationSpec = tween(durationMillis = 300)
-            ),
-            exit = shrinkHorizontally(
-                shrinkTowards = Alignment.CenterHorizontally,
-                animationSpec = tween(durationMillis = 300)
-            )
-        ) {
-            Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
-                SearchBar(viewModel = viewModel,
-                    navController = navController,
-                    onSearch = {
-                        focusManager.clearFocus()
-                    })
+        if (viewModel is SearchableViewModel)
+            AnimatedVisibility(
+                visible = viewModel.isSearchBarVisible(),
+                enter = expandHorizontally(
+                    expandFrom = Alignment.CenterHorizontally,
+                    animationSpec = tween(durationMillis = 300)
+                ),
+                exit = shrinkHorizontally(
+                    shrinkTowards = Alignment.CenterHorizontally,
+                    animationSpec = tween(durationMillis = 300)
+                )
+            ) {
+                Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
+                    SearchBar(viewModel = viewModel,
+                        navController = navController,
+                        onSearch = {
+                            focusManager.clearFocus()
+                        })
+                }
             }
-        }
     }
 }
 

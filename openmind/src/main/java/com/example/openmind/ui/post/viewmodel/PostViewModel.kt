@@ -6,14 +6,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.post.Post
+import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.post.components.comments.withStylishTags
-import com.example.openmind.ui.SearchableViewModel
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
-class PostViewModel : SearchableViewModel(), Sortable {
+class PostViewModel : GlobalViewModel(), Sortable {
 
     private val viewState: PostViewState = PostViewState()
 
