@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
 import com.example.openmind.ui.post_list.components.PostShortView
@@ -60,6 +62,8 @@ fun PostListContentView(
     viewModel: PostListViewModel,
     modifier: Modifier = Modifier
 ) {
+    val mutableList = viewModel.getPostList()
+
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -178,7 +182,7 @@ fun PostListContentView(
                     }
                 }
             }
-            items(items = viewModel.getPostList(),
+            items(items = mutableList,
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,

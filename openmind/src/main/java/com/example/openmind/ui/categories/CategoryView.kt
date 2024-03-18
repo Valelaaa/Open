@@ -23,13 +23,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.domain.model.category.CategoryInfo
+import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 
 @Composable
-fun CategoryView(navController: NavController, categoryInfo: CategoryInfo) {
+fun CategoryView(
+    viewModel: CategoriesViewModel,
+    navController: NavController,
+    categoryInfo: CategoryInfo
+) {
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Text(
             text = categoryInfo.categoryTitle,
@@ -60,7 +65,7 @@ fun CategoryView(navController: NavController, categoryInfo: CategoryInfo) {
                     .padding(horizontal = 20.dp, vertical = 22.dp)
             ) {
                 Text(
-                    text = categoryInfo.postCount.toString() + " articles",
+                    text = viewModel.getCategoryCountString(category = categoryInfo.categoryType),
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
                     lineHeight = 16.sp,

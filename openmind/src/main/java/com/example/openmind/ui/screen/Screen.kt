@@ -1,16 +1,19 @@
 package com.example.openmind.ui.screen
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.categories.CategoriesView
+import com.example.openmind.ui.categories.components.CategoriesAppBar
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.components.general.BasicTopAppBar
-import com.example.openmind.ui.create_post.components.TopAppBarCreatePost
 import com.example.openmind.ui.create_post.CreatePostContentView
+import com.example.openmind.ui.create_post.components.TopAppBarCreatePost
 import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.post.PostContentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
@@ -18,10 +21,8 @@ import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.search_result.SearchResultContentView
 import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
-import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.ui.categories.components.CategoriesAppBar
-import com.example.openmind.ui.success_post_register.SuccessRegistrationPostView
 import com.example.openmind.ui.success_post_register.SuccessRegisteredPostViewModel
+import com.example.openmind.ui.success_post_register.SuccessRegistrationPostView
 
 sealed class Screen<T : ViewModel>(
     val route: String = "", var title: String = "",
@@ -61,8 +62,12 @@ sealed class Screen<T : ViewModel>(
         },
         content = { viewModel, navController, args, modifier ->
             val category = args["category"]
-            viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
-                ?: PostCategories.BUG)
+            viewModel.setCategory(
+                PostCategories.valueOf(category.orEmpty().uppercase())
+            )
+            Log.d(
+                "Screen", "Category set to $category"
+            )
             viewModel.setActiveCategoryInfo()
             PostListContentView(
                 navController = navController, viewModel = viewModel,
@@ -106,7 +111,11 @@ sealed class Screen<T : ViewModel>(
             val category = args["category"]
             viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
                 ?: PostCategories.BUG)
-            CreatePostContentView(navController = navController ,viewModel = viewModel, modifier = modifier)
+            CreatePostContentView(
+                navController = navController,
+                viewModel = viewModel,
+                modifier = modifier
+            )
         }
     )
 
@@ -130,13 +139,15 @@ sealed class Screen<T : ViewModel>(
             )
         }
     )
-    object SuccessRegisteredPostScreen: Screen<SuccessRegisteredPostViewModel>(
-        route = "registered_post_screen", title="registered_post",
+
+    object SuccessRegisteredPostScreen : Screen<SuccessRegisteredPostViewModel>(
+        route = "registered_post_screen", title = "registered_post",
         viewModelClass = SuccessRegisteredPostViewModel::class.java,
         topAppBar = { _, _ -> },
         content = { viewModel, navController, _, modifier ->
-            SuccessRegistrationPostView(viewModel, navController, modifier
-        )
+            SuccessRegistrationPostView(
+                viewModel, navController, modifier
+            )
         }
     )
 }

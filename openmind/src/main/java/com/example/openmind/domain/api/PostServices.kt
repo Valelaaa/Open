@@ -22,13 +22,12 @@ interface PostServices {
         @Query("pageSize") pageSize: Int?
     ): Call<List<PostDto>>
 
-    @GET("test")
-    fun test():Call<String>
+
+    @GET("api/posts/count")
+    fun getPostCountByCategory(@Query("category") category: String): Call<Int>
+
     @GET("api/posts")
     fun fetchAll(): Call<List<PostDto>>
-
-    @GET("api/people")
-    fun fetchPeople(): Call<String>
 
     @GET("api/posts/{postId}")
     fun fetchById(@Path("postId") postId: String): Call<Post>

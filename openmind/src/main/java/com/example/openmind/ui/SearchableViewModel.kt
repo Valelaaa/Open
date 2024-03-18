@@ -1,5 +1,6 @@
 package com.example.openmind.ui
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.utils.Searchable
@@ -12,19 +13,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-open class SearchableViewModel : GlobalViewModel(), Searchable {
+open class SearchableViewModel : ViewModel(), Searchable {
     private val searchableViewState: SearchableViewState = SearchableViewState()
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
     private var _searchResults = MutableStateFlow<List<Post>>(emptyList())
     val searchResults = _searchResults.asStateFlow()
-    override fun searchPost(query: String) {
-        val newResults = searchableViewState.repository.findPostBySubstring(query)
-        _searchResults.update {
-            newResults
-        }
-    }
+//    override fun searchPost(query: String) {
+//        val newResults = searchableViewState.repository.findPostBySubstring(query)
+//        _searchResults.update {
+//            newResults
+//        }
+//    }
 
     fun resetSearch() {
         _searchText.value = ""
@@ -45,6 +46,10 @@ open class SearchableViewModel : GlobalViewModel(), Searchable {
 
     fun onSearchTextChanged(text: String) {
         _searchText.value = text
+    }
+
+    override fun searchPost(query: String) {
+        TODO("Not yet implemented")
     }
 
     override fun updateSearchBarVisibility(isVisible: Boolean) {

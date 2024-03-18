@@ -1,9 +1,11 @@
 package com.example.openmind.ui.post_list.viewModel
 
+import androidx.compose.runtime.Composable
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.SearchableViewModel
+import com.example.openmind.ui.categories.components.getCategoriesInfoList
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
 
@@ -13,12 +15,10 @@ class PostListViewModel : SearchableViewModel(), Sortable {
     override fun setActiveSortType(sortType: SortType) = viewState.setActiveSortType(sortType)
     override fun activeSortType(): SortType = viewState.getActiveSortType()
 
-    override fun getPostList(): List<Post> {
-        return super.getPostList().filter { it.category == viewState.activeCategory }
-    }
+    @Composable
+    fun getPostList(): List<Post> = viewState.loadedPosts.value
 
     override fun onSelect(): () -> Unit {
-
         return {}
     }
 
@@ -28,7 +28,7 @@ class PostListViewModel : SearchableViewModel(), Sortable {
 
     fun setActiveCategoryInfo() {
         viewState.activeCategoryInfo =
-            getCategoriesList().first { it.categoryType == viewState.activeCategory }
+            getCategoriesInfoList().first { it.categoryType == viewState.activeCategory }
     }
 
     fun getActiveCategoryInfo(): CategoryInfo = viewState.activeCategoryInfo
@@ -39,8 +39,8 @@ class PostListViewModel : SearchableViewModel(), Sortable {
     }
 
     fun getPostCount(): String {
-        return "${viewState.activeCategoryInfo.postCount} posts"
+        return "${viewState.getPostsCount()} posts"
     }
 
-    fun getPostCategory(): PostCategories = viewState.activeCategory
+    fun getPostCategory(): PostCategories = viewState.activeCategory ?: PostCategories.BUG
 }

@@ -26,7 +26,7 @@ class PostMapper : Mapper<Post, PostDto> {
                 dto.rating.id,
                 rating = mutableIntStateOf(dto.rating.currentRating),
                 isRated = mutableIntStateOf(
-                    dto.rating.userVote?.vote!!
+                    dto.rating.userVote?.vote ?: 0
                 )
             ),
             category = PostCategories.valueOf(dto.category)

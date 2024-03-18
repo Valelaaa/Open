@@ -4,7 +4,7 @@ import com.example.openmind.domain.api.params.RequestParams
 import kotlinx.coroutines.flow.Flow
 
 interface Repository<T> {
-    fun fetchAll(): Flow<List<T>>
+    suspend fun fetchAll(): Flow<List<T>>
     fun fetchById(id: String): Flow<T>
     fun postData(data: T): Boolean
     fun setRequestParams(requestParams: RequestParams)

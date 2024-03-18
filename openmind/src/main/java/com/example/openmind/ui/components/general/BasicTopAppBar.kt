@@ -32,10 +32,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.SearchableViewModel
 import com.example.openmind.ui.create_post.components.TAG
 import com.example.openmind.ui.screen.Screen
@@ -48,7 +48,7 @@ import com.example.openmindproject.ui.theme.NavigationIconStyle
     ExperimentalMaterial3Api::class
 )
 fun BasicTopAppBar(
-    viewModel: GlobalViewModel,
+    viewModel: ViewModel,
     navController: NavController,
     currentScreen: Screen<*>,
     modifier: Modifier = Modifier,

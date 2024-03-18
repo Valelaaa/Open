@@ -12,7 +12,9 @@ class CommentMapper : Mapper<Comment, CommentDto> {
     override fun toDto(from: Comment): CommentDto {
         TODO("Not yet implemented")
     }
+
     override fun fromDto(dto: CommentDto): Comment {
+
         return Comment(
             message = dto.message,
             author = User("unknown"),
@@ -23,10 +25,10 @@ class CommentMapper : Mapper<Comment, CommentDto> {
                 dto.rating.id,
                 rating = mutableStateOf(dto.rating.currentRating),
                 isRated = mutableStateOf(
-                    dto.rating.userVote?.vote!!
+                    dto.rating.userVote?.vote ?: 0
                 )
             ),
-            parentId = UUID.fromString(dto.parentComment?.commentId ?: ""),
+            parentId = UUID.fromString(dto.parentComment?.commentId ?: UUID.randomUUID().toString()),
             subComments = subcommentsToDto(dto.subComments)
         )
     }
@@ -47,10 +49,10 @@ class CommentMapper : Mapper<Comment, CommentDto> {
                         dto.rating.id,
                         rating = mutableStateOf(dto.rating.currentRating),
                         isRated = mutableStateOf(
-                            dto.rating.userVote?.vote!!
+                            dto.rating.userVote?.vote ?: 0
                         )
                     ),
-                    parentId = UUID.fromString(dto.parentComment?.commentId ?: ""),
+                    parentId = UUID.fromString(dto.parentComment?.commentId ?: UUID.randomUUID().toString()),
                 )
             )
         }

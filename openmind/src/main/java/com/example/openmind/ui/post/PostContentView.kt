@@ -241,7 +241,7 @@ fun PostContentViewPreview() {
     val viewModel = PostViewModel()
     val postListViewModel = PostListViewModel()
     val post =
-        postListViewModel.getPostList().first { post: Post -> post.getCommentsCount() != 0 }
+            Post(title = "title")
     viewModel.setPost(postId = post.postId)
     PostContentView(
         viewModel = viewModel

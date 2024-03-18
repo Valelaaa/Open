@@ -1,13 +1,13 @@
 package com.example.openmind.ui.create_post.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.ViewModel
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.ui.GlobalViewModel
 
 const val tag = "CreatePostViewModel"
 
-class CreatePostViewModel : GlobalViewModel() {
+class CreatePostViewModel : ViewModel() {
     private val viewState: CreatePostViewState = CreatePostViewState()
 
     fun getDescription() = viewState.description.value
@@ -30,8 +30,8 @@ class CreatePostViewModel : GlobalViewModel() {
                 description = viewState.description.value.text,
                 category = viewState.activeCategory
             )
-
-        getRepositoryInstance().postData(newPost)
+//        viewState.repository.posts.value.add(newPost)
+        viewState.repository.postData(newPost)
         return newPost
     }
 
