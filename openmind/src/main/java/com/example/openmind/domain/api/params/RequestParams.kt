@@ -8,7 +8,7 @@ import com.example.openmind.utils.SortType
 
 data class RequestParams(
     var postCategories: PostCategories = PostCategories.BUG,
-    var sortType: MutableState<SortType> = mutableStateOf(SortType.HOT),
+    var sortType: SortType = SortType.HOT,
     val sortBy: SortBy = SortBy.DESC,
     val pagination: PaginationParams = PaginationParams(1, 10)
 )

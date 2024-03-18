@@ -171,7 +171,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    RatingView(rating = post.ratingInfo, Modifier)
+                    RatingView(rating = post.rating, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier

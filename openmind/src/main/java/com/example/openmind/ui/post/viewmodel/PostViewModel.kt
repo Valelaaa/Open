@@ -20,7 +20,7 @@ class PostViewModel : GlobalViewModel(), Sortable {
     fun setPost(postId: String): Post? {
         var result: Post?
         runBlocking {
-            result = PostRepositoryProvider.provideRepository().getById(postId).firstOrNull()
+            result = PostRepositoryProvider.provideRepository().fetchById(postId).firstOrNull()
         }
         if (result != null)
             viewState.setPost(post = result!!)
@@ -28,7 +28,7 @@ class PostViewModel : GlobalViewModel(), Sortable {
     }
 
     fun getPost() = viewState.post.value
-    fun getPostRating() = viewState.post.value.ratingInfo
+    fun getPostRating() = viewState.post.value.rating
     fun getReplyComment() = viewState.commentToReply
     fun setReplyComment(comment: Comment) {
         viewState.commentToReply.value = comment

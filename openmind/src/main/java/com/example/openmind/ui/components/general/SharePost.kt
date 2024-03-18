@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.openmind.R
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
 
@@ -52,7 +53,7 @@ fun SharePost(postId: String, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun SharePostPreview() {
-    val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
+    val mockPost = Post(title = "Title")
     Column(
         Modifier
             .background(Color.Black)

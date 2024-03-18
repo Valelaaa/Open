@@ -1,6 +1,5 @@
 package com.example.openmind.ui.create_post.viewModel
 
-import android.util.Log
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
@@ -19,7 +18,6 @@ class CreatePostViewModel : GlobalViewModel() {
     }
 
     private fun checkButtonActivity() {
-        Log.d(tag, "Check Button Activity")
         viewState.isButtonEnabled.value = viewState.title.value.text.isNotBlank()
     }
 
@@ -32,7 +30,8 @@ class CreatePostViewModel : GlobalViewModel() {
                 description = viewState.description.value.text,
                 category = viewState.activeCategory
             )
-        getRepositoryInstance().addNewPost(newPost)
+
+        getRepositoryInstance().postData(newPost)
         return newPost
     }
 
@@ -45,8 +44,7 @@ class CreatePostViewModel : GlobalViewModel() {
         viewState.description.value = newDescription
     }
 
-    fun onCreatePostButton(): () -> Unit = {
-        if (viewState.title.value.text.isNotEmpty())
-            createPost()
+    fun onCreatePostButton(): Unit {
+        createPost()
     }
 }

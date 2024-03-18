@@ -1,20 +1,22 @@
 package com.example.openmind.domain.model.post
 
 import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.domain.model.rating.RatingInfo
+import com.example.openmind.domain.model.rating.dto.RatingDto
 import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.domain.model.rating.RatingInfo
+import com.example.openmind.domain.model.user.User
 import com.example.openmind.utils.Rateable
 import java.util.Date
 import java.util.UUID
 
 open class Post(
+    val postId: String = UUID.randomUUID().toString(),
     var title: String,
     var description: String = "",
-    val author: String = "Unknown",
+    val author: User = User("Unknown"),
     var createdDate: Date = Date(System.currentTimeMillis()),
     var comments: List<Comment> = listOf(),
-    val postId: String = UUID.randomUUID().toString(),
-    val ratingInfo: RatingInfo = RatingInfo(postId),
+    val rating: RatingInfo = RatingInfo(postId),
     val category: PostCategories = PostCategories.BUG
 ) : Rateable {
 
@@ -60,12 +62,12 @@ open class Post(
     }
 
     override fun updateRating(ratingValue: Int) {
-        if (ratingValue > ratingInfo.rating.value) {
-            ratingInfo.isRated.value = 1
-            ratingInfo.rating.value += 1
-        } else if (ratingValue < ratingInfo.rating.value) {
-            ratingInfo.isRated.value = -1
-            ratingInfo.rating.value += 1
+        if (ratingValue > rating.rating.value) {
+            rating.isRated.value = 1
+            rating.rating.value += 1
+        } else if (ratingValue < rating.rating.value) {
+            rating.isRated.value = -1
+            rating.rating.value += 1
         }
     }
 }

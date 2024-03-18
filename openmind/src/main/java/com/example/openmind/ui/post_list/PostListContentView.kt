@@ -41,9 +41,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
+import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.LightText

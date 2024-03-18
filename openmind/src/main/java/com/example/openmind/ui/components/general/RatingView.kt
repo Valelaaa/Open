@@ -31,9 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.ui.components.general.borderRight
+import com.example.openmind.domain.model.rating.dto.RatingDto
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibError
@@ -125,7 +125,7 @@ fun RatingView(
 @Preview
 @Composable
 fun RatingPreview() {
-    val mockPost = PostRepositoryProvider.provideRepository().getMockPost()
+    val mockPost = Post(title ="title")
     Column(
         modifier = Modifier
             .fillMaxSize()
