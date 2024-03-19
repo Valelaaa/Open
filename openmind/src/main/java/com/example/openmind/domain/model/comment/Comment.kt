@@ -6,7 +6,7 @@ import java.util.Date
 import java.util.UUID
 
 data class Comment(
-    val author: User,
+    val author: User? = User(""),
     val message: String,
     val createdDate: Date = Date(System.currentTimeMillis()),
     val modificationDate: Date = Date(System.currentTimeMillis()),
@@ -21,7 +21,7 @@ data class Comment(
     ) {
         subComments.forEach { subComment ->
             addSubComment(
-                subCommentAuthor = subComment.author,
+                subCommentAuthor = subComment.author ?: User(""),
                 subCommentMessage = subComment.message
             )
         }
@@ -33,7 +33,6 @@ data class Comment(
             message = subCommentMessage,
             parentId = this.commentId  // Устанавливаем parentId родительского комментария
         )
-        // Возвращаем новый экземпляр родительского комментария с добавленным subComment
         subComments = subComments + subComment
         return this
     }
@@ -57,6 +56,11 @@ data class Comment(
         }
 
     }
+
+    override fun toString(): String {
+        return "Comment(author=$author, message='$message', createdDate=$createdDate, modificationDate=$modificationDate, subComments=$subComments, commentId=$commentId, ratingInfo=$ratingInfo, parentId=$parentId)"
+    }
+
 }
 
 fun countComments(comment: Comment): Int {

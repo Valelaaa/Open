@@ -15,23 +15,27 @@ import retrofit2.http.Query
 interface PostServices {
     @GET("api/posts")
     fun fetchAll(
-        @Query("category") category: PostCategories?,
-        @Query("sortType") sortType: SortType?,
-        @Query("sortOrder") sortBy: SortBy?,
-        @Query("pageNumber") currentPage: Int?,
-        @Query("pageSize") pageSize: Int?
+        @Query("category") category: PostCategories? = null,
+        @Query("sortType") sortType: SortType? = null,
+        @Query("sortOrder") sortBy: SortBy? = null,
+        @Query("pageNumber") currentPage: Int? = null,
+        @Query("pageSize") pageSize: Int? = null
     ): Call<List<PostDto>>
 
+    @GET("api/posts/search")
+    fun findBySubString(
+        @Query("query") query: String,
+        @Query("category") category: PostCategories? = null,
+        @Query("sortType") sortType: SortType? = null,
+        @Query("sortOrder") sortBy: SortBy? = null,
+    ): Call<List<PostDto>>
 
     @GET("api/posts/count")
     fun getPostCountByCategory(@Query("category") category: String): Call<Int>
 
-    @GET("api/posts")
-    fun fetchAll(): Call<List<PostDto>>
-
-    @GET("api/posts/{postId}")
-    fun fetchById(@Path("postId") postId: String): Call<Post>
+    @GET("api/posts/post/{postId}")
+    fun fetchById(@Path("postId") postId: String): Call<PostDto>
 
     @POST("api/posts")
-    fun updateOrCreate(@Body post: Post): Call<Post>
+    fun updateOrCreate(@Body post: PostDto): Call<Void>
 }

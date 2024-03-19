@@ -65,6 +65,7 @@ fun PostContentView(
     viewModel: PostViewModel,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
@@ -242,7 +243,7 @@ fun PostContentViewPreview() {
     val postListViewModel = PostListViewModel()
     val post =
             Post(title = "title")
-    viewModel.setPost(postId = post.postId)
+    viewModel.setCurrentPostById(postId = post.postId)
     PostContentView(
         viewModel = viewModel
     )

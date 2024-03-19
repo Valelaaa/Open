@@ -11,9 +11,9 @@ import kotlinx.coroutines.launch
 
 class CategoriesViewModel : ViewModel() {
     private val viewState = CategoriesViewState()
-    @Composable
     fun getCategoryCountString(category: PostCategories): String {
-        return "${viewState.getCategoryCount(category = category).collectAsState().value} posts"
+        val state = viewState.getCategoryCount(category = category)
+        return "${state[category] ?: 0} posts"
     }
 
     fun getCategoriesList(): List<CategoryInfo> {

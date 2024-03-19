@@ -4,28 +4,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
 
 class PostViewModel : ViewModel(), Sortable {
 
     private val viewState: PostViewState = PostViewState()
 
-    fun setPost(postId: String): Post? {
-        var result: Post?
-        runBlocking {
-            result = PostRepositoryProvider.provideRepository().fetchById(postId).firstOrNull()
-        }
-        if (result != null)
-            viewState.setPost(post = result!!)
-        return result
+
+    fun setCurrentPostById(postId: String) {
+        viewState.currentPostId = postId
     }
+
 
     fun getPost() = viewState.post.value
     fun getPostRating() = viewState.post.value.rating

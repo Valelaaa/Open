@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,8 @@ fun CategoryView(
     navController: NavController,
     categoryInfo: CategoryInfo
 ) {
+    val stringCount =
+        remember { viewModel.getCategoryCountString(category = categoryInfo.categoryType) }
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Text(
             text = categoryInfo.categoryTitle,
@@ -65,7 +68,7 @@ fun CategoryView(
                     .padding(horizontal = 20.dp, vertical = 22.dp)
             ) {
                 Text(
-                    text = viewModel.getCategoryCountString(category = categoryInfo.categoryType),
+                    text = stringCount,
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
                     lineHeight = 16.sp,

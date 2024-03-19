@@ -141,7 +141,7 @@ fun CommentField(
         // Every time the value of replyTo changes, we update commentMessage.
         if (replyTo.value != null) {
             val initialString =
-                withStylishTags("@" + replyTo.value!!.author.nickname.let { "$it, " })
+                withStylishTags("@" + replyTo.value!!.author?.nickname.let { "$it, " })
             val selection = TextRange(initialString.length)
             viewModel.commentMessage().value =
                 TextFieldValue(

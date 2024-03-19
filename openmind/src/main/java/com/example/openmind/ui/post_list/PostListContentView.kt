@@ -1,5 +1,6 @@
 package com.example.openmind.ui.post_list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +43,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
 import com.example.openmind.ui.post_list.components.PostShortView
@@ -56,14 +56,14 @@ import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.SteelGray
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostListContentView(
     navController: NavController,
     viewModel: PostListViewModel,
     modifier: Modifier = Modifier
 ) {
-    val mutableList = viewModel.getPostList()
-
+    val postList = remember{viewModel.getPostList()}
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -182,11 +182,12 @@ fun PostListContentView(
                     }
                 }
             }
-            items(items = mutableList,
+            items(items = postList, key = { it.hashCode() },
                 itemContent = { item ->
                     PostShortView(
                         navController = navController,
                         post = item,
+                        modifier = Modifier.animateItemPlacement()
                     )
                 })
         }

@@ -1,5 +1,6 @@
 package com.example.openmind.domain.model.comment.dto
 
+import com.example.openmind.domain.model.comment.Comment
 import java.util.Date
 import java.util.UUID
 import com.example.openmind.domain.model.user.UserDto

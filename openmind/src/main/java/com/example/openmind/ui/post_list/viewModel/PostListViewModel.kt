@@ -1,6 +1,6 @@
 package com.example.openmind.ui.post_list.viewModel
 
-import androidx.compose.runtime.Composable
+import android.util.Log
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
@@ -14,15 +14,16 @@ class PostListViewModel : SearchableViewModel(), Sortable {
     override fun getSortingList(): List<SortType> = viewState.getSortingList()
     override fun setActiveSortType(sortType: SortType) = viewState.setActiveSortType(sortType)
     override fun activeSortType(): SortType = viewState.getActiveSortType()
-
-    @Composable
-    fun getPostList(): List<Post> = viewState.loadedPosts.value
-
+    fun getPostList()= viewState.loadedPosts
     override fun onSelect(): () -> Unit {
         return {}
     }
 
+
     fun setCategory(postCategories: PostCategories) {
+        Log.d(
+            "PostListViewModel", "Category set to $postCategories"
+        )
         viewState.activeCategory = postCategories
     }
 

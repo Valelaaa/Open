@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkGray20
@@ -50,7 +51,7 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
     val showLessLabel = stringResource(id = R.string.show_less)
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
-    val rating = remember { item.ratingInfo }
+    val rating = remember { item.ratingInfo ?: RatingInfo() }
     val tagSpanStyle = SpanStyle(
         fontWeight = FontWeight.W800,
         fontFamily = FontFamily.ManropeExtraBoldW800,
@@ -80,7 +81,7 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
             ) {
                 Row {
                     Text(
-                        text = item.author.nickname,
+                        text = item.author?.nickname ?: "no nickname",
                         fontFamily = FontFamily.ManropeBoldW700,
                         fontSize = 14.sp,
                         lineHeight = 14.sp,
@@ -147,7 +148,7 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
             }
             Row {
                 RatingView(
-                    rating = rating,
+                    rating = rating ,
                     isComment = true
                 )
                 Box(

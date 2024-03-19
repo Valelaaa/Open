@@ -4,4 +4,5 @@ interface Searchable {
     fun searchPost(query: String)
     fun updateSearchBarVisibility(isVisible: Boolean)
     fun isSearchBarVisible(): Boolean
+    fun onSearch()
 }

@@ -11,21 +11,17 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
 
 open class SearchableViewModel : ViewModel(), Searchable {
     private val searchableViewState: SearchableViewState = SearchableViewState()
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
-    private var _searchResults = MutableStateFlow<List<Post>>(emptyList())
+    protected var _searchResults = MutableStateFlow<List<Post>>(emptyList())
     val searchResults = _searchResults.asStateFlow()
-//    override fun searchPost(query: String) {
-//        val newResults = searchableViewState.repository.findPostBySubstring(query)
-//        _searchResults.update {
-//            newResults
-//        }
-//    }
+    override fun searchPost(query: String) {
+
+    }
 
     fun resetSearch() {
         _searchText.value = ""
@@ -48,15 +44,15 @@ open class SearchableViewModel : ViewModel(), Searchable {
         _searchText.value = text
     }
 
-    override fun searchPost(query: String) {
-        TODO("Not yet implemented")
-    }
 
     override fun updateSearchBarVisibility(isVisible: Boolean) {
         searchableViewState.isSearchBarVisible.value = isVisible
     }
 
     override fun isSearchBarVisible(): Boolean = searchableViewState.isSearchBarVisible.value
+    override fun onSearch() {
+//        TODO("Not yet implemented")
+    }
 
     fun getSearchTextState() = searchableViewState.searchText
 //    fun getSearchResults() = searchResults

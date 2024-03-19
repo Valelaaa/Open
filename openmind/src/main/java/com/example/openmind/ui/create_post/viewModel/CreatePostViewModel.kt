@@ -4,6 +4,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.Post
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 const val tag = "CreatePostViewModel"
 
@@ -31,7 +33,9 @@ class CreatePostViewModel : ViewModel() {
                 category = viewState.activeCategory
             )
 //        viewState.repository.posts.value.add(newPost)
-        viewState.repository.postData(newPost)
+        GlobalScope.launch {
+            viewState.repository.postData(newPost)
+        }
         return newPost
     }
 

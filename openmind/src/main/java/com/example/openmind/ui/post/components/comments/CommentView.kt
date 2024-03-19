@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
 import com.example.openmind.ui.theme.BorderLight
@@ -50,7 +51,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
     val linesCount = remember { mutableIntStateOf(1) }
 
     val currentActiveCommentsCount = remember { mutableIntStateOf(0) }
-    val rating = remember { item.ratingInfo }
+    val rating = remember { item.ratingInfo ?: RatingInfo() }
 
     Row(modifier = Modifier.padding(bottom = 8.dp)) {
         Row(
@@ -72,7 +73,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
             ) {
                 Row {
                     Text(
-                        text = item.author.nickname,
+                        text = item.author?.nickname ?: "no nickname",
                         fontFamily = FontFamily.ManropeBoldW700,
                         fontSize = 14.sp,
                         lineHeight = 14.sp,

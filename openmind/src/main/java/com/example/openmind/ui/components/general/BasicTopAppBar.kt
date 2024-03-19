@@ -134,6 +134,7 @@ fun BasicTopAppBar(
                     SearchBar(viewModel = viewModel,
                         navController = navController,
                         onSearch = {
+                            viewModel.onSearch()
                             focusManager.clearFocus()
                         })
                 }

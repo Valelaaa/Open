@@ -1,7 +1,10 @@
 package com.example.openmind.ui.categories.viewModel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.R
+import com.example.openmind.data.repository.CategoriesRepository
 import com.example.openmind.data.repository.provider.CategoriesRepositoryProvider
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
@@ -10,10 +13,14 @@ import com.example.openmind.ui.theme.OrangeGradient
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CategoriesViewState {
-    val repository = CategoriesRepositoryProvider().provideRepository()
+    fun getCategoryCount(category: PostCategories) = categoriesCount
+    private lateinit var categoriesCount: Map<PostCategories, Int>
+
+    lateinit var repository: CategoriesRepository
     val categoriesList = listOf(
         CategoryInfo(
             categoryType = PostCategories.BUG,
@@ -35,17 +42,10 @@ class CategoriesViewState {
         )
     )
 
-    @OptIn(DelicateCoroutinesApi::class)
-    fun getCategoryCount(category: PostCategories): MutableStateFlow<Int> {
-        val postCount = MutableStateFlow(0)
-        GlobalScope.launch {
-            repository.fetchPostCountByCategory(category = category).collect {
-                postCount.value = it
-                println(it)
-            }
-        }
-
-        return postCount
+    init {
+        repository = CategoriesRepositoryProvider.provideRepository()
+        categoriesCount = mutableMapOf()
+        if (repository != null)
+            categoriesCount = repository.postsCount
     }
-
 }

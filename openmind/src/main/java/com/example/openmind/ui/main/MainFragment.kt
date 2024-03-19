@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.ui.navigation.Navigation
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 

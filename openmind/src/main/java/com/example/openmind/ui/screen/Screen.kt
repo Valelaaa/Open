@@ -88,7 +88,10 @@ sealed class Screen<T : ViewModel>(
         },
         content = { viewModel, _, args, modifier ->
             val postId = args["postId"]
-            viewModel.setPost(postId = postId.orEmpty())
+            Log.d(
+                "Screen", "postId set to $postId"
+            )
+            viewModel.setCurrentPostById(postId = postId.orEmpty())
             PostContentView(
                 viewModel = viewModel,
                 modifier = modifier
@@ -111,6 +114,9 @@ sealed class Screen<T : ViewModel>(
             val category = args["category"]
             viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
                 ?: PostCategories.BUG)
+            Log.d(
+                "Screen", "Category set to $category"
+            )
             CreatePostContentView(
                 navController = navController,
                 viewModel = viewModel,

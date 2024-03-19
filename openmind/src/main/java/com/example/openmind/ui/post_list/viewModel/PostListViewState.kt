@@ -1,9 +1,8 @@
 package com.example.openmind.ui.post_list.viewModel
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import com.example.openmind.data.repository.PostRepository
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.category.CategoryInfo
@@ -33,32 +32,32 @@ class PostListViewState {
             }
         }
 
+    var loadedPosts = mutableStateListOf<Post>()
 
-        var loadedPosts: MutableState<List<Post>> = mutableStateOf(emptyList())
-    fun fetchList(postCategories: PostCategories): MutableStateFlow<List<Post>> {
-        val posts = MutableStateFlow<List<Post>>(listOf())
+    private fun fetchList(postCategories: PostCategories) {
         GlobalScope.launch {
-
-            repository.fetchAll(postCategories).collect {
-                loadedPosts.value = it
-//                posts = it
+            loadedPosts.clear()
+            repository.fetchAll(postCategories, sortType = activeSortType.value).collect {
+                loadedPosts.addAll(it)
             }
         }
-        return posts
     }
-
 
     fun getSortingList() = sortingList
     fun setActiveSortType(sortType: SortType) {
-        var newParams = repository.getFetchParams()
-        newParams.sortType = sortType
-        repository.setRequestParams(newParams)
         activeSortType.value = sortType
-        //TODO(REQUEST TO FETCH LIST)s
+
+        when (activeSortType.value) {
+            SortType.HOT -> loadedPosts.sortWith(compareBy { it.rating.rating.value })
+            SortType.OLD -> loadedPosts.sortWith(compareBy { it.createdDate })
+            SortType.FRESH -> loadedPosts.sortWith(compareByDescending { it.createdDate })
+            else -> loadedPosts.sortWith(compareBy<Post> { it.title })
+        }
+
     }
 
     fun getActiveSortType(): SortType = activeSortType.value
 
     fun getPostsCount(): Int =
-        loadedPosts.value?.filter { it.category == activeCategory }?.size ?: 0
+        loadedPosts?.filter { it.category == activeCategory }?.size ?: 0
 }
