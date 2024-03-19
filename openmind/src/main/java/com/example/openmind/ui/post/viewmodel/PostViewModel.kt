@@ -37,9 +37,6 @@ class PostViewModel : ViewModel(), Sortable {
 
     override fun activeSortType(): SortType = viewState.getActiveSortType().value
 
-    override fun onSelect(): () -> Unit {
-        TODO("Not yet implemented")
-    }
 
     fun commentMessage() = viewState.commentMessage
     fun onCommentChange(): (TextFieldValue) -> Unit = { it ->

@@ -8,36 +8,30 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.ui.SearchableViewModel
 import com.example.openmind.ui.create_post.components.TAG
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
@@ -93,7 +87,7 @@ fun BasicTopAppBar(
             },
             actions = {
                 Box(modifier = Modifier.padding(end = 30.dp)) {
-                    if (viewModel is SearchableViewModel)
+                    if (viewModel is PostListViewModel)
                         IconButton(
                             onClick = {
                                 Log.d(TAG, "Clicked 'Search' Button")
@@ -118,7 +112,7 @@ fun BasicTopAppBar(
                 containerColor = lightColorScheme().background
             )
         )
-        if (viewModel is SearchableViewModel)
+        if (viewModel is PostListViewModel)
             AnimatedVisibility(
                 visible = viewModel.isSearchBarVisible(),
                 enter = expandHorizontally(
@@ -131,12 +125,13 @@ fun BasicTopAppBar(
                 )
             ) {
                 Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
-                    SearchBar(viewModel = viewModel,
-                        navController = navController,
-                        onSearch = {
-                            viewModel.onSearch()
-                            focusManager.clearFocus()
-                        })
+                    if (viewModel is PostListViewModel)
+                        SearchBar(viewModel = viewModel,
+                            navController = navController,
+                            onSearch = {
+//                                viewModel.onSearch()
+                                focusManager.clearFocus()
+                            })
                 }
             }
     }

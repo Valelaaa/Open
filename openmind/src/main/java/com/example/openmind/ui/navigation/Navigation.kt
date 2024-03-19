@@ -21,7 +21,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
         }
         navigation(
             route = Screen.PostListScreen.route,
-            startDestination = "${Screen.PostListScreen.route}/{category}"
+            startDestination = "${Screen.PostListScreen.route}/{category}",
         ) {
             composable(
                 route = "${Screen.PostListScreen.route}/{category}",
@@ -56,15 +56,21 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 )
             }
             composable(
-                route = "${Screen.SearchResultsScreen.route}/{searchQuery}",
-                arguments = listOf(navArgument("searchQuery") { type = NavType.StringType })
+                route = "${Screen.SearchResultsScreen.route}/{category}/{searchQuery}",
+                arguments = listOf(
+                    navArgument("category") { type = NavType.StringType },
+                    navArgument("searchQuery") { type = NavType.StringType }
+                )
             ) { backStackEntry ->
                 val searchQuery = backStackEntry.arguments?.getString("searchQuery")
-
+                val category = backStackEntry.arguments?.getString("category")
                 ComposeScreen(
                     screen = Screen.SearchResultsScreen,
                     navController = navController,
-                    args = mapOf("searchQuery" to (searchQuery ?: ""))
+                    args = mapOf(
+                        "category" to (category ?: (PostCategories.BUG.getStringValue())),
+                        "searchQuery" to (searchQuery ?: "")
+                    )
                 )
             }
         }
@@ -85,3 +91,6 @@ fun NavController.navigateToPostList(category: PostCategories) =
 
 fun NavController.navigateToCreatePost(category: PostCategories) =
     this.navigate(Screen.CreatePostScreen.route + "/${category}")
+
+fun NavController.navigateToSearchResult(query: String, category: PostCategories) =
+    this.navigate(Screen.SearchResultsScreen.route + "/${category}/${query}")

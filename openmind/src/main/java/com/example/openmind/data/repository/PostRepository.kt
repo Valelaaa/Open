@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Query
 
 const val BASE_URL = "http://192.168.225.200:3000/"
 
@@ -25,9 +26,16 @@ class PostRepository : Repository<Post> {
     private var mapper: PostMapper = PostMapper()
 
 
-    override suspend fun fetchAll(): Flow<List<Post>> {
+    suspend fun fetchAll(
+        category: PostCategories? = null,
+        sortType: SortType? = null,
+        sortBy: SortBy? = null,
+    ): Flow<List<Post>> {
         return flow {
-            val response = service.fetchAll().execute()
+            val response = service.fetchAll(
+                category = category,
+                sortType = sortType, sortBy = sortBy, currentPage = null, pageSize = null
+            ).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 val newPosts = responseBody?.map(mapper::fromDto) ?: emptyList()
@@ -87,18 +95,6 @@ class PostRepository : Repository<Post> {
         }
     }
 
-//    fun findPostBySubstring(subString: String): List<Post> {
-//        if (subString.isBlank())
-//            return emptyList()
-//        val splitSubStrings = subString.trim().lowercase().split(" ")
-//        val found = mutableListOf<Post>()
-//        splitSubStrings.any { splitedSubString ->
-//            found.addAll(postListInstance.value.filter { post ->
-//                post.title.lowercase().contains(splitedSubString)
-//            })
-//        }
-//        return found.toList()
-//    }
 
 
     override suspend fun fetchById(id: String): Flow<Post> = flow {

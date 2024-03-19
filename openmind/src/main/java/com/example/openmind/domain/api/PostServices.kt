@@ -15,19 +15,19 @@ import retrofit2.http.Query
 interface PostServices {
     @GET("api/posts")
     fun fetchAll(
-        @Query("category") category: PostCategories? = null,
-        @Query("sortType") sortType: SortType? = null,
-        @Query("sortOrder") sortBy: SortBy? = null,
-        @Query("pageNumber") currentPage: Int? = null,
-        @Query("pageSize") pageSize: Int? = null
+        @Query("category") category: PostCategories?,
+        @Query("sortType") sortType: SortType? ,
+        @Query("sortOrder") sortBy: SortBy?,
+        @Query("pageNumber") currentPage: Int?,
+        @Query("pageSize") pageSize: Int?
     ): Call<List<PostDto>>
 
     @GET("api/posts/search")
     fun findBySubString(
         @Query("query") query: String,
-        @Query("category") category: PostCategories? = null,
-        @Query("sortType") sortType: SortType? = null,
-        @Query("sortOrder") sortBy: SortBy? = null,
+        @Query("category") category: PostCategories?,
+        @Query("sortType") sortType: SortType?,
+        @Query("sortOrder") sortBy: SortBy?,
     ): Call<List<PostDto>>
 
     @GET("api/posts/count")

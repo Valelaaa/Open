@@ -30,9 +30,9 @@ import androidx.navigation.NavController
 import clickableWithoutRipple
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.navigation.navigateToPost
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.ManropeRegularW400
-import com.example.openmind.ui.SearchableViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +50,7 @@ fun <V : ViewModel> ComposeScreen(
                 viewModel, navController,
                 args, Modifier.padding(paddingValues)
             )
-            if (viewModel is SearchableViewModel) {
+            if (viewModel is PostListViewModel) {
                 AnimatedVisibility(visible = viewModel.isSearchBarVisible()) {
                     Box(
                         modifier = Modifier
@@ -63,7 +63,7 @@ fun <V : ViewModel> ComposeScreen(
                                     viewModel.resetSearch()
                                 })
                     ) {
-                        val searchResults by viewModel.searchResults.collectAsState()
+                        val searchResults by viewModel.getSearchResults().collectAsState()
                         LazyColumn(content = {
                             items(items = searchResults) { item ->
                                 Row(

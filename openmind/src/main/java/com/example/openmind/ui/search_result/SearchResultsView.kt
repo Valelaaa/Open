@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,8 +22,9 @@ fun SearchResultContentView(
     viewModel: SearchResultViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val searchResults by viewModel.searchResults.collectAsState()
-
+    val searchResults = remember {
+        viewModel.getSearchResults()
+    }
     Box(modifier = modifier) {
         LazyColumn(Modifier.borderBottom(1.dp, Delimiter)) {
             items(items = searchResults,

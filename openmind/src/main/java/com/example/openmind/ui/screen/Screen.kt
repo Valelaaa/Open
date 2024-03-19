@@ -137,7 +137,8 @@ sealed class Screen<T : ViewModel>(
 
         }, content = { viewModel, navController, args, modifier ->
             val query = args["searchQuery"]
-            viewModel.onSearchTextChanged(query.orEmpty())
+            val category = args["category"]
+            viewModel.searchWithQuery(query.orEmpty(), category.orEmpty())
             SearchResultContentView(
                 navController = navController,
                 viewModel = viewModel,

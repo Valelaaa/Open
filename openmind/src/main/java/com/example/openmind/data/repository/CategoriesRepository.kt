@@ -42,7 +42,7 @@ class CategoriesRepository : Repository<PostCategories> {
         }
     }
 
-    private suspend fun fetchPostCountByCategory(category: PostCategories): Flow<Int> = flow {
+    private fun fetchPostCountByCategory(category: PostCategories): Flow<Int> = flow {
 
         val response =
             service.getPostCountByCategory(category = category.getStringValue()).execute()
@@ -53,9 +53,6 @@ class CategoriesRepository : Repository<PostCategories> {
         }
     }
 
-    override suspend fun fetchAll(): Flow<List<PostCategories>> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun fetchById(id: String): Flow<PostCategories> {
         TODO("Not yet implemented")

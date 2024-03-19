@@ -1,6 +1,5 @@
 package com.example.openmind.ui.post_list.viewModel
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.data.repository.PostRepository
@@ -11,6 +10,7 @@ import com.example.openmind.domain.model.post.Post
 import com.example.openmind.utils.SortType
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PostListViewState {
@@ -33,7 +33,12 @@ class PostListViewState {
         }
 
     var loadedPosts = mutableStateListOf<Post>()
+    val isSearchBarVisible = mutableStateOf(false)
+    val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
 
+    var _searchResults = MutableStateFlow<List<Post>>(emptyList())
+    val searchResults = _searchResults.asStateFlow()
     private fun fetchList(postCategories: PostCategories) {
         GlobalScope.launch {
             loadedPosts.clear()

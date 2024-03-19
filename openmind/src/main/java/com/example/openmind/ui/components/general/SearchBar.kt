@@ -46,8 +46,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.R
-import com.example.openmind.ui.SearchableViewModel
-import com.example.openmind.ui.screen.Screen
+import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.ui.navigation.navigateToSearchResult
+import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.MaibPrimary
 import keyboardAsState
@@ -58,11 +59,11 @@ import keyboardAsState
 fun SearchBar(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: SearchableViewModel,
+    viewModel: PostListViewModel,
     onSearch: (KeyboardActionScope.() -> Unit)? = null,
     onFocusChangeListener: (() -> Unit)? = null
 ) {
-    val searchText by viewModel.searchText.collectAsState()
+    val searchText by viewModel.getSearchText().collectAsState()
     val focusRequester = remember { FocusRequester() }
     val keyboardState = keyboardAsState()
 
@@ -111,7 +112,7 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     onSearch
-                    navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
+                    navController.navigateToSearchResult(searchText,viewModel.getPostCategory())
                     viewModel.resetSearch()
                     viewModel.updateSearchBarVisibility(false)
                 }
@@ -131,7 +132,13 @@ fun SearchBar(
                     .size(22.dp)
                     .clickable {
                         if (searchText.isNotBlank())
-                            navController.navigate("${Screen.SearchResultsScreen.route}/$searchText")
+                            navController.navigateToSearchResult(
+                                searchText,
+                                viewModel
+                                    .getActiveCategory()
+                                    ?:
+                                     PostCategories.BUG
+                            )
                         viewModel.resetSearch()
                         viewModel.updateSearchBarVisibility(false)
                     },
@@ -147,6 +154,6 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview() {
     Column(modifier = Modifier.fillMaxSize()) {
-        SearchBar(Modifier, navController = rememberNavController(), SearchableViewModel())
+        SearchBar(Modifier, navController = rememberNavController(), PostListViewModel())
     }
 }
