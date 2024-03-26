@@ -33,7 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.comment.dto.CommentDto
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.theme.BorderLight
@@ -44,14 +44,19 @@ import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
 
 @Composable
-fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
+fun SubCommentView(item: CommentDto, onReplyClick: (CommentDto) -> Unit) {
     val defaultMaxLine = remember { mutableIntStateOf(3) }
 
     val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()
     val showLessLabel = stringResource(id = R.string.show_less)
     val extendButtonLabel = remember { mutableStateOf(readMoreLabel) }
     val linesCount = remember { mutableIntStateOf(1) }
-    val rating = remember { item.ratingInfo ?: RatingInfo() }
+    val rating = remember {
+        RatingInfo(
+            rating = mutableStateOf(item.rating),
+            isRated = mutableStateOf(item.isRated)
+        )
+    }
     val tagSpanStyle = SpanStyle(
         fontWeight = FontWeight.W800,
         fontFamily = FontFamily.ManropeExtraBoldW800,
@@ -81,7 +86,7 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
             ) {
                 Row {
                     Text(
-                        text = item.author?.nickname ?: "no nickname",
+                        text = item.commentAuthor,
                         fontFamily = FontFamily.ManropeBoldW700,
                         fontSize = 14.sp,
                         lineHeight = 14.sp,
@@ -110,12 +115,12 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
 //                                TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
                     text =
-                    if (item.message.contains("@")) {
+                    if (item.commentMessage.contains("@")) {
                         withStylishTags(
-                            item.message, tagSpanStyle
+                            item.commentMessage, tagSpanStyle
                         )
                     } else {
-                        AnnotatedString(item.message)
+                        AnnotatedString(item.commentMessage)
                     },
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
@@ -148,7 +153,7 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
             }
             Row {
                 RatingView(
-                    rating = rating ,
+                    rating = rating,
                     isComment = true
                 )
                 Box(
@@ -163,7 +168,10 @@ fun SubCommentView(item: Comment, onReplyClick: (Comment) -> Unit) {
                         lineHeight = 16.sp,
                         maxLines = 1,
                         modifier = Modifier.clickable {
-                            Log.i("SubCommentView", "Clicked reply to ${item.author}'s comment ")
+                            Log.i(
+                                "SubCommentView",
+                                "Clicked reply to ${item.commentAuthor}'s comment "
+                            )
                             onReplyClick(item)
                         }
                     )

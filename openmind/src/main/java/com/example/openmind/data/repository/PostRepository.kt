@@ -72,14 +72,17 @@ class PostRepository : Repository<Post> {
     }
 
 
-    override suspend fun fetchById(id: String): Flow<Post> = flow {
+    suspend fun fetchPostById(id: String): Flow<PostDto> = flow {
         val response = service.fetchById(id).execute()
         if (response.isSuccessful) {
-            emit(mapper.fromDto(response.body() ?: PostDto(title = "can not load post")))
-
+            emit(response.body() ?: PostDto(title = "can not load post"))
         } else {
-            emit(Post(title = "Can not load post"))
+            emit(PostDto(title = "Can not load post"))
         }
+    }
+
+    override suspend fun fetchById(id: String): Flow<Post> {
+        TODO("Not yet implemented")
     }
 
     override fun setRequestParams(requestParams: RequestParams) {

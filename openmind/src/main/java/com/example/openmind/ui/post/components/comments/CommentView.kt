@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.comment.dto.CommentDto
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
@@ -40,7 +40,7 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 @Composable
-fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment) -> Unit) {
+fun CommentView(viewModel: PostViewModel, item: CommentDto, onReplyClick: (CommentDto) -> Unit) {
     val isShowVisible = remember { mutableStateOf(true) }
     val currentLinesCount = remember { mutableIntStateOf(viewModel.getShortCommentLinesCount()) }
 
@@ -51,7 +51,12 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
     val linesCount = remember { mutableIntStateOf(1) }
 
     val currentActiveCommentsCount = remember { mutableIntStateOf(0) }
-    val rating = remember { item.ratingInfo ?: RatingInfo() }
+    val rating = remember {
+        RatingInfo(
+            rating = mutableIntStateOf(item.rating),
+            isRated = mutableIntStateOf(item.isRated)
+        )
+    }
 
     Row(modifier = Modifier.padding(bottom = 8.dp)) {
         Row(
@@ -73,7 +78,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
             ) {
                 Row {
                     Text(
-                        text = item.author?.nickname ?: "no nickname",
+                        text = item.commentAuthor ?: "no nickname",
                         fontFamily = FontFamily.ManropeBoldW700,
                         fontSize = 14.sp,
                         lineHeight = 14.sp,
@@ -101,7 +106,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
             Column {
 //          TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
-                    text = item.message,
+                    text = item.commentMessage,
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W400,
@@ -156,9 +161,9 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
 
             }
 //          TODO("REPLY")
-            if (item.subComments.isNotEmpty() && isShowVisible.value) {
+            if (item.subComments != null && item.subComments?.isNotEmpty() == true && isShowVisible.value) {
                 Text(
-                    text = "show ${item.subComments.size} replies",
+                    text = "show ${item.subComments!!.size} replies",
                     fontFamily = FontFamily.ManropeSemiBoldW600,
                     fontSize = 12.sp,
                     lineHeight = 16.sp,
@@ -166,17 +171,17 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
                         currentActiveCommentsCount.intValue =
-                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments.size
+                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments!!.size
                     }
                 )
             } else {
-                item.subComments.take(currentActiveCommentsCount.intValue)
-                    .forEachIndexed { index, subItem ->
+                item.subComments?.take(currentActiveCommentsCount.intValue)
+                    ?.forEachIndexed { index, subItem ->
                         when (index) {
-                            item.subComments.size - 1 -> {
+                            (item.subComments?.size ?: 1) - 1 -> {
                                 SubCommentView(subItem, onReplyClick = onReplyClick)
                                 Text(
-                                    text = "hide ${item.subComments.size} replies",
+                                    text = "hide ${item.subComments!!.size} replies",
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,
@@ -187,10 +192,11 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                                     }
                                 )
                             }
+
                             currentActiveCommentsCount.intValue - 1 -> {
                                 SubCommentView(subItem, onReplyClick = onReplyClick)
                                 Text(
-                                    text = "show ${item.subComments.size - currentActiveCommentsCount.intValue} replies",
+                                    text = "show ${item.subComments!!.size - currentActiveCommentsCount.intValue} replies",
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,
@@ -201,6 +207,7 @@ fun CommentView(viewModel: PostViewModel, item: Comment, onReplyClick: (Comment)
                                     }
                                 )
                             }
+
                             else -> {
                                 SubCommentView(subItem, onReplyClick = onReplyClick)
                             }

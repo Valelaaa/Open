@@ -91,7 +91,7 @@ sealed class Screen<T : ViewModel>(
             Log.d(
                 "Screen", "postId set to $postId"
             )
-            viewModel.setCurrentPostById(postId = postId.orEmpty())
+            viewModel.setCurrentPostID(postId = postId.orEmpty())
             PostContentView(
                 viewModel = viewModel,
                 modifier = modifier

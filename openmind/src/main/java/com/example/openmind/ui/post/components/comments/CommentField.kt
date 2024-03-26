@@ -43,8 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.openmind.R
-import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.domain.model.user.User
+import com.example.openmind.domain.model.comment.dto.CommentDto
 import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.ui.post.viewmodel.PostViewModel
 import com.example.openmind.ui.theme.BorderLight
@@ -59,7 +58,7 @@ import com.example.openmind.ui.theme.ManropeSemiBoldW600
 fun CommentField(
     viewModel: PostViewModel,
     modifier: Modifier = Modifier,
-    replyTo: MutableState<Comment?> = remember { mutableStateOf(null) },
+    replyTo: MutableState<CommentDto?> = remember { mutableStateOf(null) },
 ) {
 
     /*TODO(FIX CURSOR AFTER REPLYING)
@@ -141,7 +140,7 @@ fun CommentField(
         // Every time the value of replyTo changes, we update commentMessage.
         if (replyTo.value != null) {
             val initialString =
-                withStylishTags("@" + replyTo.value!!.author?.nickname.let { "$it, " })
+                withStylishTags("@" + replyTo.value!!.commentAuthor.let { "$it, " })
             val selection = TextRange(initialString.length)
             viewModel.commentMessage().value =
                 TextFieldValue(

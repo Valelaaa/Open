@@ -11,9 +11,9 @@ data class Comment(
     val createdDate: Date = Date(System.currentTimeMillis()),
     val modificationDate: Date = Date(System.currentTimeMillis()),
     var subComments: List<Comment> = listOf(),
-    val commentId: UUID = UUID.randomUUID(),
+    val commentId: String = UUID.randomUUID().toString(),
     val ratingInfo: RatingInfo = RatingInfo(commentId.toString()),
-    val parentId: UUID? = null
+    val parentId: String? = null
 ) {
     constructor(message: String, author: User, subComments: List<Comment>) : this(
         message = message,

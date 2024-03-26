@@ -96,7 +96,7 @@ fun PostShortView(
 
                     //Category name
                     Text(
-                        text = post.category,
+                        text = post.creatorName ?: "johndoe",
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         maxLines = 1,
