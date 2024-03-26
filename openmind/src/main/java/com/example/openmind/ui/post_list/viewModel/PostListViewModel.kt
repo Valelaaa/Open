@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.domain.model.post.Post
+import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.ui.categories.components.getCategoriesInfoList
 import com.example.openmind.utils.Searchable
 import com.example.openmind.utils.SortType
@@ -23,6 +23,7 @@ open class PostListViewModel : ViewModel(), Sortable, Searchable {
     override fun activeSortType(): SortType = viewState.getActiveSortType()
     fun getActiveCategory() = viewState.activeCategory
     fun getPostList() = viewState.loadedPosts
+    fun postsIsLoading() = viewState.isLoading.value
     fun getSearchResults() = viewState.searchResults
     fun getSearchText() = viewState.searchText
 
@@ -51,10 +52,10 @@ open class PostListViewModel : ViewModel(), Sortable, Searchable {
             viewState._searchResults.value = emptyList()
         val lowercaseQuery = query.lowercase()
         val subStrings = lowercaseQuery.split(" ")
-        val found = mutableListOf<Post>()
+        val found = mutableListOf<ShortPostDto>()
         subStrings.any { splitedSubString ->
             found.addAll(viewState.loadedPosts.filter { post ->
-                post.title.lowercase().contains(splitedSubString)
+                post.postTitle!!.lowercase().contains(splitedSubString)
             })
         }
         viewState._searchResults.value = found.toList()
@@ -95,4 +96,7 @@ open class PostListViewModel : ViewModel(), Sortable, Searchable {
     }
 
     fun getPostCategory(): PostCategories = viewState.activeCategory ?: PostCategories.BUG
+    fun fetchPostList() {
+        viewState.fetchList(postCategories = viewState.activeCategory ?: throw IllegalStateException())
+    }
 }

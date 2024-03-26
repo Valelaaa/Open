@@ -1,13 +1,12 @@
 package com.example.openmind.domain.model.mapper
 
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.post.PostDto
+import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.domain.model.rating.dto.RatingDto
-import com.example.openmind.domain.model.user.User
-import com.example.openmind.domain.model.user.UserDto
 
 class PostMapper : Mapper<Post, PostDto> {
     val commentMapper: CommentMapper = CommentMapper()
@@ -16,29 +15,32 @@ class PostMapper : Mapper<Post, PostDto> {
             postId = from.postId,
             title = from.title.trim(),
             description = from.description.trim(),
-            author = UserDto(nickname = from.author.nickname),
+            creatorName = from.author,
             createdDate = from.createdDate,
-            comments = from.comments.map(commentMapper::toDto),
-            rating = RatingDto(),
+            rating = from.rating.rating.value,
+            isRated = from.rating.isRated.value,
             category = from.category.getStringValue(),
-            )
+        )
+    }
+
+    fun toCreatePostDto(from: Post): CreatePostDto {
+        return CreatePostDto(
+            title = from.title,
+            description = from.description,
+            category = from.category.getStringValue()
+        )
     }
 
     override fun fromDto(dto: PostDto): Post {
+        val rating =
+            RatingInfo(isRated = mutableStateOf(dto.isRated), rating = mutableStateOf(dto.rating))
         return Post(
             postId = dto.postId,
             title = dto.title,
             description = dto.description,
-            author = User(nickname = dto.author.nickname),
+            author = dto.creatorName,
             createdDate = dto.createdDate,
-            comments = dto.comments.map(commentMapper::fromDto),
-            rating = RatingInfo(
-                dto.rating.id,
-                rating = mutableIntStateOf(dto.rating.currentRating),
-                isRated = mutableIntStateOf(
-                    dto.rating.userVote?.vote ?: 0
-                )
-            ),
+            rating = rating,
             category = PostCategories.valueOf(dto.category)
         )
     }

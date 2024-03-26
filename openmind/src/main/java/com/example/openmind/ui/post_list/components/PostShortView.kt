@@ -3,13 +3,11 @@ package com.example.openmind.ui.post_list.components
 import NoRippleInteractionSource
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,33 +19,30 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.R
-import com.example.openmind.domain.model.post.Post
+import com.example.openmind.domain.model.post.ShortPostDto
+import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
-import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
-import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.components.general.SharePost
+import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
-import com.example.openmind.ui.theme.LightText
 import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
@@ -59,10 +54,16 @@ const val tag = "PostShortView"
 @Composable
 fun PostShortView(
     navController: NavController,
-    post: Post,
+    post: ShortPostDto,
     modifier: Modifier = Modifier,
 ) {
     val post = remember { post }
+    val ratingInfo = remember {
+        RatingInfo(
+            rating = mutableIntStateOf(post.postRating ?: 0),
+            isRated = mutableIntStateOf(post.isRated ?: 0)
+        )
+    }
     Row(
         modifier
             .fillMaxWidth()
@@ -95,7 +96,7 @@ fun PostShortView(
 
                     //Category name
                     Text(
-                        text = post.category.getStringValue(),
+                        text = post.category,
                         fontSize = 14.sp,
                         lineHeight = 20.sp,
                         maxLines = 1,
@@ -147,7 +148,7 @@ fun PostShortView(
                 ) {
                     //Post Title
                     Text(
-                        text = post.title.trimIndent(), fontSize = 14.sp,
+                        text = post.postTitle!!.trimIndent(), fontSize = 14.sp,
                         fontFamily = FontFamily.ManropeBoldW700,
                         color = DarkBlue40,
                         maxLines = 3,
@@ -173,7 +174,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    RatingView(rating = post.rating, Modifier)
+                    RatingView(rating = ratingInfo, Modifier)
                     //Comments
                     Column(
                         modifier = Modifier
@@ -208,7 +209,7 @@ fun PostShortView(
                             Text(
                                 text = stringResource(
                                     R.string.comments_count,
-                                    post.getCommentsCount()
+                                    post.commentsCount
                                 ),
                                 fontFamily = FontFamily.ManropeBoldW700,
                                 fontSize = 14.sp,
@@ -226,22 +227,3 @@ fun PostShortView(
 }
 
 
-@Preview
-@Composable
-fun PostShortComposeViewPreview() {
-    val post = CreatePostViewModel().createPost()
-    val currentContext = LocalContext.current
-    Column(
-        modifier = Modifier
-            .background(color = Color.Black)
-            .fillMaxSize()
-    ) {
-        PostShortView(
-            navController = NavController(currentContext),
-            post = post,
-            modifier = Modifier
-                .padding(horizontal = 28.dp, vertical = 30.dp)
-                .background(LightText),
-        )
-    }
-}

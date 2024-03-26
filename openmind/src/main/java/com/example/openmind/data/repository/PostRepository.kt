@@ -1,11 +1,14 @@
 package com.example.openmind.data.repository
 
-import com.example.openmind.domain.api.PostServices
+import com.example.openmind.domain.api.ApiConfigs
 import com.example.openmind.domain.api.params.RequestParams
+import com.example.openmind.domain.api.post.PostServices
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.mapper.PostMapper
+import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.post.PostDto
+import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.domain.repository.Repository
 import com.example.openmind.utils.SortBy
 import com.example.openmind.utils.SortType
@@ -13,13 +16,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Query
 
-const val BASE_URL = "http://192.168.225.200:3000/"
 
 class PostRepository : Repository<Post> {
     private var requestParams: RequestParams = RequestParams()
-    private var retrofit: Retrofit = Retrofit.Builder().baseUrl(BASE_URL)
+    private var retrofit: Retrofit = Retrofit.Builder().baseUrl(ApiConfigs.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private var service: PostServices = retrofit.create(PostServices::class.java)
@@ -30,15 +31,15 @@ class PostRepository : Repository<Post> {
         category: PostCategories? = null,
         sortType: SortType? = null,
         sortBy: SortBy? = null,
-    ): Flow<List<Post>> {
+    ): Flow<List<ShortPostDto>> {
         return flow {
             val response = service.fetchAll(
-                category = category,
-                sortType = sortType, sortBy = sortBy, currentPage = null, pageSize = null
+                category = category.toString(),
+                sortType = sortType, sortBy = sortBy,
             ).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body()
-                val newPosts = responseBody?.map(mapper::fromDto) ?: emptyList()
+                val newPosts = responseBody ?: emptyList()
                 emit(newPosts)
             } else {
                 emit(emptyList())
@@ -51,7 +52,7 @@ class PostRepository : Repository<Post> {
         category: PostCategories?,
         sortType: SortType? = null,
         sortBy: SortBy? = null
-    ): Flow<List<Post>> {
+    ): Flow<List<ShortPostDto>> {
         return flow {
             val response = service.findBySubString(
                 title,
@@ -61,7 +62,7 @@ class PostRepository : Repository<Post> {
             ).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body()
-                val filteredPosts = responseBody?.map(mapper::fromDto) ?: emptyList()
+                val filteredPosts = responseBody ?: emptyList()
                 emit(filteredPosts)
             } else {
                 emit(emptyList())
@@ -69,32 +70,6 @@ class PostRepository : Repository<Post> {
             }
         }
     }
-
-    suspend fun fetchAll(
-        category: PostCategories? = null,
-        sortBy: SortBy? = null,
-        sortType: SortType? = null,
-        page: Int? = null,
-        pageSize: Int? = null
-    ): Flow<List<Post>> {
-        return flow {
-            val response = service.fetchAll(
-                category = category,
-                sortBy = sortBy,
-                sortType = sortType,
-                currentPage = page,
-                pageSize = pageSize
-            ).execute()
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                val newPosts = responseBody?.map(mapper::fromDto) ?: emptyList()
-                emit(newPosts)
-            } else {
-                emit(emptyList())
-            }
-        }
-    }
-
 
 
     override suspend fun fetchById(id: String): Flow<Post> = flow {
@@ -118,17 +93,9 @@ class PostRepository : Repository<Post> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun postData(data: Post): Boolean {
-        val response = service.updateOrCreate(mapper.toDto(data)).execute()
+    fun postData(data: CreatePostDto): Boolean {
+        val response = service.createPost(data).execute()
 
         return response.isSuccessful
     }
-
-//    fun updateRating(postId: String, rating: Int) {
-//        //TODO("REQUEST TO UPDATE POST RATING")
-//        runBlocking {
-//            posts.value
-//                .first { post: Post -> post.postId == postId }.rating.rating.value += rating
-//        }
-//    }
 }

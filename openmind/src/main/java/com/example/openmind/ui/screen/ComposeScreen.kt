@@ -82,7 +82,7 @@ fun <V : ViewModel> ComposeScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = item.title,
+                                        text = item.postTitle!!,
                                         maxLines = 2,
                                         fontFamily = FontFamily.ManropeRegularW400,
                                         overflow = TextOverflow.Ellipsis,

@@ -1,22 +1,26 @@
 package com.example.openmind.ui.categories.viewModel
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
-import com.example.openmind.domain.model.category.CategoryInfo
-import com.example.openmind.domain.model.category.PostCategories
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 class CategoriesViewModel : ViewModel() {
     private val viewState = CategoriesViewState()
-    fun getCategoryCountString(category: PostCategories): String {
-        val state = viewState.getCategoryCount(category = category)
-        return "${state[category] ?: 0} posts"
+    fun isLoading() = viewState.isLoading
+
+    @OptIn(ExperimentalEncodingApi::class)
+    fun stringToBitMap(encodedString: String): Bitmap {
+        val imageBytes = Base64.decode(encodedString, 0)
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    }
+    fun getCategoriesList() =
+        viewState.loadedCategories
+
+    fun fetchList() {
+        viewState.fetchList()
     }
 
-    fun getCategoriesList(): List<CategoryInfo> {
-        return viewState.categoriesList
-    }
+
 }

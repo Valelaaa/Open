@@ -3,6 +3,7 @@ package com.example.openmind.ui.create_post.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.Post
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -25,14 +26,13 @@ class CreatePostViewModel : ViewModel() {
 
     fun getButtonState() = viewState.isButtonEnabled.value
 
-    fun createPost(): Post {
+    fun createPost(): CreatePostDto {
         val newPost =
-            Post(
+            CreatePostDto(
                 title = viewState.title.value.text,
                 description = viewState.description.value.text,
-                category = viewState.activeCategory
+                category = viewState.activeCategory.getStringValue()
             )
-//        viewState.repository.posts.value.add(newPost)
         GlobalScope.launch {
             viewState.repository.postData(newPost)
         }

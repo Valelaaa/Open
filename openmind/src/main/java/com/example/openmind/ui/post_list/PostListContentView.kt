@@ -22,10 +22,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,11 +64,10 @@ fun PostListContentView(
     viewModel: PostListViewModel,
     modifier: Modifier = Modifier
 ) {
-    val postList = remember{viewModel.getPostList()}
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
-        LazyColumn {
+        LazyColumn() {
             item {
                 Column {
                     Row(modifier = Modifier.padding(end = 30.dp, start = 30.dp, bottom = 10.dp)) {
@@ -182,14 +182,25 @@ fun PostListContentView(
                     }
                 }
             }
-            items(items = postList, key = { it.hashCode() },
-                itemContent = { item ->
-                    PostShortView(
-                        navController = navController,
-                        post = item,
-                        modifier = Modifier.animateItemPlacement()
-                    )
-                })
+            if (viewModel.postsIsLoading()) {
+                item {
+                    Box(
+                        modifier = modifier
+                            .fillMaxSize(), contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.size(40.dp))
+                    }
+                }
+            } else {
+                items(items = viewModel.getPostList(), key = { it.hashCode() },
+                    itemContent = { item ->
+                        PostShortView(
+                            navController = navController,
+                            post = item,
+                            modifier = Modifier.animateItemPlacement()
+                        )
+                    })
+            }
         }
         Box(
             modifier = Modifier
@@ -218,6 +229,9 @@ fun PostListContentView(
                 )
             }
         }
+    }
+    LaunchedEffect(Unit){
+        viewModel.fetchPostList()
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.example.openmind.data.repository.PostRepository
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.Comment
+import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.user.User
 import com.example.openmind.utils.SortType
@@ -54,8 +55,14 @@ class PostViewState {
     fun updatePostComments(comment: List<Comment>) {
         this.comments.value = listOf(*comment.toTypedArray())
         this.post.value.comments = comments.value
+        var postToUpdate = CreatePostDto(
+            postId = post.value.postId,
+            title = post.value.title,
+            description = post.value.description,
+            category = post.value.category.getStringValue()
+        )
         GlobalScope.launch {
-            repository.postData(post.value)
+            repository.postData(postToUpdate)
         }
     }
 

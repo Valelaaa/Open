@@ -1,10 +1,8 @@
 package com.example.openmind.domain.model.post
 
-import com.example.openmind.domain.model.comment.Comment
-import com.example.openmind.domain.model.rating.dto.RatingDto
 import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.domain.model.user.User
 import com.example.openmind.utils.Rateable
 import java.util.Date
 import java.util.UUID
@@ -13,7 +11,7 @@ open class Post(
     val postId: String = UUID.randomUUID().toString(),
     var title: String,
     var description: String = "",
-    val author: User = User("Unknown"),
+    val author: String = "unknown",
     var createdDate: Date = Date(System.currentTimeMillis()),
     var comments: List<Comment> = listOf(),
     val rating: RatingInfo = RatingInfo(postId),

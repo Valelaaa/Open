@@ -9,12 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -23,7 +22,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.openmind.domain.model.category.CategoryInfo
+import com.example.openmind.domain.model.category.CategoryDto
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.theme.DarkGray20
@@ -34,13 +34,11 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 fun CategoryView(
     viewModel: CategoriesViewModel,
     navController: NavController,
-    categoryInfo: CategoryInfo
+    categoryDto: CategoryDto
 ) {
-    val stringCount =
-        remember { viewModel.getCategoryCountString(category = categoryInfo.categoryType) }
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Text(
-            text = categoryInfo.categoryTitle,
+            text = categoryDto.categoryTitle,
             fontFamily = FontFamily.ManropeBoldW700,
             fontSize = 16.sp,
             lineHeight = 24.sp,
@@ -54,21 +52,23 @@ fun CategoryView(
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 100.dp)
                 .clickable {
-                    navController.navigateToPostList(categoryInfo.categoryType)
+                    navController.navigateToPostList(PostCategories.valueOf(categoryDto.categoryName))
                 },
             contentAlignment = Alignment.CenterStart
         ) {
-            Image(
-                painter = painterResource(id = categoryInfo.backgroundImage),
-                contentDescription = "navigate",
-                contentScale = ContentScale.FillWidth
-            )
+            if (categoryDto.categoryImage != null)
+                Image(
+                    bitmap = viewModel.stringToBitMap(categoryDto.categoryImage ?: "")
+                        .asImageBitmap(),
+                    contentDescription = "navigate",
+                    contentScale = ContentScale.FillWidth
+                )
             Column(
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 22.dp)
             ) {
                 Text(
-                    text = stringCount,
+                    text = "${categoryDto.postCount} posts",
                     fontFamily = FontFamily.ManropeRegularW400,
                     fontSize = 12.sp,
                     lineHeight = 16.sp,
@@ -77,7 +77,7 @@ fun CategoryView(
                 )
                 Text(
                     text = changeWordStyle(
-                        categoryInfo.tagLine,
+                        categoryDto.tagLine,
                         0,
                         SpanStyle(fontFamily = FontFamily.ManropeBoldW700)
                     ),

@@ -171,6 +171,7 @@ fun PostContentView(
                                         .clip(CircleShape)
                                         .border(1.dp, BorderLight, CircleShape)
                                         .clickable(onClick = {
+                                            TODO("IMPLEMENT NAVIGATION WITH SCROLL")
                                             viewModel.scrollToComments()
                                         })
                                         .padding(end = 20.dp),
