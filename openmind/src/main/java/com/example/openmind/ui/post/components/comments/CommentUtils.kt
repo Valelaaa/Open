@@ -23,13 +23,15 @@ fun withStylishTags(
     val delimiter = " "
 
     val words = text.split(delimiter)
-    for (word in words) {
+    for ((index, word) in words.withIndex()) {
         if (word.indexOf("@") == 0) {
             result.withStyle(style = styleSpan) { append(word) }
         } else {
             result.append(word)
         }
-        result.append(delimiter)
+        if (index < words.lastIndex) {
+            result.append(delimiter)
+        }
     }
 
     return result.toAnnotatedString()

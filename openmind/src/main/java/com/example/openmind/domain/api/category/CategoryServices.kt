@@ -1,7 +1,6 @@
 package com.example.openmind.domain.api.category
 
 import com.example.openmind.domain.model.category.CategoryDto
-import com.example.openmind.domain.model.category.PostCategories
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE

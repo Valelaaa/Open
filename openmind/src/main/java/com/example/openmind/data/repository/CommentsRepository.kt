@@ -1,19 +1,18 @@
 package com.example.openmind.data.repository
 
-import com.example.openmind.domain.api.ApiConfigs
 import com.example.openmind.domain.api.CommentsServices
-import com.example.openmind.domain.api.params.RequestParams
+import com.example.openmind.domain.model.comment.CommentModel
+import com.example.openmind.domain.model.comment.CreateCommentModel
 import com.example.openmind.domain.model.comment.dto.CommentDto
+import com.example.openmind.domain.model.mapper.provider.CommentMapperProvider
+import com.example.openmind.domain.model.mapper.provider.CreateCommentMapperProvider
 import com.example.openmind.domain.repository.Repository
+import com.example.openmind.utils.WebClientUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class CommentsRepository : Repository<CommentDto> {
-    private var retrofit: Retrofit = Retrofit.Builder().baseUrl(ApiConfigs.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    private val retrofit = WebClientUtils.getRetrofitInstance()
     private var service: CommentsServices = retrofit.create(CommentsServices::class.java)
 
 
@@ -21,26 +20,20 @@ class CommentsRepository : Repository<CommentDto> {
         TODO("Not yet implemented")
     }
 
-    override fun setRequestParams(requestParams: RequestParams) {
-        TODO("Not yet implemented")
+
+    suspend fun postComment(createCommentModel: CreateCommentModel) {
+        val createModelDto = CreateCommentMapperProvider.provideMapper().toDto(createCommentModel)
+        service.createPost(createModelDto)
     }
 
-    override fun getFetchParams(): RequestParams {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateFetchParams(requestParams: RequestParams): Boolean {
-        TODO("Not yet implemented")
-    }
-
-
-    fun fetchCommentsByPostId(currentPostId: String): Flow<List<CommentDto>> {
+    suspend fun fetchCommentsByPostId(currentPostId: String): Flow<List<CommentModel>> {
         return flow {
             val response = service.getCommentsByPostId(currentPostId).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 val comments = responseBody ?: emptyList()
-                emit(comments)
+                val models = comments.map(CommentMapperProvider.provideCommentMapper()::fromDto)
+                emit(models)
             } else {
                 emit(emptyList())
             }

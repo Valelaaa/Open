@@ -4,7 +4,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
-import com.example.openmind.domain.model.post.Post
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

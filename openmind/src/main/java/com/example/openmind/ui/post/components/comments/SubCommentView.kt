@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
+import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.comment.dto.CommentDto
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
@@ -44,7 +45,7 @@ import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
 
 @Composable
-fun SubCommentView(item: CommentDto, onReplyClick: (CommentDto) -> Unit) {
+fun SubCommentView(item: CommentModel, onReplyClick: (CommentModel) -> Unit) {
     val defaultMaxLine = remember { mutableIntStateOf(3) }
 
     val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()

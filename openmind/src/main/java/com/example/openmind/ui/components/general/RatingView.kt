@@ -15,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.domain.model.rating.dto.RatingDto
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibError
@@ -50,7 +48,7 @@ fun RatingView(
     var rated by remember {// 0 - not rated, 1 - liked, -1 - disliked
         rating.isRated
     }
-    val likeColor by remember { mutableStateOf(if (rated == 1) MaibPrimary else DarkBlue40) }
+    val likeColor = if (rated == 1) MaibPrimary else DarkBlue40
     val dislikeColor = if (rated == -1) MaibError else DarkBlue40
     ///TODO("Стоит ли вынести Comments в отдельную сущность?"
 
@@ -60,6 +58,7 @@ fun RatingView(
 
     val currentRating =
         if (rated == 1) mutableRating + 1 else if (rated == -1) mutableRating - 1 else mutableRating
+
     var strokeColor = BorderLight
 
     if (isComment) {
@@ -125,7 +124,7 @@ fun RatingView(
 @Preview
 @Composable
 fun RatingPreview() {
-    val mockPost = Post(title ="title")
+    val mockPost = Post(title = "title")
     Column(
         modifier = Modifier
             .fillMaxSize()

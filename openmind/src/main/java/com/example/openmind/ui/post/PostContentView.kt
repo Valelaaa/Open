@@ -87,7 +87,7 @@ fun PostContentView(
         ) {
             item {
                 if (viewModel.postIsLoading()) {
-                    Box(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(modifier = Modifier.size(30.dp))
                     }
                 } else {

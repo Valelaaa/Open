@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.domain.model.comment.dto.CommentDto
+import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
@@ -40,7 +40,11 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 
 @Composable
-fun CommentView(viewModel: PostViewModel, item: CommentDto, onReplyClick: (CommentDto) -> Unit) {
+fun CommentView(
+    viewModel: PostViewModel,
+    item: CommentModel,
+    onReplyClick: (CommentModel) -> Unit
+) {
     val isShowVisible = remember { mutableStateOf(true) }
     val currentLinesCount = remember { mutableIntStateOf(viewModel.getShortCommentLinesCount()) }
 
@@ -171,14 +175,14 @@ fun CommentView(viewModel: PostViewModel, item: CommentDto, onReplyClick: (Comme
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
                         currentActiveCommentsCount.intValue =
-                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments!!.size
+                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments!!.size + 1
                     }
                 )
             } else {
                 item.subComments?.take(currentActiveCommentsCount.intValue)
                     ?.forEachIndexed { index, subItem ->
                         when (index) {
-                            (item.subComments?.size ?: 1) - 1 -> {
+                            (item.subComments?.size ?: 0 - 1) -> {
                                 SubCommentView(subItem, onReplyClick = onReplyClick)
                                 Text(
                                     text = "hide ${item.subComments!!.size} replies",
@@ -193,7 +197,7 @@ fun CommentView(viewModel: PostViewModel, item: CommentDto, onReplyClick: (Comme
                                 )
                             }
 
-                            currentActiveCommentsCount.intValue - 1 -> {
+                            currentActiveCommentsCount.intValue -> {
                                 SubCommentView(subItem, onReplyClick = onReplyClick)
                                 Text(
                                     text = "show ${item.subComments!!.size - currentActiveCommentsCount.intValue} replies",
