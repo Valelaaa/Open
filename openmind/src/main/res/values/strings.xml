@@ -15,4 +15,14 @@
     <string name="show_less">show less</string>
     <string name="success_create_post">We have successfully\n registered your post.</string>
     <string name="create_post_info">Your post is going to be processed between \nMo-Fr: 08:00-17:00.\nOn working days we post your post in about 20\n minutes. You will get a notification. \nThank you!</string>
+    <string name="user_profile_image">User profile image</string>
+    <string name="edit_image">Edit image</string>
+    <string name="user_picture">User picture</string>
+    <string name="personal_data">Personal data</string>
+    <string name="phone_number">Phone number</string>
+    <string name="e_mail">E-mail</string>
+    <string name="history">History</string>
+    <string name="your_posts">Your posts</string>
+    <string name="liked_posts">Liked posts</string>
+    <string name="your_comments">Your Comments</string>
 </resources>

@@ -19,6 +19,8 @@ import com.example.openmind.ui.post.PostContentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
 import com.example.openmind.ui.post_list.PostListContentView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
+import com.example.openmind.ui.profile.ProfileScreenView
+import com.example.openmind.ui.profile.ProfileScreenViewModel
 import com.example.openmind.ui.search_result.SearchResultContentView
 import com.example.openmind.ui.search_result.viewModel.SearchResultViewModel
 import com.example.openmind.ui.success_post_register.SuccessRegisteredPostViewModel
@@ -155,6 +157,21 @@ sealed class Screen<T : ViewModel>(
             SuccessRegistrationPostView(
                 viewModel, navController, modifier
             )
+        }
+    )
+
+    object ProfileScreen : Screen<ProfileScreenViewModel>(
+        route = "profile_screen", title = "Profile",
+        viewModelClass = ProfileScreenViewModel::class.java,
+        topAppBar = { viewModel, navController ->
+            BasicTopAppBar(
+                viewModel = viewModel,
+                navController = navController,
+                currentScreen = PostListScreen,
+            )
+        },
+        content = { viewModel, navController, _, modifier ->
+            ProfileScreenView(viewModel = viewModel, navController = navController, modifier = modifier)
         }
     )
 }

@@ -9,15 +9,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.screen.ComposeScreen
 import com.example.openmind.ui.screen.Screen
-import com.example.openmind.domain.model.category.PostCategories
 
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController()) {
-    NavHost(navController = navController, startDestination = Screen.CategoriesScreen.route) {
+    NavHost(navController = navController, startDestination = Screen.ProfileScreen.route) {
         composable(Screen.CategoriesScreen.route) {
             ComposeScreen(screen = Screen.CategoriesScreen, navController = navController)
+        }
+        composable(Screen.ProfileScreen.route) {
+            ComposeScreen(screen = Screen.ProfileScreen, navController = navController)
         }
         navigation(
             route = Screen.PostListScreen.route,
