@@ -19,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -26,6 +28,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,7 +66,9 @@ fun CreatePostContentView(
         Column {
             Row {
                 OutlinedButton(
-                    onClick = {},
+                    onClick = {
+                        viewModel.setDropdownVisibility(true)
+                    },
                     shape = RoundedCornerShape(6.dp),
                     contentPadding = PaddingValues(16.dp),
                     modifier = Modifier
@@ -78,8 +83,9 @@ fun CreatePostContentView(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
+
                         Text(
-                            text = "Choose a Category",
+                            text = viewModel.getCategory(),
                             style = TextStyle(
                                 color = SteelBlue60,
                                 fontSize = 14.sp,
@@ -95,8 +101,24 @@ fun CreatePostContentView(
                                 tint = SteelBlue60,
                             )
                         }
+
                     }
 
+                }
+                DropdownMenu(
+                    expanded = viewModel.getDropdownVisibility(),
+                    onDismissRequest = { viewModel.setDropdownVisibility(false) },
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                ) {
+                    viewModel.getCategoriesList().toList().forEach { category ->
+                        DropdownMenuItem(
+                            text = { Text(category.getStringValue()) },
+                            onClick = {
+                                viewModel.setDropdownVisibility(false)
+                                viewModel.setCategory(category)
+                            }
+                        )
+                    }
                 }
                 Box(
                     modifier = Modifier
@@ -111,6 +133,7 @@ fun CreatePostContentView(
                         tint = MaibPrimary
                     )
                 }
+
             }
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -215,6 +238,9 @@ fun CreatePostContentView(
                 )
             )
         }
+    }
+    LaunchedEffect(Unit) {
+        viewModel.fetchCategories()
     }
 }
 

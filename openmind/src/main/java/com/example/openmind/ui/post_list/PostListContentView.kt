@@ -143,42 +143,42 @@ fun PostListContentView(
                             modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
                             contentPaddings = PaddingValues(vertical = 8.dp, horizontal = 10.dp)
                         )
-                        Button(
-                            onClick = {
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = LightGray80,
-                                contentColor = SteelBlue60
-                            ),
-                            contentPadding = PaddingValues(vertical = 5.dp, horizontal = 15.dp),
-                            shape = RoundedCornerShape(50),
-                            modifier = Modifier
-                                .defaultMinSize(minHeight = 1.dp)
-                                .padding(top = 7.dp, bottom = 10.dp, start = 18.dp)
-                                .align(Alignment.Top)
-                        ) {
-                            Row() {
-                                Text(
-                                    text = "A to Z",
-                                    fontFamily = FontFamily.ManropeRegularW400,
-                                    fontSize = 14.sp,
-                                    color = SteelBlue60,
-                                    modifier = Modifier.padding(horizontal = 24.dp),
-                                )
-                                Box(
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        Icons.Default.KeyboardArrowDown,
-                                        contentDescription = "sorting direction",
-                                        tint = SteelBlue60,
-
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                    )
-                                }
-                            }
-                        }
+//                        Button(
+//                            onClick = {
+//                            },
+//                            colors = ButtonDefaults.buttonColors(
+//                                containerColor = LightGray80,
+//                                contentColor = SteelBlue60
+//                            ),
+//                            contentPadding = PaddingValues(vertical = 5.dp, horizontal = 15.dp),
+//                            shape = RoundedCornerShape(50),
+//                            modifier = Modifier
+//                                .defaultMinSize(minHeight = 1.dp)
+//                                .padding(top = 7.dp, bottom = 10.dp, start = 18.dp)
+//                                .align(Alignment.Top)
+//                        ) {
+//                            Row() {
+//                                Text(
+//                                    text = "A to Z",
+//                                    fontFamily = FontFamily.ManropeRegularW400,
+//                                    fontSize = 14.sp,
+//                                    color = SteelBlue60,
+//                                    modifier = Modifier.padding(horizontal = 24.dp),
+//                                )
+//                                Box(
+//                                    contentAlignment = Alignment.Center
+//                                ) {
+//                                    Icon(
+//                                        Icons.Default.KeyboardArrowDown,
+//                                        contentDescription = "sorting direction",
+//                                        tint = SteelBlue60,
+//
+//                                        modifier = Modifier
+//                                            .size(20.dp)
+//                                    )
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
@@ -204,7 +204,7 @@ fun PostListContentView(
         }
         Box(
             modifier = Modifier
-                .padding(end = 30.dp, bottom = 140.dp)
+                .padding(end = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomEnd)
         ) {
             Box(
@@ -217,7 +217,7 @@ fun PostListContentView(
                     .clickable {
                         navController.navigateToCreatePost(viewModel.getPostCategory())
                     }
-                    .background(Color(0xFF66CDBD))
+                    .background(Color(0xCC66CDBD))
                     .size(60.dp)
                     .padding(12.dp),
             ) {
@@ -230,7 +230,7 @@ fun PostListContentView(
             }
         }
     }
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.fetchPostList()
     }
 }

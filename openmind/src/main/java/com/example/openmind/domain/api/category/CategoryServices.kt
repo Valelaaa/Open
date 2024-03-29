@@ -14,6 +14,8 @@ interface CategoryServices {
     @GET("api/categories")
     fun getAll(): Call<List<CategoryDto>>
 
+    @GET("api/categories")
+    suspend fun fetchAllSuspend():List<CategoryDto>
     @GET("api/categories/{name}")
     fun getById(@Path("name") categoryName: String): Call<CategoryDto>
 

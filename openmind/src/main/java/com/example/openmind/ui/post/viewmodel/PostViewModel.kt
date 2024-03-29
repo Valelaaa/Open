@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.CommentsRepository
 import com.example.openmind.data.repository.PostRepository
@@ -13,13 +12,15 @@ import com.example.openmind.data.repository.provider.CommentsRepositoryProvider
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.comment.CreateCommentModel
+import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class PostViewModel : ViewModel(), Sortable {
+class PostViewModel : GlobalViewModel(), Sortable {
 
     private val viewState: PostViewState = PostViewState()
 
@@ -69,9 +70,6 @@ class PostViewModel : ViewModel(), Sortable {
         viewState.commentFieldFocusRequester.requestFocus()
     }
 
-    fun scrollToComments() {
-        TODO("Not yet implemented")
-    }
 
     fun onCommentChange(): (TextFieldValue) -> Unit = { it ->
         if (viewState.commentMessage.value.text.contains("@"))
@@ -104,27 +102,37 @@ class PostViewModel : ViewModel(), Sortable {
         focusManager.clearFocus()
 
         viewState.commentMessage.value = TextFieldValue("")
+        fetchComments()
     }
 
     fun fetchPost() {
         GlobalScope.launch {
             viewState.postIsLoading.value = true
-            postRepository.fetchPostById(viewState.currentPostId).collect {
-                viewState.post.value = it
-                viewState.postIsLoading.value = false
-            }
+            postRepository.fetchPostById(viewState.currentPostId)
+                .catch { cause: Throwable -> handleError(cause) }
+                .collect {
+                    viewState.post.value = it
+                    viewState.postIsLoading.value = false
+                }
         }
 
     }
 
     fun fetchComments() {
-        GlobalScope.launch {
-            viewState.commentsLoading.value = true
-            viewState.comments.clear()
-            commentRepository.fetchCommentsByPostId(viewState.currentPostId).collect {
-                viewState.comments.addAll(it)
-                viewState.commentsLoading.value = false
+        GlobalScope.launch() {
+            try {
+                viewState.commentsLoading.value = true
+                commentRepository.fetchCommentsByPostId(viewState.currentPostId)
+                    .catch { cause: Throwable -> handleError(cause) }.collect {
+                        viewState.comments.clear()
+                        viewState.comments.addAll(it)
+                        viewState.commentsLoading.value = false
+                    }
+            } catch (e: Exception) {
+                handleError(e)
             }
         }
     }
+
+
 }

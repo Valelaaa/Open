@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.openmind.domain.model.category.CategoryDto
 import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeBoldW700
@@ -32,9 +31,9 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 
 @Composable
 fun CategoryView(
-    viewModel: CategoriesViewModel,
+    base64ToImageBitmapConverter: ((String?) -> ImageBitmap?)? = null,
     navController: NavController,
-    categoryDto: CategoryDto
+    categoryDto: CategoryDto,
 ) {
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Text(
@@ -56,10 +55,10 @@ fun CategoryView(
                 },
             contentAlignment = Alignment.CenterStart
         ) {
-            if (categoryDto.categoryImage != null)
+            val image = base64ToImageBitmapConverter?.invoke(categoryDto.categoryImage)
+            if (image != null)
                 Image(
-                    bitmap = viewModel.stringToBitMap(categoryDto.categoryImage ?: "")
-                        .asImageBitmap(),
+                    bitmap = image,
                     contentDescription = "navigate",
                     contentScale = ContentScale.FillWidth
                 )

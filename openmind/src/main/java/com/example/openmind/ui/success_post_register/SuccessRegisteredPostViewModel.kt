@@ -1,7 +1,7 @@
 package com.example.openmind.ui.success_post_register
 
-import androidx.lifecycle.ViewModel
+import com.example.openmind.ui.GlobalViewModel
 
-class SuccessRegisteredPostViewModel : ViewModel() {
+class SuccessRegisteredPostViewModel : GlobalViewModel() {
 
 }

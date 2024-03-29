@@ -1,23 +1,30 @@
 package com.example.openmind.ui.post_list.viewModel
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.openmind.data.repository.PostRepository
+import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.ShortPostDto
+import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.categories.components.getCategoriesInfoList
 import com.example.openmind.utils.Searchable
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
-open class PostListViewModel : ViewModel(), Sortable, Searchable {
+open class PostListViewModel : GlobalViewModel(), Sortable, Searchable {
     private val viewState: PostListViewState = PostListViewState()
+    var repository: PostRepository = PostRepositoryProvider.provideRepository()
+
     override fun getSortingList(): List<SortType> = viewState.getSortingList()
     override fun setActiveSortType(sortType: SortType) = viewState.setActiveSortType(sortType)
     override fun activeSortType(): SortType = viewState.getActiveSortType()
@@ -26,6 +33,22 @@ open class PostListViewModel : ViewModel(), Sortable, Searchable {
     fun postsIsLoading() = viewState.isLoading.value
     fun getSearchResults() = viewState.searchResults
     fun getSearchText() = viewState.searchText
+
+    fun fetchPostList() {
+        GlobalScope.launch {
+            viewState.isLoading.value = true
+            viewState.loadedPosts.clear()
+            repository.fetchAll(
+                category = viewState.activeCategory,
+                sortType = viewState.activeSortType.value
+            )
+                .catch { cause: Throwable -> handleError(cause) }
+                .collect {
+                    viewState.loadedPosts.addAll(it)
+                    viewState.isLoading.value = false
+                }
+        }
+    }
 
     init {
         viewState._searchText
@@ -96,7 +119,5 @@ open class PostListViewModel : ViewModel(), Sortable, Searchable {
     }
 
     fun getPostCategory(): PostCategories = viewState.activeCategory ?: PostCategories.BUG
-    fun fetchPostList() {
-        viewState.fetchList(postCategories = viewState.activeCategory ?: throw IllegalStateException())
-    }
+
 }

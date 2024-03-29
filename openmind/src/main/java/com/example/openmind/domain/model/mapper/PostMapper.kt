@@ -5,7 +5,6 @@ import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.post.PostDto
-import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.domain.model.rating.RatingInfo
 
 class PostMapper : Mapper<Post, PostDto> {

@@ -11,18 +11,31 @@ import kotlinx.coroutines.flow.flow
 
 class CategoriesRepository : Repository<PostCategories> {
     private val retrofit = WebClientUtils.getRetrofitInstance()
-    private val service: CategoryServices = retrofit.create(CategoryServices::class.java)
+    private val service: CategoryServices =
+        WebClientUtils.createService(CategoryServices::class.java)
 
 
     fun fetchAll(): Flow<List<CategoryDto>> {
         return flow {
-            val response = service.getAll(
-            ).execute()
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                val categories = responseBody ?: emptyList()
-                emit(categories)
-            } else {
+            kotlin.runCatching {
+                val response = service.fetchAllSuspend()
+                response
+            }.onFailure {
+                println("!!! onError")
+                it.printStackTrace()
+            }.onSuccess {
+                emit(it)
+            }
+        }
+    }
+
+    fun fetchAllSuspend(): Flow<List<CategoryDto>> {
+        return flow {
+            kotlin.runCatching {
+                service.fetchAllSuspend()
+            }.onSuccess {
+                emit(it)
+            }.onFailure {
                 emit(emptyList())
             }
         }

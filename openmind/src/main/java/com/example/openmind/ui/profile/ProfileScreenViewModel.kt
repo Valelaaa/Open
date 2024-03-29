@@ -1,9 +1,9 @@
 package com.example.openmind.ui.profile
 
 import androidx.compose.runtime.MutableState
-import androidx.lifecycle.ViewModel
+import com.example.openmind.ui.GlobalViewModel
 
-class ProfileScreenViewModel : ViewModel() {
+class ProfileScreenViewModel : GlobalViewModel() {
     private val viewState = ProfileScreenViewState()
 
 

@@ -1,13 +1,9 @@
 package com.example.openmind.domain.model.category
 
 import android.util.Log
-import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Brush
-import com.example.openmind.R
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class CategoryInfo(
     val categoryType: PostCategories,

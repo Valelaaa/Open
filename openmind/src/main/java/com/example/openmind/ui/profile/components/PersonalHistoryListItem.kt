@@ -31,10 +31,11 @@ fun PersonalHistoryListItem(
     title: String,
     painter: Painter,
     imageDescription: String,
-    isNavigationIconVisible: Boolean = false
+    isNavigationIconVisible: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(start = 16.dp)
             .fillMaxWidth()
             .borderBottom((0.5).dp, BorderLight),

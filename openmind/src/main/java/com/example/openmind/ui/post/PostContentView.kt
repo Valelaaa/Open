@@ -3,15 +3,12 @@ package com.example.openmind.ui.post
 import CommentField
 import NoRippleInteractionSource
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,11 +45,9 @@ import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.components.general.SharePost
-import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.post.components.comments.CommentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
-import com.example.openmind.ui.post_list.components.tag
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -82,15 +77,16 @@ fun PostContentView(
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
             .fillMaxSize()
     ) {
-        LazyColumn(
-            Modifier.weight(1f)
-        ) {
-            item {
-                if (viewModel.postIsLoading()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(modifier = Modifier.size(30.dp))
-                    }
-                } else {
+        if (viewModel.postIsLoading() and viewModel.isCommentsLoading()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(modifier = Modifier.size(40.dp))
+            }
+        } else {
+            LazyColumn(
+                Modifier.weight(1f)
+            ) {
+
+                item {
 
                     Column {
                         Column(
@@ -134,8 +130,8 @@ fun PostContentView(
                                 //more button (three dots)
                                 IconButton(
                                     onClick = {
-//                                  TODO("Open Hamburger menu for additional actions")
-                                        Log.d(tag, "Open Hamburger menu")
+////                                  TODO("Open Hamburger menu for additional actions")
+//                                        Log.d(tag, "Open Hamburger menu")
                                     },
                                     modifier = Modifier
                                         .size(24.dp)
@@ -187,10 +183,10 @@ fun PostContentView(
                                         modifier = Modifier
                                             .clip(CircleShape)
                                             .border(1.dp, BorderLight, CircleShape)
-                                            .clickable(onClick = {
-                                                TODO("IMPLEMENT NAVIGATION WITH SCROLL")
-                                                viewModel.scrollToComments()
-                                            })
+//                                            .clickable(onClick = {
+////                                                TODO("IMPLEMENT NAVIGATION WITH SCROLL")
+//                                                viewModel.scrollToComments()
+//                                            })
                                             .padding(end = 20.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
@@ -224,32 +220,21 @@ fun PostContentView(
                             }
                         }
                     }
+//                    Box(
+//                        modifier = Modifier
+//                            .padding(top = 10.dp)
+//                    ) {
+//                        Column(Modifier.fillMaxWidth()) {
+//                            SortingSelector(
+//                                sortableViewModel = viewModel,
+//                                contentPaddings = PaddingValues(0.dp)
+//                            )
+//                            Spacer(modifier = Modifier.height(15.dp))
+//                        }
+//
+//                    }
                 }
-                LaunchedEffect(Unit) {
-                    viewModel.fetchPost()
-                }
-                Box(
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                ) {
-                    Column(Modifier.fillMaxWidth()) {
-                        SortingSelector(
-                            sortableViewModel = viewModel,
-                            contentPaddings = PaddingValues(0.dp)
-                        )
-                        Spacer(modifier = Modifier.height(15.dp))
-                    }
-
-                }
-            }
-            if (viewModel.isCommentsLoading()) {
-                item {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(modifier = Modifier.size(35.dp))
-                    }
-                }
-            } else {
-
+                item { Spacer(modifier = Modifier.height(16.dp)) }
                 items(items = viewModel.getComments()) { item ->
                     CommentView(
                         viewModel = viewModel,
@@ -262,6 +247,7 @@ fun PostContentView(
 
         }
         LaunchedEffect(Unit) {
+            viewModel.fetchPost()
             viewModel.fetchComments()
         }
         CommentField(viewModel = viewModel, replyTo = viewModel.getReplyComment())

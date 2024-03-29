@@ -1,20 +1,30 @@
 package com.example.openmind.ui.create_post.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.lifecycle.ViewModel
+import com.example.openmind.data.repository.provider.CategoriesRepositoryProvider
+import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
+import com.example.openmind.ui.GlobalViewModel
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 const val tag = "CreatePostViewModel"
 
-class CreatePostViewModel : ViewModel() {
+class CreatePostViewModel : GlobalViewModel() {
     private val viewState: CreatePostViewState = CreatePostViewState()
+    val repository = PostRepositoryProvider.provideRepository()
+    val categoryRepository = CategoriesRepositoryProvider.provideRepository()
 
+    fun getDropdownVisibility() = viewState.isCategoriesDropdownMenuVisible.value
+    fun setDropdownVisibility(isVisible: Boolean) {
+        viewState.isCategoriesDropdownMenuVisible.value = isVisible
+    }
     fun getDescription() = viewState.description.value
     fun getTitle() = viewState.title.value
 
+    fun getCategory(): String = viewState.activeCategory.getStringValue()
     fun setCategory(postCategories: PostCategories) {
         viewState.activeCategory = postCategories
     }
@@ -33,7 +43,7 @@ class CreatePostViewModel : ViewModel() {
                 category = viewState.activeCategory.getStringValue()
             )
         GlobalScope.launch {
-            viewState.repository.postData(newPost)
+            repository.postData(newPost)
         }
         return newPost
     }
@@ -50,4 +60,19 @@ class CreatePostViewModel : ViewModel() {
     fun onCreatePostButton(): Unit {
         createPost()
     }
+
+    fun fetchCategories() {
+        GlobalScope.launch {
+            viewState.isCategoriesLoading.value = true
+            categoryRepository.fetchAll().catch { cause: Throwable -> handleError(cause) }
+                .collect { list ->
+                    viewState.categories.clear()
+                    viewState.categories.addAll(list.map { PostCategories.valueOf(it.categoryName) })
+                    viewState.isCategoriesLoading.value = false
+                }
+        }
+    }
+
+    fun getCategoriesList() = viewState.categories
+    fun categoriesLoading(): Boolean = viewState.isCategoriesLoading.value
 }

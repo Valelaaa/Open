@@ -167,12 +167,13 @@ fun ProfileScreenView(
                     .fillMaxWidth(),
             ) {
                 PersonalHistoryListItem(
-                    title = stringResource(R.string.your_posts),
+                    title = "Categories",
                     painter = painterResource(id = R.drawable.medal_icon),
                     imageDescription = stringResource(
                         id = R.string.user_picture
                     ),
-                    isNavigationIconVisible = true
+                    isNavigationIconVisible = true,
+                    modifier = Modifier.clickable(onClick = { navController.navigate(Screen.CategoriesScreen.route) })
                 )
                 PersonalHistoryListItem(
                     title = stringResource(R.string.liked_posts),
