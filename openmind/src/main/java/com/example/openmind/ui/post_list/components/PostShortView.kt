@@ -1,5 +1,6 @@
 package com.example.openmind.ui.post_list.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -20,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -109,26 +113,26 @@ fun PostShortView(
                         color = SteelBlue60
                     )
                 }
-                //more button (three dots)
-//                IconButton(
-//                    onClick = {
-////                        TODO("Open Hamburger menu for additional actions")
-//                        Log.d(tag, "Open Hamburger menu")
-//
-//                    },
-//                    modifier = Modifier
-//                        .size(24.dp)
-//                        .padding(end = 10.dp),
-//                    interactionSource = NoRippleInteractionSource.INSTANCE
-//                ) {
-//                    Icon(
-//                        Icons.Default.MoreVert,
-//                        contentDescription = stringResource(id = R.string.contentdescription_more),
-//                        modifier = Modifier
-//                            .size(24.dp)
-//                            .rotate(90f)
-//                    )
-//                }
+//                more button (three dots)
+                IconButton(
+                    onClick = {
+//                        TODO("Open Hamburger menu for additional actions")
+                        Log.d(tag, "Open Hamburger menu")
+
+                    },
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(end = 10.dp),
+                    interactionSource = NoRippleInteractionSource.INSTANCE
+                ) {
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = stringResource(id = R.string.contentdescription_more),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(90f)
+                    )
+                }
             }
 
             // Post Content

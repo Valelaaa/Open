@@ -50,7 +50,6 @@ fun RatingView(
     }
     val likeColor = if (rated == 1) MaibPrimary else DarkBlue40
     val dislikeColor = if (rated == -1) MaibError else DarkBlue40
-    ///TODO("Стоит ли вынести Comments в отдельную сущность?"
 
     val actionColor = if (rated == 1) MaibPrimary else if (rated == -1) MaibError else DarkBlue40
     var strokeActionColor =

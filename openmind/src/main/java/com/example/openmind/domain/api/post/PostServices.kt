@@ -30,7 +30,10 @@ interface PostServices {
     ): Call<List<ShortPostDto>>
 
     @GET("api/posts/{postId}")
-    fun fetchById(@Path("postId") postId: String): Call<PostDto>
+    fun fetchByIdAsCallable(@Path("postId") postId: String): Call<PostDto>
+
+    @GET("api/posts/{postId}")
+    suspend fun fetchById(@Path("postId") postId: String): PostDto
 
     @POST("api/posts")
     fun createPost(@Body post: CreatePostDto): Call<Void>

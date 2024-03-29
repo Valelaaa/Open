@@ -10,7 +10,10 @@ import retrofit2.http.Path
 
 interface CommentsServices {
     @GET("api/comments/postId/{postId}")
-    fun getCommentsByPostId(@Path("postId") postId: String): Call<List<CommentDto>>
+    fun getCommentsByPostIdAsCallable(@Path("postId") postId: String): Call<List<CommentDto>>
+
+    @GET("api/comments/postId/{postId}")
+    suspend fun getCommentsByPostId(@Path("postId") postId: String): List<CommentDto>
 
     @POST("api/comments")
     suspend fun createPost(@Body commentDto: CreateCommentDto)

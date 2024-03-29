@@ -26,9 +26,15 @@ class CommentsRepository : Repository<CommentDto> {
         service.createPost(createModelDto)
     }
 
-    suspend fun fetchCommentsByPostId(currentPostId: String): Flow<List<CommentModel>> {
+    suspend fun fetchCommentsByPostId(currentPostId: String): List<CommentModel> {
+        return service.getCommentsByPostId(currentPostId)
+            .map(CommentMapperProvider.provideCommentMapper()::fromDto)
+    }
+
+
+    suspend fun fetchCommentsByPostIdFlow(currentPostId: String): Flow<List<CommentModel>> {
         return flow {
-            val response = service.getCommentsByPostId(currentPostId).execute()
+            val response = service.getCommentsByPostIdAsCallable(currentPostId).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 val comments = responseBody ?: emptyList()

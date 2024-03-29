@@ -77,7 +77,7 @@ fun PostContentView(
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
             .fillMaxSize()
     ) {
-        if (viewModel.postIsLoading() and viewModel.isCommentsLoading()) {
+        if (viewModel.postIsLoading() /*and viewModel.isCommentsLoading()*/) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(modifier = Modifier.size(40.dp))
             }
@@ -247,8 +247,7 @@ fun PostContentView(
 
         }
         LaunchedEffect(Unit) {
-            viewModel.fetchPost()
-            viewModel.fetchComments()
+            viewModel.fetchPostDetails()
         }
         CommentField(viewModel = viewModel, replyTo = viewModel.getReplyComment())
     }

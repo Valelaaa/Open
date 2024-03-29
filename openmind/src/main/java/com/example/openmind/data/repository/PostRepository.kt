@@ -64,13 +64,17 @@ class PostRepository : Repository<Post> {
     }
 
 
-    suspend fun fetchPostById(id: String): Flow<PostDto> = flow {
-        val response = service.fetchById(id).execute()
+    suspend fun fetchPostByIdFlow(id: String): Flow<PostDto> = flow {
+        val response = service.fetchByIdAsCallable(id).execute()
         if (response.isSuccessful) {
             emit(response.body() ?: PostDto(title = "can not load post"))
         } else {
             emit(PostDto(title = "Can not load post"))
         }
+    }
+
+    suspend fun fetchPostById(id: String): PostDto{
+       return service.fetchById(id)
     }
 
     override suspend fun fetchById(id: String): Flow<Post> {

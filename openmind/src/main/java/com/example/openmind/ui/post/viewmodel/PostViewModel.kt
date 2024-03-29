@@ -17,7 +17,10 @@ import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PostViewModel : GlobalViewModel(), Sortable {
@@ -86,8 +89,8 @@ class PostViewModel : GlobalViewModel(), Sortable {
     private fun saveComment(comment: CreateCommentModel) {
         viewModelScope.launch {
             commentRepository.postComment(comment)
+            fetchCommentsInternal()
         }
-        fetchComments()
     }
 
     fun onCommentSend(focusManager: FocusManager, replyTo: MutableState<CommentModel?>) {
@@ -102,13 +105,13 @@ class PostViewModel : GlobalViewModel(), Sortable {
         focusManager.clearFocus()
 
         viewState.commentMessage.value = TextFieldValue("")
-        fetchComments()
     }
 
+    @Deprecated("use fetchPostDetails")
     fun fetchPost() {
         GlobalScope.launch {
             viewState.postIsLoading.value = true
-            postRepository.fetchPostById(viewState.currentPostId)
+            postRepository.fetchPostByIdFlow(viewState.currentPostId)
                 .catch { cause: Throwable -> handleError(cause) }
                 .collect {
                     viewState.post.value = it
@@ -118,12 +121,50 @@ class PostViewModel : GlobalViewModel(), Sortable {
 
     }
 
+    fun fetchPostDetails() {
+        viewModelScope.launch {
+            viewState.postIsLoading.value = true
+            val loadPostJob = async {
+                fetchPostInternal()
+            }
+            val loadCommentsJob = async {
+                fetchCommentsInternal()
+            }
+            awaitAll(loadPostJob, loadCommentsJob)
+            viewState.postIsLoading.value = false
+        }
+    }
+
+
+    private suspend fun fetchPostInternal() {
+        kotlin.runCatching {
+            postRepository.fetchPostById(viewState.currentPostId)
+        }.onSuccess {
+            viewState.post.value = it
+        }.onFailure {
+            handleError(it)
+        }
+    }
+
+    private suspend fun fetchCommentsInternal() {
+        kotlin.runCatching {
+            commentRepository.fetchCommentsByPostId(viewState.currentPostId)
+        }.onSuccess {
+            viewState.comments.clear()
+            viewState.comments.addAll(it)
+        }.onFailure {
+            handleError(it)
+        }
+    }
+
+    @Deprecated("")
     fun fetchComments() {
         GlobalScope.launch() {
             try {
                 viewState.commentsLoading.value = true
-                commentRepository.fetchCommentsByPostId(viewState.currentPostId)
-                    .catch { cause: Throwable -> handleError(cause) }.collect {
+                commentRepository.fetchCommentsByPostIdFlow(viewState.currentPostId)
+                    .catch { cause: Throwable -> handleError(cause) }
+                    .collect {
                         viewState.comments.clear()
                         viewState.comments.addAll(it)
                         viewState.commentsLoading.value = false
@@ -133,6 +174,5 @@ class PostViewModel : GlobalViewModel(), Sortable {
             }
         }
     }
-
 
 }
