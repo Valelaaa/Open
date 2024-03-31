@@ -23,8 +23,7 @@ import kotlinx.coroutines.launch
 
 open class PostListViewModel : GlobalViewModel(), Sortable, Searchable {
     private val viewState: PostListViewState = PostListViewState()
-    var repository: PostRepository = PostRepositoryProvider.provideRepository()
-
+    val repository: PostRepository = PostRepositoryProvider.provideRepository()
     override fun getSortingList(): List<SortType> = viewState.getSortingList()
     override fun setActiveSortType(sortType: SortType) = viewState.setActiveSortType(sortType)
     override fun activeSortType(): SortType = viewState.getActiveSortType()

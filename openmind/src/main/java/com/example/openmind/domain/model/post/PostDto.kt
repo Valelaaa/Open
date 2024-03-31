@@ -17,7 +17,7 @@ data class PostDto(
     @SerializedName("creatorName")
     val creatorName: String = "johndoe",
     @SerializedName("createdDate")
-    var createdDate: Date = Date(System.currentTimeMillis()),
+    var createdDate: Long = Date(System.currentTimeMillis()).time,
     @SerializedName("rating")
     var rating: Int = 0,
     @SerializedName("isRated")
@@ -25,13 +25,15 @@ data class PostDto(
     @SerializedName("category")
     val category: String = PostCategories.BUG.getStringValue(),
     @SerializedName("commentCount")
-    val commentCount: Int = 0
+    val commentCount: Int = 0,
+    @SerializedName("ratingId")
+    val ratingId:String = UUID.randomUUID().toString(),
 
 ) {
     fun formatElapsedTime(): String {
 
         val nowMillis = System.currentTimeMillis()
-        val createdDateMillis = createdDate.time
+        val createdDateMillis = createdDate
         val durationMillis: Long = nowMillis - createdDateMillis
 
         val durationInMinutes = durationMillis / 60000
@@ -46,15 +48,5 @@ data class PostDto(
             else -> String.format("%d Y", durationInDays / 365)
         }
 
-    }
-
-    fun updateRating(ratingValue: Int) {
-        if (ratingValue > rating) {
-            isRated = 1
-            rating += 1
-        } else if (ratingValue < rating) {
-            isRated = -1
-            rating += 1
-        }
     }
 }

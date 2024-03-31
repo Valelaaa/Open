@@ -27,17 +27,6 @@ class CategoriesViewModel : GlobalViewModel() {
     fun getCategoriesList() =
         viewState.loadedCategories
 
-    //    fun fetchList() {
-//        GlobalScope.launch {
-//            viewState.isLoading.value = true
-//            repository.fetchAll().catch { cause: Throwable -> handleError(cause) }
-//                .collect {
-//                    viewState.loadedCategories.clear()
-//                    viewState.loadedCategories.addAll(it)
-//                    viewState.isLoading.value = false
-//                }
-//        }
-//    }
     init {
         fetchList()
     }

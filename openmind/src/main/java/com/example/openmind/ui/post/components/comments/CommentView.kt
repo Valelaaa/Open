@@ -57,6 +57,7 @@ fun CommentView(
     val currentActiveCommentsCount = remember { mutableIntStateOf(0) }
     val rating = remember {
         RatingInfo(
+            ratingId = item.ratingId,
             rating = mutableIntStateOf(item.rating),
             isRated = mutableIntStateOf(item.isRated)
         )
@@ -144,7 +145,8 @@ fun CommentView(
 //          TODO("RATING SECTION, REPLY")
                 RatingView(
                     rating = rating,
-                    isComment = true
+                    isComment = true,
+                    onRatingChange = viewModel.onRatingChange()
                 )
                 Box(
                     contentAlignment = Alignment.Center,
@@ -183,7 +185,11 @@ fun CommentView(
                     ?.forEachIndexed { index, subItem ->
                         when (index) {
                             (item.subComments?.size ?: 0 - 1) -> {
-                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                                SubCommentView(
+                                    subItem,
+                                    onReplyClick = onReplyClick,
+                                    onRatingChange = viewModel.onRatingChange()
+                                )
                                 Text(
                                     text = "hide ${item.subComments!!.size} replies",
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
@@ -198,7 +204,11 @@ fun CommentView(
                             }
 
                             currentActiveCommentsCount.intValue -> {
-                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                                SubCommentView(
+                                    subItem,
+                                    onReplyClick = onReplyClick,
+                                    onRatingChange = viewModel.onRatingChange()
+                                )
                                 Text(
                                     text = "show ${item.subComments!!.size - currentActiveCommentsCount.intValue} replies",
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
@@ -213,7 +223,11 @@ fun CommentView(
                             }
 
                             else -> {
-                                SubCommentView(subItem, onReplyClick = onReplyClick)
+                                SubCommentView(
+                                    subItem,
+                                    onReplyClick = onReplyClick,
+                                    onRatingChange = viewModel.onRatingChange()
+                                )
                             }
                         }
 

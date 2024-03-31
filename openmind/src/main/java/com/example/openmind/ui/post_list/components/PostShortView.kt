@@ -1,5 +1,6 @@
 package com.example.openmind.ui.post_list.components
 
+import NoRippleInteractionSource
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -55,12 +56,13 @@ fun PostShortView(
     navController: NavController,
     post: ShortPostDto,
     modifier: Modifier = Modifier,
+    onRatingChange: (String, Int) -> Unit
 ) {
-    val post = remember { post }
     val ratingInfo = remember {
         RatingInfo(
+            ratingId = post.ratingId,
             rating = mutableIntStateOf(post.postRating ?: 0),
-            isRated = mutableIntStateOf(post.isRated ?: 0)
+            isRated = mutableIntStateOf(post.isRated)
         )
     }
     Row(
@@ -173,7 +175,7 @@ fun PostShortView(
                         .fillMaxWidth(),
                 ) {
                     //Rating
-                    RatingView(rating = ratingInfo, Modifier)
+                    RatingView(rating = ratingInfo, Modifier, onRatingChange = onRatingChange)
                     //Comments
                     Column(
                         modifier = Modifier

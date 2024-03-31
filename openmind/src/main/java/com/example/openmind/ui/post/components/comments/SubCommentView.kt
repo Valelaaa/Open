@@ -44,7 +44,11 @@ import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
 
 @Composable
-fun SubCommentView(item: CommentModel, onReplyClick: (CommentModel) -> Unit) {
+fun SubCommentView(
+    item: CommentModel,
+    onReplyClick: (CommentModel) -> Unit,
+    onRatingChange: (String, Int) -> Unit
+) {
     val defaultMaxLine = remember { mutableIntStateOf(3) }
 
     val readMoreLabel = stringResource(id = R.string.read_more_label).lowercase()
@@ -53,6 +57,7 @@ fun SubCommentView(item: CommentModel, onReplyClick: (CommentModel) -> Unit) {
     val linesCount = remember { mutableIntStateOf(1) }
     val rating = remember {
         RatingInfo(
+            ratingId = item.ratingId,
             rating = mutableStateOf(item.rating),
             isRated = mutableStateOf(item.isRated)
         )
@@ -112,7 +117,6 @@ fun SubCommentView(item: CommentModel, onReplyClick: (CommentModel) -> Unit) {
                 }
             }
             Column {
-//                                TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
                     text =
                     if (item.commentMessage.contains("@")) {
@@ -154,7 +158,8 @@ fun SubCommentView(item: CommentModel, onReplyClick: (CommentModel) -> Unit) {
             Row {
                 RatingView(
                     rating = rating,
-                    isComment = true
+                    isComment = true,
+                    onRatingChange = onRatingChange
                 )
                 Box(
                     contentAlignment = Alignment.Center,

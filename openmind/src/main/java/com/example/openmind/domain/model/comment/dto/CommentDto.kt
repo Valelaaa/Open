@@ -9,7 +9,7 @@ data class CommentDto(
     var commentAuthor: String = "",
     var commentMessage: String = " message",
     var postId: String,
-    var createdDate: Date = Date(System.currentTimeMillis()),
+    var createdDate: Long = Date(System.currentTimeMillis()).time,
     var parentCommentId: String? = null,
     var ratingId: String,
     var rating: Int = 0,

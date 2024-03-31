@@ -27,8 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.Post
-import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
@@ -66,12 +63,6 @@ fun PostContentView(
     modifier: Modifier = Modifier
 ) {
 
-    val postRating = remember {
-        RatingInfo(
-            rating = mutableStateOf(viewModel.getPost().rating),
-            isRated = mutableStateOf(viewModel.getPost().isRated)
-        )
-    }
     Column(
         modifier = modifier
             .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
@@ -130,8 +121,6 @@ fun PostContentView(
                                 //more button (three dots)
                                 IconButton(
                                     onClick = {
-////                                  TODO("Open Hamburger menu for additional actions")
-//                                        Log.d(tag, "Open Hamburger menu")
                                     },
                                     modifier = Modifier
                                         .size(24.dp)
@@ -171,7 +160,11 @@ fun PostContentView(
                                     .fillMaxWidth(),
                             ) {
                                 //Rating
-                                RatingView(postRating, Modifier)
+                                RatingView(
+                                    viewModel.getPostRating(),
+                                    Modifier,
+                                    onRatingChange = viewModel.onRatingChange()
+                                )
                                 //Comments
                                 Column(
                                     modifier = Modifier
@@ -183,10 +176,6 @@ fun PostContentView(
                                         modifier = Modifier
                                             .clip(CircleShape)
                                             .border(1.dp, BorderLight, CircleShape)
-//                                            .clickable(onClick = {
-////                                                TODO("IMPLEMENT NAVIGATION WITH SCROLL")
-//                                                viewModel.scrollToComments()
-//                                            })
                                             .padding(end = 20.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
@@ -220,19 +209,6 @@ fun PostContentView(
                             }
                         }
                     }
-//                    Box(
-//                        modifier = Modifier
-//                            .padding(top = 10.dp)
-//                    ) {
-//                        Column(Modifier.fillMaxWidth()) {
-//                            SortingSelector(
-//                                sortableViewModel = viewModel,
-//                                contentPaddings = PaddingValues(0.dp)
-//                            )
-//                            Spacer(modifier = Modifier.height(15.dp))
-//                        }
-//
-//                    }
                 }
                 item { Spacer(modifier = Modifier.height(16.dp)) }
                 items(items = viewModel.getComments()) { item ->
@@ -260,7 +236,6 @@ fun PostContentView(
 @Composable
 fun PostContentViewPreview() {
     val viewModel = PostViewModel()
-    val postListViewModel = PostListViewModel()
     val post =
         Post(title = "title")
     viewModel.setCurrentPostID(postId = post.postId)

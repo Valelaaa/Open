@@ -15,10 +15,7 @@ import kotlinx.coroutines.flow.flow
 
 
 class PostRepository : Repository<Post> {
-    private val retrofit = WebClientUtils.getRetrofitInstance()
-    private val service: PostServices = retrofit.create(PostServices::class.java)
-
-
+    private val service: PostServices = WebClientUtils.createService(PostServices::class.java)
     suspend fun fetchAll(
         category: PostCategories? = null,
         sortType: SortType? = null,
@@ -73,8 +70,8 @@ class PostRepository : Repository<Post> {
         }
     }
 
-    suspend fun fetchPostById(id: String): PostDto{
-       return service.fetchById(id)
+    suspend fun fetchPostById(id: String): PostDto {
+        return service.fetchById(id)
     }
 
     override suspend fun fetchById(id: String): Flow<Post> {

@@ -8,19 +8,19 @@ import com.example.openmind.domain.model.post.PostDto
 import com.example.openmind.domain.model.rating.RatingInfo
 
 class PostMapper : Mapper<Post, PostDto> {
-    val commentMapper: CommentMapper = CommentMapper()
-    override fun toDto(from: Post): PostDto {
-        return PostDto(
-            postId = from.postId,
-            title = from.title.trim(),
-            description = from.description.trim(),
-            creatorName = from.author,
-            createdDate = from.createdDate,
-            rating = from.rating.rating.value,
-            isRated = from.rating.isRated.value,
-            category = from.category.getStringValue(),
-        )
-    }
+//    val commentMapper: CommentMapper = CommentMapper()
+//    override fun toDto(from: Post): PostDto {
+//        return PostDto(
+//            postId = from.postId,
+//            title = from.title.trim(),
+//            description = from.description.trim(),
+//            creatorName = from.author,
+//            createdDate = from.createdDate,
+//            rating = from.rating.rating.value,
+//            isRated = from.rating.isRated.value,
+//            category = from.category.getStringValue(),
+//        )
+//    }
 
     fun toCreatePostDto(from: Post): CreatePostDto {
         return CreatePostDto(
@@ -30,17 +30,26 @@ class PostMapper : Mapper<Post, PostDto> {
         )
     }
 
+//    override fun fromDto(dto: PostDto): Post {
+//        val rating =
+//            RatingInfo(isRated = mutableStateOf(dto.isRated), rating = mutableStateOf(dto.rating))
+//        return Post(
+//            postId = dto.postId,
+//            title = dto.title,
+//            description = dto.description,
+//            author = dto.creatorName,
+//            createdDate = dto.createdDate,
+//            rating = rating,
+//            category = PostCategories.valueOf(dto.category)
+//        )
+//    }
+
+
     override fun fromDto(dto: PostDto): Post {
-        val rating =
-            RatingInfo(isRated = mutableStateOf(dto.isRated), rating = mutableStateOf(dto.rating))
-        return Post(
-            postId = dto.postId,
-            title = dto.title,
-            description = dto.description,
-            author = dto.creatorName,
-            createdDate = dto.createdDate,
-            rating = rating,
-            category = PostCategories.valueOf(dto.category)
-        )
+        TODO("Not yet implemented")
+    }
+
+    override fun toDto(from: Post): PostDto {
+        TODO("Not yet implemented")
     }
 }

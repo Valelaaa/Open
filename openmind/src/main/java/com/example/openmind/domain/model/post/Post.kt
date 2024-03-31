@@ -3,7 +3,6 @@ package com.example.openmind.domain.model.post
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.comment.Comment
 import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.utils.Rateable
 import java.util.Date
 import java.util.UUID
 
@@ -16,7 +15,7 @@ open class Post(
     var comments: List<Comment> = listOf(),
     val rating: RatingInfo = RatingInfo(postId),
     val category: PostCategories = PostCategories.BUG
-) : Rateable {
+) {
 
     fun getCommentsCount(): Int = deepCommentCount()
     private fun deepCommentCount(): Int {
@@ -59,14 +58,14 @@ open class Post(
 
     }
 
-    override fun updateRating(ratingValue: Int) {
-        if (ratingValue > rating.rating.value) {
-            rating.isRated.value = 1
-            rating.rating.value += 1
-        } else if (ratingValue < rating.rating.value) {
-            rating.isRated.value = -1
-            rating.rating.value += 1
-        }
-    }
+//    fun updateRating(ratingValue: Int) {
+//        if (ratingValue > rating.rating.value) {
+//            rating.isRated.value = 1
+//            rating.rating.value += 1
+//        } else if (ratingValue < rating.rating.value) {
+//            rating.isRated.value = -1
+//            rating.rating.value += 1
+//        }
+//    }
 }
 

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,10 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -48,13 +44,11 @@ import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
 import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
-import com.example.openmind.ui.theme.LightGray80
 import com.example.openmind.ui.theme.LightText
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
-import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.SteelGray
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -197,7 +191,8 @@ fun PostListContentView(
                         PostShortView(
                             navController = navController,
                             post = item,
-                            modifier = Modifier.animateItemPlacement()
+                            modifier = Modifier.animateItemPlacement(),
+                            viewModel.onRatingChange()
                         )
                     })
             }
@@ -217,7 +212,7 @@ fun PostListContentView(
                     .clickable {
                         navController.navigateToCreatePost(viewModel.getPostCategory())
                     }
-                    .background(Color(0xCC66CDBD))
+                    .background(Color(0xFF66CDBD))
                     .size(60.dp)
                     .padding(12.dp),
             ) {

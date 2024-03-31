@@ -30,6 +30,7 @@ fun SearchResultContentView(
                     PostShortView(
                         navController = navController,
                         post = item,
+                        onRatingChange = viewModel.onRatingChange()
                     )
                 })
         }

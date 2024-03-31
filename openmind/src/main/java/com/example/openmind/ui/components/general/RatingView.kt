@@ -1,12 +1,9 @@
 package com.example.openmind.ui.components.general
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -26,11 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.domain.model.post.Post
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -42,9 +37,10 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 fun RatingView(
     rating: RatingInfo,
     modifier: Modifier = Modifier,
-    isComment: Boolean = false
+    isComment: Boolean = false,
+    onRatingChange: (String, Int) -> Unit
 ) {
-    val mutableRating by remember { rating.rating }
+    var mutableRating by remember { rating.rating }
     var rated by remember {// 0 - not rated, 1 - liked, -1 - disliked
         rating.isRated
     }
@@ -55,8 +51,10 @@ fun RatingView(
     var strokeActionColor =
         if (rated == 1) MaibPrimary else if (rated == -1) MaibError else BorderLight
 
-    val currentRating =
-        if (rated == 1) mutableRating + 1 else if (rated == -1) mutableRating - 1 else mutableRating
+
+//    val currentRating =
+//        if (rated == 1) mutableRating + 1 else if (rated == -1) mutableRating - 1 else mutableRating
+
 
     var strokeColor = BorderLight
 
@@ -73,9 +71,16 @@ fun RatingView(
     ) {
         IconButton(
             onClick = {
-                /*TODO(post rating increases - patch request,button color - maib primary)*/
+//                /*TODO(post rating increases - patch request,button color - maib primary)*/
+                val newRating = when (rated) {
+                    1 -> mutableRating - 1
+                    -1 -> mutableRating + 2
+                    else -> mutableRating + 1
+                }
+                mutableRating = newRating
                 rated = if (rated == 1) 0 else 1
-//                repository.updateRating(id, rated)
+                onRatingChange(rating.ratingId, 1)
+
             },
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 5.dp, start = 4.dp, end = 1.dp)
@@ -89,7 +94,7 @@ fun RatingView(
         }
         Box(Modifier.padding(end = 6.dp)) {
             Text(
-                text = "$currentRating",
+                text = "$mutableRating",
                 fontFamily = FontFamily.ManropeBoldW700,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -103,8 +108,14 @@ fun RatingView(
         }
         IconButton(
             onClick = { /*TODO(post rating decreases - patch request, button color ~ red)*/
+                val newRating = when (rated) {
+                    -1 -> mutableRating + 1
+                    1 -> mutableRating - 2
+                    else -> mutableRating - 1
+                }
+                mutableRating = newRating
                 rated = if (rated == -1) 0 else -1
-                mutableRating
+                onRatingChange(rating.ratingId, -1)
             },
             modifier = Modifier
                 .padding(top = 5.dp, bottom = 5.dp, start = 1.dp, end = 4.dp)
@@ -120,23 +131,3 @@ fun RatingView(
     }
 }
 
-@Preview
-@Composable
-fun RatingPreview() {
-    val mockPost = Post(title = "title")
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(start = 35.dp, top = 35.dp)
-    ) {
-        RatingView(
-//            rating = mockPost.rating,
-            rating = RatingInfo(mockPost.postId),
-            modifier = Modifier.background(
-                Color.White
-            )
-        )
-    }
-
-}

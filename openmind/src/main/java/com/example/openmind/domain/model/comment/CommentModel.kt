@@ -15,7 +15,7 @@ data class CommentModel(
 
     var postId: String?,
 
-    var createdDate: Date = Date(System.currentTimeMillis()),
+    var createdDate: Long = Date(System.currentTimeMillis()).time,
 
     var parentCommentId: String? = null,
 
@@ -31,7 +31,7 @@ data class CommentModel(
     fun formatElapsedTime(): String {
 
         val nowMillis = System.currentTimeMillis()
-        val createdDateMillis = createdDate.time
+        val createdDateMillis = createdDate
         val durationMillis: Long = nowMillis - createdDateMillis
 
         val durationInSeconds = durationMillis / 1000

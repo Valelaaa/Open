@@ -7,15 +7,16 @@ data class ShortPostDto(
         var postTitle: String?,
         var postRating: Int? = 0,
         var creatorName: String?,
-        var creationDate: Date = Date(System.currentTimeMillis()),
+        var creationDate:Long =  Date(System.currentTimeMillis()).time,
         var isRated: Int = 0,
         var commentsCount: Int = 0,
-        var category: String = ""
+        var category: String = "",
+        var ratingId:String = "",
 ){
         fun formatElapsedTime(): String {
 
                 val nowMillis = System.currentTimeMillis()
-                val createdDateMillis = creationDate.time
+                val createdDateMillis = creationDate
                 val durationMillis: Long = nowMillis - createdDateMillis
 
                 val durationInMinutes = durationMillis / 60000

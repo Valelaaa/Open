@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import java.util.UUID
 
 data class RatingInfo(
-    val ratingId: String = UUID.randomUUID().toString(), //id for entity
+    var ratingId: String = UUID.randomUUID().toString(), //id for entity
     var rating: MutableState<Int> = mutableIntStateOf(0), // текущий рейтинг
     var isRated: MutableState<Int> = mutableIntStateOf(0)//rating state 1 - liked, -1 - disliked, 0 - doesn't rated
 )

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.ui.navigation.Navigation
+import com.example.openmind.utils.SessionManager
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 class MainFragment : Fragment() {
@@ -23,8 +24,9 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SessionManager.init(requireContext())
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        // TODO: Use the ViewModel
+        viewModel.setJwtTokenForCurrentProfile("111e4567-e89b-12d3-a456-426614174000")
     }
 
     override fun onCreateView(
@@ -39,7 +41,6 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
     }
 
 }

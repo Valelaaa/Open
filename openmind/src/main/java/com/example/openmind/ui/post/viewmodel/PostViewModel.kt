@@ -2,6 +2,7 @@ package com.example.openmind.ui.post.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -12,6 +13,7 @@ import com.example.openmind.data.repository.provider.CommentsRepositoryProvider
 import com.example.openmind.data.repository.provider.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.comment.CreateCommentModel
+import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.utils.SortType
@@ -20,7 +22,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class PostViewModel : GlobalViewModel(), Sortable {
@@ -38,10 +39,13 @@ class PostViewModel : GlobalViewModel(), Sortable {
 
     override fun getSortingList(): List<SortType> = viewState.getSortingList()
     fun getFocusRequester() = viewState.commentFieldFocusRequester
-    fun isCommentsLoading(): Boolean = viewState.commentsLoading.value
     fun getPost() = viewState.post.value
 
-    fun getPostRating() = viewState.post.value.rating
+    fun getPostRating() = RatingInfo(
+        ratingId = getPost().ratingId,
+        rating = mutableIntStateOf(getPost().rating),
+        isRated = mutableIntStateOf(getPost().isRated)
+    )
 
     fun getReplyComment() = viewState.commentToReply
     fun getShortCommentLinesCount() = viewState.defaultCommentLines
@@ -106,6 +110,7 @@ class PostViewModel : GlobalViewModel(), Sortable {
 
         viewState.commentMessage.value = TextFieldValue("")
     }
+
 
     @Deprecated("use fetchPostDetails")
     fun fetchPost() {
@@ -174,5 +179,7 @@ class PostViewModel : GlobalViewModel(), Sortable {
             }
         }
     }
+
+    fun getRatingInfo() = viewState.postRating.value
 
 }

@@ -1,5 +1,6 @@
 package com.example.openmind.utils
 
+import AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +16,7 @@ object WebClientUtils {
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         })
+        .addInterceptor(AuthInterceptor)
         .build()
     private val retrofit: Retrofit =
         Retrofit.Builder().baseUrl(BASE_URL).client(client)
@@ -22,7 +24,6 @@ object WebClientUtils {
             .build()
 
 
-    fun getRetrofitInstance() = retrofit
 
-    fun <T>createService(clazz: Class<T>): T = getRetrofitInstance().create(clazz)
+    fun <T>createService(tClass: Class<T>): T = retrofit.create(tClass)
 }
