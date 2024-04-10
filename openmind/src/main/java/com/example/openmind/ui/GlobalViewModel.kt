@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 open class GlobalViewModel : ViewModel() {
     private val _errorMessageState = mutableStateOf("")
-    val ratingRepository: RatingRepository = RatingRepositoryProvider.provideRepository()
+    private val ratingRepository: RatingRepository = RatingRepositoryProvider.provideRepository()
 
     protected val errorMessageState get() = _errorMessageState
 

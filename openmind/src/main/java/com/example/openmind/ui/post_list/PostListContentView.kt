@@ -19,8 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -29,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -51,15 +54,25 @@ import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelGray
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PostListContentView(
     navController: NavController,
     viewModel: PostListViewModel,
     modifier: Modifier = Modifier
 ) {
+    val state = rememberPullToRefreshState()
+    if (state.isRefreshing) {
+        LaunchedEffect(true) {
+            // fetch something
+            viewModel.fetchPostList()
+            state.endRefresh()
+        }
+    }
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(state.nestedScrollConnection),
     ) {
         LazyColumn() {
             item {
@@ -186,15 +199,18 @@ fun PostListContentView(
                     }
                 }
             } else {
-                items(items = viewModel.getPostList(), key = { it.hashCode() },
-                    itemContent = { item ->
-                        PostShortView(
-                            navController = navController,
-                            post = item,
-                            modifier = Modifier.animateItemPlacement(),
-                            viewModel.onRatingChange()
-                        )
-                    })
+                if (!state.isRefreshing) {
+                    items(items = viewModel.getPostList(), key = { it.hashCode() },
+                        itemContent = { item ->
+                            PostShortView(
+                                navController = navController,
+                                post = item,
+                                modifier = Modifier.animateItemPlacement(),
+                                viewModel.onRatingChange()
+                            )
+                        }
+                    )
+                }
             }
         }
         Box(
