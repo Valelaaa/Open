@@ -16,7 +16,6 @@ object SessionManager {
     }
 
     fun saveJwtToken(jwtToken: String?) {
-        Log.d("SessionManager", "setJwtToken: $jwtToken")
         sharedPreferences.edit(commit = true) {
             putString(JWT_TOKEN_KEY, jwtToken)
         }
@@ -29,10 +28,18 @@ object SessionManager {
         return token
     }
 
-    fun hasToken(): Boolean {
-        if (!::sharedPreferences.isInitialized) {
-            throw RuntimeException("SessionManager not initialized. Call init(context) first.")
+
+    fun clearSharedPreferences() {
+        Log.d("SessionManager", "jwt token removed")
+
+        sharedPreferences.edit(
+            commit = true
+        ) {
+            remove(JWT_TOKEN_KEY)
         }
-        return sharedPreferences.contains(JWT_TOKEN_KEY)
+        Log.d(
+            "SessionManager",
+            "Token after remove: ${sharedPreferences.getString(JWT_TOKEN_KEY, null)}"
+        )
     }
 }
