@@ -5,7 +5,6 @@ import retrofit2.http.Query
 
 interface RatingService {
 
-
     @POST("api/rating/upvote")
     suspend fun upvote(@Query("ratingId") ratingId: String)
 

@@ -21,10 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.openmind.domain.model.category.CategoryDto
-import com.example.openmind.domain.model.category.PostCategories
-import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
@@ -32,7 +29,7 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 @Composable
 fun CategoryView(
     base64ToImageBitmapConverter: ((String?) -> ImageBitmap?)? = null,
-    navController: NavController,
+    navigateToPostList: () -> Unit,
     categoryDto: CategoryDto,
 ) {
     Column(modifier = Modifier.padding(top = 22.dp)) {
@@ -51,7 +48,7 @@ fun CategoryView(
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 100.dp)
                 .clickable {
-                    navController.navigateToPostList(PostCategories.valueOf(categoryDto.categoryName))
+                    navigateToPostList.invoke()
                 },
             contentAlignment = Alignment.CenterStart
         ) {

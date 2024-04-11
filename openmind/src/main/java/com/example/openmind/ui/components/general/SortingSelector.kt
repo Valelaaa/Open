@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,7 +71,7 @@ fun <T> SortingSelector(
             sortingList.forEach { item ->
                 Column {
                     CompositionLocalProvider(
-                        LocalMinimumTouchTargetEnforcement provides false,
+                        LocalMinimumInteractiveComponentEnforcement provides false,
                     ) {
                         Button(
                             onClick = {

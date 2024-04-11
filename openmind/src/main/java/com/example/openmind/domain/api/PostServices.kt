@@ -1,4 +1,4 @@
-package com.example.openmind.domain.api.post
+package com.example.openmind.domain.api
 
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
@@ -15,11 +15,11 @@ import retrofit2.http.Query
 
 interface PostServices {
     @GET("api/posts")
-    fun fetchAll(
+    suspend fun fetchAllSuspend(
         @Query("category") category: String?,
         @Query("sortType") sortType: SortType?,
         @Query("sortOrder") sortBy: SortBy?,
-    ): Call<List<ShortPostDto>>
+        ): List<ShortPostDto>
 
     @GET("api/posts/search")
     fun findBySubString(
@@ -28,9 +28,6 @@ interface PostServices {
         @Query("sortType") sortType: SortType?,
         @Query("sortOrder") sortBy: SortBy?,
     ): Call<List<ShortPostDto>>
-
-    @GET("api/posts/{postId}")
-    fun fetchByIdAsCallable(@Path("postId") postId: String): Call<PostDto>
 
     @GET("api/posts/{postId}")
     suspend fun fetchById(@Path("postId") postId: String): PostDto

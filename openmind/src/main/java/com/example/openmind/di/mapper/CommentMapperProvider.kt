@@ -1,4 +1,4 @@
-package com.example.openmind.domain.model.mapper.provider
+package com.example.openmind.di.mapper
 
 import com.example.openmind.domain.model.mapper.CommentMapper
 

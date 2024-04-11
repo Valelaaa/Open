@@ -83,7 +83,7 @@ fun CommentView(
             ) {
                 Row {
                     Text(
-                        text = item.commentAuthor ?: "no nickname",
+                        text = item.commentAuthor,
                         fontFamily = FontFamily.ManropeBoldW700,
                         fontSize = 14.sp,
                         lineHeight = 14.sp,
@@ -109,7 +109,6 @@ fun CommentView(
                 }
             }
             Column {
-//          TODO("COMMENT MESSAGE (SHORT),  READ-MORE(EXTEND MESSAGE)")
                 Text(
                     text = item.commentMessage,
                     fontFamily = FontFamily.ManropeRegularW400,
@@ -123,7 +122,7 @@ fun CommentView(
                         linesCount.intValue = textLayoutResult.lineCount
                     }
                 )
-                if (linesCount.intValue >= viewModel.getShortCommentLinesCount()) {
+                if (linesCount.intValue > viewModel.getShortCommentLinesCount()) {
                     Text(
                         text = extendButtonLabel.value,
                         fontWeight = FontWeight.W400,
@@ -142,7 +141,6 @@ fun CommentView(
                 }
             }
             Row {
-//          TODO("RATING SECTION, REPLY")
                 RatingView(
                     rating = rating,
                     isComment = true,
@@ -166,10 +164,12 @@ fun CommentView(
                 }
 
             }
-//          TODO("REPLY")
-            if (item.subComments != null && item.subComments?.isNotEmpty() == true && isShowVisible.value) {
+            if (item.subComments.isNotEmpty() && isShowVisible.value) {
                 Text(
-                    text = "show ${item.subComments!!.size} replies",
+                    text = stringResource(
+                        R.string.show_replies,
+                        item.subComments.size
+                    ),
                     fontFamily = FontFamily.ManropeSemiBoldW600,
                     fontSize = 12.sp,
                     lineHeight = 16.sp,
@@ -177,21 +177,24 @@ fun CommentView(
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
                         currentActiveCommentsCount.intValue =
-                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments!!.size + 1
+                            (currentActiveCommentsCount.intValue + viewModel.getCommentBatchSize()) % item.subComments.size + 1
                     }
                 )
             } else {
-                item.subComments?.take(currentActiveCommentsCount.intValue)
-                    ?.forEachIndexed { index, subItem ->
+                item.subComments.take(currentActiveCommentsCount.intValue)
+                    .forEachIndexed { index, subItem ->
                         when (index) {
-                            (item.subComments?.size ?: 0 - 1) -> {
+                            (item.subComments.size) -> {
                                 SubCommentView(
                                     subItem,
                                     onReplyClick = onReplyClick,
                                     onRatingChange = viewModel.onRatingChange()
                                 )
                                 Text(
-                                    text = "hide ${item.subComments!!.size} replies",
+                                    text = stringResource(
+                                        R.string.hide_replies,
+                                        item.subComments.size
+                                    ),
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,
@@ -210,7 +213,10 @@ fun CommentView(
                                     onRatingChange = viewModel.onRatingChange()
                                 )
                                 Text(
-                                    text = "show ${item.subComments!!.size - currentActiveCommentsCount.intValue} replies",
+                                    text = stringResource(
+                                        R.string.show_replies,
+                                        item.subComments.size - currentActiveCommentsCount.intValue
+                                    ),
                                     fontFamily = FontFamily.ManropeSemiBoldW600,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,

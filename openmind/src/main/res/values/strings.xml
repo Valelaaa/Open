@@ -25,4 +25,6 @@
     <string name="your_posts">Your posts</string>
     <string name="liked_posts">Liked posts</string>
     <string name="your_comments">Your Comments</string>
+    <string name="show_replies">show %1$s replies</string>
+    <string name="hide_replies">hide %1$s replies</string>
 </resources>

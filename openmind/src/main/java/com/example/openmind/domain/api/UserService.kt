@@ -6,4 +6,5 @@ import retrofit2.http.Query
 interface UserService {
     @POST("api/profile/login")
     suspend fun loginUser(@Query("profileId") profileId: String): String
+
 }

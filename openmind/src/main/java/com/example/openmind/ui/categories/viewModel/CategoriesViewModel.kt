@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.CategoriesRepository
-import com.example.openmind.data.repository.provider.CategoriesRepositoryProvider
+import com.example.openmind.di.repository.CategoriesRepositoryProvider
 import com.example.openmind.ui.GlobalViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -42,14 +42,11 @@ class CategoriesViewModel : GlobalViewModel() {
                 }
 
         }
-
-
     }
 
     override fun onCleared() {
         super.onCleared()
         Log.e("CategoriesViewModel", "ViewModel cleared")
     }
-
 
 }

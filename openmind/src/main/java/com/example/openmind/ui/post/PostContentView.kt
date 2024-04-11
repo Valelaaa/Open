@@ -35,17 +35,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
-import com.example.openmind.domain.model.post.Post
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.post.components.comments.CommentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
-import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
@@ -227,20 +224,4 @@ fun PostContentView(
         }
         CommentField(viewModel = viewModel, replyTo = viewModel.getReplyComment())
     }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(
-    showSystemUi = true
-)
-@Composable
-fun PostContentViewPreview() {
-    val viewModel = PostViewModel()
-    val post =
-        Post(title = "title")
-    viewModel.setCurrentPostID(postId = post.postId)
-    PostContentView(
-        viewModel = viewModel
-    )
-
 }

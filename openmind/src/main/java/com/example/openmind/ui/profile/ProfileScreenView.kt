@@ -120,7 +120,7 @@ fun ProfileScreenView(
                     ),
                     isNavigationIconVisible = true,
                     isEditable = viewModel.getUserNameTextFieldViewState(),
-                    editableValue = viewModel.getNicknameState()?.value,
+                    editableValue = viewModel.getNicknameState().value,
                     onValueChange = viewModel.onNicknameChange(),
                     onSubmitEvent = viewModel.onRenameEvent(),
                     modifier = Modifier.clickable(onClick = { viewModel.setUserNameTextFieldVisible() }),

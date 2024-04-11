@@ -5,8 +5,7 @@ import com.example.openmind.utils.WebClientUtils
 
 class RatingRepository {
 
-    val service: RatingService = WebClientUtils.createService(RatingService::class.java)
-
+    private val service: RatingService = WebClientUtils.createService(RatingService::class.java)
 
     suspend fun upvote(ratingId: String) {
         return service.upvote(ratingId)

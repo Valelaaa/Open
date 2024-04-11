@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 object WebClientUtils {
     private const val BASE_URL = "http://192.168.189.200:8080/"
 
-    private var client = OkHttpClient.Builder()
+    private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -20,6 +20,7 @@ object WebClientUtils {
         })
         .addInterceptor(AuthInterceptor)
         .build()
+
     private val gson = GsonBuilder()
         .setLenient()
         .create()
@@ -31,4 +32,5 @@ object WebClientUtils {
 
 
     fun <T> createService(tClass: Class<T>): T = retrofit.create(tClass)
+
 }

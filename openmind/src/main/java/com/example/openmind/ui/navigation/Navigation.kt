@@ -53,6 +53,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 arguments = listOf(navArgument("postId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val postId = backStackEntry.arguments?.getString("postId")
+
                 ComposeScreen(
                     screen = Screen.PostScreen, navController = navController,
                     args = mapOf("postId" to (postId ?: ""))
@@ -77,7 +78,7 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
                 )
             }
         }
-        composable(route = "${Screen.SuccessRegisteredPostScreen.route}") {
+        composable(route = Screen.SuccessRegisteredPostScreen.route) {
             ComposeScreen(
                 screen = Screen.SuccessRegisteredPostScreen,
                 navController = navController

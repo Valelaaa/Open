@@ -1,9 +1,8 @@
 package com.example.openmind.ui.post_list.viewModel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.PostRepository
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.di.repository.PostRepositoryProvider
 import com.example.openmind.domain.model.category.CategoryInfo
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.ShortPostDto
@@ -12,7 +11,6 @@ import com.example.openmind.ui.categories.components.getCategoriesInfoList
 import com.example.openmind.utils.Searchable
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -34,10 +32,10 @@ open class PostListViewModel : GlobalViewModel(), Sortable, Searchable {
     fun getSearchText() = viewState.searchText
 
     fun fetchPostList() {
-        GlobalScope.launch {
+        viewModelScope.launch {
             viewState.isLoading.value = true
             viewState.loadedPosts.clear()
-            repository.fetchAll(
+            repository.fetchAllSuspend(
                 category = viewState.activeCategory,
                 sortType = viewState.activeSortType.value
             )
@@ -95,9 +93,6 @@ open class PostListViewModel : GlobalViewModel(), Sortable, Searchable {
 
 
     fun setCategory(postCategories: PostCategories) {
-        Log.d(
-            "PostListViewModel", "Category set to $postCategories"
-        )
         viewState.activeCategory = postCategories
     }
 

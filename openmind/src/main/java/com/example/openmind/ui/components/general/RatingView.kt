@@ -52,10 +52,6 @@ fun RatingView(
         if (rated == 1) MaibPrimary else if (rated == -1) MaibError else BorderLight
 
 
-//    val currentRating =
-//        if (rated == 1) mutableRating + 1 else if (rated == -1) mutableRating - 1 else mutableRating
-
-
     var strokeColor = BorderLight
 
     if (isComment) {

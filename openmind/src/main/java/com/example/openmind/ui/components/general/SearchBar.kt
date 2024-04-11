@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,21 +70,9 @@ fun SearchBar(
     val searchText by viewModel.getSearchText().collectAsState()
     val focusRequester = remember { FocusRequester() }
     val keyboardState = keyboardAsState()
-
+    val mutableInteractionSource = remember { MutableInteractionSource() }
     var previousKeyboardState by remember { mutableStateOf(keyboardState.value) }
 
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-    LaunchedEffect(keyboardState.value) {
-        if (previousKeyboardState != keyboardState.value) {
-            when (keyboardState.value) {
-                Keyboard.Closed -> viewModel.updateSearchBarVisibility(false)
-                Keyboard.Opened -> Unit
-            }
-            previousKeyboardState = keyboardState.value
-        }
-    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -90,22 +81,16 @@ fun SearchBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomTextField(
+        BasicTextField(
             value = searchText,
             onValueChange = { viewModel.onSearchTextChanged(it) },
-            placeholder = {
-                Text(text = "Search")
-            },
             modifier = Modifier
                 .focusRequester(focusRequester = focusRequester)
                 .onFocusChanged { onFocusChangeListener }
                 .defaultMinSize(minHeight = 44.dp),
-            shape = RoundedCornerShape(6.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                unfocusedIndicatorColor = Color.Transparent,
+            textStyle = TextStyle(
+                fontSize = 16.sp
             ),
-            contentPadding = PaddingValues(top = 10.dp, bottom = 10.dp, start = 20.dp),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
                 keyboardType = KeyboardType.Text,
@@ -114,14 +99,30 @@ fun SearchBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     onSearch
-                    navController.navigateToSearchResult(searchText,viewModel.getPostCategory())
+                    navController.navigateToSearchResult(searchText, viewModel.getPostCategory())
                     viewModel.resetSearch()
                     viewModel.updateSearchBarVisibility(false)
                 }
             ),
-            textStyle = TextStyle(
-                fontSize = 16.sp
-            )
+            decorationBox = @Composable { innerTextField ->
+                TextFieldDefaults.DecorationBox(
+                    value = searchText,
+                    innerTextField = innerTextField,
+                    placeholder = {
+                        Text(text = "Search")
+                    },
+                    enabled = true,
+                    singleLine = true,
+                    visualTransformation = VisualTransformation.None,
+                    interactionSource = mutableInteractionSource,
+                    shape = RoundedCornerShape(6.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.White,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                    contentPadding = PaddingValues(top = 10.dp, bottom = 10.dp, start = 20.dp)
+                )
+            }
         )
         Box(
             modifier = Modifier
@@ -138,14 +139,25 @@ fun SearchBar(
                                 searchText,
                                 viewModel
                                     .getActiveCategory()
-                                    ?:
-                                     PostCategories.BUG
+                                    ?: PostCategories.BUG
                             )
                         viewModel.resetSearch()
                         viewModel.updateSearchBarVisibility(false)
                     },
                 tint = BorderLight,
             )
+        }
+    }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+    LaunchedEffect(keyboardState.value) {
+        if (previousKeyboardState != keyboardState.value) {
+            when (keyboardState.value) {
+                Keyboard.Closed -> viewModel.updateSearchBarVisibility(false)
+                Keyboard.Opened -> Unit
+            }
+            previousKeyboardState = keyboardState.value
         }
     }
 }

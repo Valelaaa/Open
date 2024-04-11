@@ -45,6 +45,7 @@ import com.example.openmind.R
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.components.general.SortingSelector
 import com.example.openmind.ui.navigation.navigateToCreatePost
+import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.LightText
@@ -203,10 +204,10 @@ fun PostListContentView(
                     items(items = viewModel.getPostList(), key = { it.hashCode() },
                         itemContent = { item ->
                             PostShortView(
-                                navController = navController,
                                 post = item,
                                 modifier = Modifier.animateItemPlacement(),
-                                viewModel.onRatingChange()
+                                onRatingChange = viewModel.onRatingChange(),
+                                navigateToPost = { navController.navigateToPost(postId = item.postId) }
                             )
                         }
                     )

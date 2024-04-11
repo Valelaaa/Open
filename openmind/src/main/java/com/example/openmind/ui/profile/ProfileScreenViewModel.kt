@@ -11,8 +11,8 @@ class ProfileScreenViewModel : GlobalViewModel() {
     fun getUserNickname() = "@${viewState.profile.nickname}"
     fun getUserPhoneNumber() = "+373 ${viewState.profile.phoneNumber}"
     fun getUserEmail() = viewState.profile.email
-    fun getNicknameState(): MutableState<String>? = viewState.nicknameState
-    fun onNicknameChange(): ((String) -> Unit)? {
+    fun getNicknameState(): MutableState<String> = viewState.nicknameState
+    fun onNicknameChange(): ((String) -> Unit) {
         return { inputValue ->
             viewState.nicknameState.value = inputValue
         }

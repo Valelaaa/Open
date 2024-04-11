@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.components.general.BasicTopAppBar
+import com.example.openmind.ui.navigation.navigateToPostList
 import com.example.openmind.ui.screen.Screen
 
 @Composable
@@ -45,24 +46,28 @@ fun CategoriesView(
             LazyColumn {
                 items(items = viewModel.getCategoriesList()) { category ->
                     CategoryView(
-                        { base64Image ->
+                        navigateToPostList = {
+                            navController.navigateToPostList(
+                                PostCategories.valueOf(
+                                    category.categoryName
+                                )
+                            )
+                        },
+                        base64ToImageBitmapConverter = { base64Image ->
                             base64Image?.let {
                                 viewModel.stringToBitMap(it)
                                     .asImageBitmap()
                             }
-                        }, navController, category
+                        },
+                        categoryDto = category
                     )
                 }
             }
         }
     }
-//    LaunchedEffect(key1 = Unit) {
-//        viewModel.fetchList()
-//    }
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun CategoriesViewPreview() {

@@ -31,8 +31,8 @@ fun PersonalHistoryListItem(
     title: String,
     painter: Painter,
     imageDescription: String,
-    isNavigationIconVisible: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isNavigationIconVisible: Boolean = false
 ) {
     Row(
         modifier = modifier

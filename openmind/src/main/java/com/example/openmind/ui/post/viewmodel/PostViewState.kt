@@ -12,9 +12,7 @@ import com.example.openmind.utils.SortType
 
 internal class PostViewState {
     val postIsLoading = mutableStateOf(true)
-    val commentsLoading = mutableStateOf(true)
 
-    val postRating = mutableStateOf(RatingInfo())
     val commentToReply = mutableStateOf<CommentModel?>(null)
     val defaultCommentLines = 3
     val commentsBatchSize = 5
@@ -25,8 +23,8 @@ internal class PostViewState {
 
     val commentFieldFocusRequester = FocusRequester()
 
-    private var activeSortType: MutableState<SortType> = mutableStateOf(SortType.HOT)
-    private val sortingList: List<SortType> = listOf(
+    var activeSortType: MutableState<SortType> = mutableStateOf(SortType.HOT)
+    val sortingList: List<SortType> = listOf(
         SortType.HOT,
         SortType.NEW,
         SortType.OLD
@@ -37,10 +35,4 @@ internal class PostViewState {
 
     val comments = mutableStateListOf<CommentModel>()
 
-    fun getSortingList() = sortingList
-    fun setActiveSortType(sortType: SortType) {
-        activeSortType.value = sortType
-    }
-
-    fun getActiveSortType(): MutableState<SortType> = mutableStateOf(activeSortType.value)
 }

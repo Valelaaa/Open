@@ -34,7 +34,6 @@ import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.ManropeRegularW400
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <V : ViewModel> ComposeScreen(
     screen: Screen<V>,

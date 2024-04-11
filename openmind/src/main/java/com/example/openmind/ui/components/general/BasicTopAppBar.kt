@@ -125,13 +125,11 @@ fun BasicTopAppBar(
                 )
             ) {
                 Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)) {
-                    if (viewModel is PostListViewModel)
-                        SearchBar(viewModel = viewModel,
-                            navController = navController,
-                            onSearch = {
-//                                viewModel.onSearch()
-                                focusManager.clearFocus()
-                            })
+                    SearchBar(viewModel = viewModel,
+                        navController = navController,
+                        onSearch = {
+                            focusManager.clearFocus()
+                        })
                 }
             }
     }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.RatingRepository
-import com.example.openmind.data.repository.provider.RatingRepositoryProvider
+import com.example.openmind.di.repository.RatingRepositoryProvider
 import kotlinx.coroutines.launch
 
 open class GlobalViewModel : ViewModel() {

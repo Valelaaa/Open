@@ -9,7 +9,6 @@ class CreatePostViewState {
 
     val title = mutableStateOf(TextFieldValue(""))
     val description = mutableStateOf(TextFieldValue(""))
-    val isButtonEnabled = mutableStateOf(false)
     lateinit var activeCategory: PostCategories
     val categories = mutableStateListOf<PostCategories>()
     val isCategoriesLoading = mutableStateOf(true)

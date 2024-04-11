@@ -9,8 +9,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.CommentsRepository
 import com.example.openmind.data.repository.PostRepository
-import com.example.openmind.data.repository.provider.CommentsRepositoryProvider
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.di.repository.CommentsRepositoryProvider
+import com.example.openmind.di.repository.PostRepositoryProvider
 import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.comment.CreateCommentModel
 import com.example.openmind.domain.model.rating.RatingInfo
@@ -18,10 +18,8 @@ import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.post.components.comments.withStylishTags
 import com.example.openmind.utils.SortType
 import com.example.openmind.utils.Sortable
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class PostViewModel : GlobalViewModel(), Sortable {
@@ -33,11 +31,13 @@ class PostViewModel : GlobalViewModel(), Sortable {
     private val commentRepository: CommentsRepository =
         CommentsRepositoryProvider.provideRepository()
 
-    override fun setActiveSortType(sortType: SortType) = viewState.setActiveSortType(sortType)
+    override fun setActiveSortType(sortType: SortType) {
+        viewState.activeSortType.value = sortType
+    }
 
-    override fun activeSortType(): SortType = viewState.getActiveSortType().value
+    override fun activeSortType(): SortType = viewState.activeSortType.value
 
-    override fun getSortingList(): List<SortType> = viewState.getSortingList()
+    override fun getSortingList(): List<SortType> = viewState.sortingList
     fun getFocusRequester() = viewState.commentFieldFocusRequester
     fun getPost() = viewState.post.value
 
@@ -111,21 +111,6 @@ class PostViewModel : GlobalViewModel(), Sortable {
         viewState.commentMessage.value = TextFieldValue("")
     }
 
-
-    @Deprecated("use fetchPostDetails")
-    fun fetchPost() {
-        GlobalScope.launch {
-            viewState.postIsLoading.value = true
-            postRepository.fetchPostByIdFlow(viewState.currentPostId)
-                .catch { cause: Throwable -> handleError(cause) }
-                .collect {
-                    viewState.post.value = it
-                    viewState.postIsLoading.value = false
-                }
-        }
-
-    }
-
     fun fetchPostDetails() {
         viewModelScope.launch {
             viewState.postIsLoading.value = true
@@ -161,25 +146,5 @@ class PostViewModel : GlobalViewModel(), Sortable {
             handleError(it)
         }
     }
-
-    @Deprecated("")
-    fun fetchComments() {
-        GlobalScope.launch() {
-            try {
-                viewState.commentsLoading.value = true
-                commentRepository.fetchCommentsByPostIdFlow(viewState.currentPostId)
-                    .catch { cause: Throwable -> handleError(cause) }
-                    .collect {
-                        viewState.comments.clear()
-                        viewState.comments.addAll(it)
-                        viewState.commentsLoading.value = false
-                    }
-            } catch (e: Exception) {
-                handleError(e)
-            }
-        }
-    }
-
-    fun getRatingInfo() = viewState.postRating.value
 
 }

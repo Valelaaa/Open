@@ -1,8 +1,8 @@
 package com.example.openmind.ui.create_post.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.example.openmind.data.repository.provider.CategoriesRepositoryProvider
-import com.example.openmind.data.repository.provider.PostRepositoryProvider
+import com.example.openmind.di.repository.CategoriesRepositoryProvider
+import com.example.openmind.di.repository.PostRepositoryProvider
 import com.example.openmind.domain.model.category.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.ui.GlobalViewModel
@@ -21,6 +21,7 @@ class CreatePostViewModel : GlobalViewModel() {
     fun setDropdownVisibility(isVisible: Boolean) {
         viewState.isCategoriesDropdownMenuVisible.value = isVisible
     }
+
     fun getDescription() = viewState.description.value
     fun getTitle() = viewState.title.value
 
@@ -28,12 +29,6 @@ class CreatePostViewModel : GlobalViewModel() {
     fun setCategory(postCategories: PostCategories) {
         viewState.activeCategory = postCategories
     }
-
-    private fun checkButtonActivity() {
-        viewState.isButtonEnabled.value = viewState.title.value.text.isNotBlank()
-    }
-
-    fun getButtonState() = viewState.isButtonEnabled.value
 
     fun createPost(): CreatePostDto {
         val newPost =
@@ -74,5 +69,4 @@ class CreatePostViewModel : GlobalViewModel() {
     }
 
     fun getCategoriesList() = viewState.categories
-    fun categoriesLoading(): Boolean = viewState.isCategoriesLoading.value
 }

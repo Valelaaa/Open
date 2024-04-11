@@ -68,7 +68,7 @@ sealed class Screen<T : ViewModel>(
                 PostCategories.valueOf(category.orEmpty().uppercase())
             )
             Log.d(
-                "Screen", "Category set to $category"
+                "PostListScreen", "Category set to $category"
             )
             viewModel.setActiveCategoryInfo()
             PostListContentView(
@@ -117,7 +117,7 @@ sealed class Screen<T : ViewModel>(
             viewModel.setCategory(category?.let { PostCategories.valueOf(it.uppercase()) }
                 ?: PostCategories.BUG)
             Log.d(
-                "Screen", "Category set to $category"
+                "CreatePostScreen", "Category set to $category"
             )
             CreatePostContentView(
                 navController = navController,
@@ -153,9 +153,9 @@ sealed class Screen<T : ViewModel>(
         route = "registered_post_screen", title = "registered_post",
         viewModelClass = SuccessRegisteredPostViewModel::class.java,
         topAppBar = { _, _ -> },
-        content = { viewModel, navController, _, modifier ->
+        content = { _, navController, _, _ ->
             SuccessRegistrationPostView(
-                viewModel, navController, modifier
+                 navController
             )
         }
     )

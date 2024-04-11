@@ -8,5 +8,4 @@ class CategoriesViewState {
     val loadedCategories = mutableStateListOf<CategoryDto>()
     val isLoading = mutableStateOf(true)
 
-
 }

@@ -137,7 +137,7 @@ fun SubCommentView(
                         linesCount.intValue = textLayoutResult.lineCount
                     }
                 )
-                if (linesCount.intValue >= 3) {
+                if (linesCount.intValue > 3) {
                     Text(
                         text = extendButtonLabel.value,
                         fontWeight = FontWeight.W400,

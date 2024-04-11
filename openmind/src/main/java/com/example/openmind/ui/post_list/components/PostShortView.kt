@@ -53,10 +53,10 @@ const val tag = "PostShortView"
 
 @Composable
 fun PostShortView(
-    navController: NavController,
     post: ShortPostDto,
     modifier: Modifier = Modifier,
-    onRatingChange: (String, Int) -> Unit
+    onRatingChange: (String, Int) -> Unit,
+    navigateToPost: () -> Unit
 ) {
     val ratingInfo = remember {
         RatingInfo(
@@ -70,8 +70,7 @@ fun PostShortView(
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable(onClick = {
-                /*TODO(NavigateToPost)*/
-                navController.navigateToPost(postId = post.postId)
+                navigateToPost.invoke()
             })
     ) {
         Column(
@@ -118,7 +117,6 @@ fun PostShortView(
 //                more button (three dots)
                 IconButton(
                     onClick = {
-//                        TODO("Open Hamburger menu for additional actions")
                         Log.d(tag, "Open Hamburger menu")
 
                     },
