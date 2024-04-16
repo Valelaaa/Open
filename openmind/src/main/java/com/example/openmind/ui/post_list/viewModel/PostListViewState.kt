@@ -39,10 +39,10 @@ class PostListViewState {
         activeSortType.value = sortType
 
         when (activeSortType.value) {
-            SortType.HOT -> loadedPosts.sortWith(compareBy { it.postRating })
+            SortType.HOT -> loadedPosts.sortWith(compareByDescending { it.postRating })
             SortType.OLD -> loadedPosts.sortWith(compareBy { it.creationDate })
             SortType.FRESH -> loadedPosts.sortWith(compareByDescending { it.creationDate })
-            else -> loadedPosts.sortWith(compareBy<ShortPostDto> { it.postTitle })
+            else -> loadedPosts.sortWith(compareBy { it.postTitle })
         }
 
     }

@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -54,6 +55,7 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelGray
+import com.example.openmind.ui.theme.spacing
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -78,7 +80,13 @@ fun PostListContentView(
         LazyColumn() {
             item {
                 Column {
-                    Row(modifier = Modifier.padding(end = 30.dp, start = 30.dp, bottom = 10.dp)) {
+                    Row(
+                        modifier = Modifier.padding(
+                            end = MaterialTheme.spacing.large,
+                            start = MaterialTheme.spacing.large,
+                            bottom = 10.dp
+                        )
+                    ) {
                         Box(modifier = Modifier.padding(end = 13.dp)) {
                             Box(
                                 modifier = Modifier
@@ -143,13 +151,18 @@ fun PostListContentView(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 28.dp),
+                            .padding(horizontal = MaterialTheme.spacing.large),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         SortingSelector(
-                            viewModel,
+                            sortingList = viewModel.getSortingList(),
+                            activeSortType = viewModel.activeSortType(),
+                            setActiveSortType = { sortType -> viewModel.setActiveSortType(sortType) },
                             modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
-                            contentPaddings = PaddingValues(vertical = 8.dp, horizontal = 10.dp)
+                            contentPaddings = PaddingValues(
+                                vertical = MaterialTheme.spacing.small,
+                                horizontal = 10.dp
+                            )
                         )
 //                        Button(
 //                            onClick = {

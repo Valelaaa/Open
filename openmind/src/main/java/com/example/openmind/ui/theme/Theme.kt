@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,9 @@ import androidx.core.view.WindowCompat
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.LightThemeBackgroundColor
+import com.example.openmind.ui.theme.LocalSpacing
 import com.example.openmind.ui.theme.Pink80
+import com.example.openmind.ui.theme.Spacing
 import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.Typography
 
@@ -85,7 +88,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun OpenMindProjectTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 
@@ -107,11 +109,12 @@ fun OpenMindProjectTheme(
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalSpacing.provides(Spacing())) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 
 }

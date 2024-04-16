@@ -23,6 +23,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -53,6 +54,7 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelBlue60
+import com.example.openmind.ui.theme.spacing
 import com.example.openmindproject.ui.theme.OpenMindProjectTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +64,14 @@ fun CreatePostContentView(
     viewModel: CreatePostViewModel,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.padding(start = 30.dp, end = 20.dp, top = 20.dp, bottom = 20.dp)) {
+    Column(
+        modifier = modifier.padding(
+            start = MaterialTheme.spacing.large,
+            end = 20.dp,
+            top = 20.dp,
+            bottom = 20.dp
+        )
+    ) {
         Column {
             Row {
                 OutlinedButton(
@@ -163,7 +172,7 @@ fun CreatePostContentView(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
                     .fillMaxWidth()
-                    .padding(end = 30.dp),
+                    .padding(end = MaterialTheme.spacing.large),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
                     capitalization = KeyboardCapitalization.Sentences
@@ -199,7 +208,7 @@ fun CreatePostContentView(
                     .clip(RoundedCornerShape(6.dp))
                     .defaultMinSize(minHeight = 100.dp)
                     .fillMaxWidth()
-                    .padding(end = 30.dp),
+                    .padding(end = MaterialTheme.spacing.large),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
                     capitalization = KeyboardCapitalization.Sentences

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -38,6 +39,7 @@ import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
+import com.example.openmind.ui.theme.spacing
 
 @Composable
 fun CommentView(
@@ -63,7 +65,7 @@ fun CommentView(
         )
     }
 
-    Row(modifier = Modifier.padding(bottom = 8.dp)) {
+    Row(modifier = Modifier.padding(bottom = MaterialTheme.spacing.small)) {
         Row(
             modifier = Modifier
                 .padding(end = 10.dp)
@@ -148,7 +150,7 @@ fun CommentView(
                 )
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.padding(vertical = 3.dp, horizontal = 8.dp)
+                    modifier = Modifier.padding(vertical = 3.dp, horizontal = MaterialTheme.spacing.small)
                 ) {
                     Text(
                         text = "Reply",

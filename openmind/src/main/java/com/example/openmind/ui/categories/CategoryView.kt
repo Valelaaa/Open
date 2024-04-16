@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import com.example.openmind.domain.model.category.CategoryDto
 import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
+import com.example.openmind.ui.theme.spacing
 
 @Composable
 fun CategoryView(
@@ -41,7 +43,7 @@ fun CategoryView(
             maxLines = 1,
             color = DarkGray20,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = MaterialTheme.spacing.small)
         )
         Box(
             modifier = Modifier

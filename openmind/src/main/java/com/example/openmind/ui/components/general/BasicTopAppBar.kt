@@ -14,6 +14,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.lightColorScheme
@@ -35,6 +36,7 @@ import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
 import com.example.openmind.ui.theme.ManropeBoldW700
+import com.example.openmind.ui.theme.spacing
 import com.example.openmindproject.ui.theme.NavigationIconStyle
 
 @Composable
@@ -68,7 +70,7 @@ fun BasicTopAppBar(
                 }
             },
             navigationIcon = {
-                Box(modifier = Modifier.padding(start = 30.dp)) {
+                Box(modifier = Modifier.padding(start = MaterialTheme.spacing.large)) {
                     IconButton(
                         onClick = {
                             Log.d(TAG, "Clicked Navigate Back")
@@ -86,7 +88,7 @@ fun BasicTopAppBar(
                 }
             },
             actions = {
-                Box(modifier = Modifier.padding(end = 30.dp)) {
+                Box(modifier = Modifier.padding(end = MaterialTheme.spacing.large)) {
                     if (viewModel is PostListViewModel)
                         IconButton(
                             onClick = {

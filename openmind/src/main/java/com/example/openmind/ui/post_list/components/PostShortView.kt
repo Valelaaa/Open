@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -32,14 +33,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.openmind.R
 import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
 import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
-import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.Delimiter
@@ -48,6 +47,7 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
+import com.example.openmind.ui.theme.spacing
 
 const val tag = "PostShortView"
 
@@ -68,14 +68,14 @@ fun PostShortView(
     Row(
         modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = MaterialTheme.spacing.small)
             .clickable(onClick = {
                 navigateToPost.invoke()
             })
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 28.dp)
+                .padding(horizontal = MaterialTheme.spacing.large)
                 .borderBottom(1.dp, Delimiter)
         ) {
             Row(
@@ -91,7 +91,7 @@ fun PostShortView(
                         contentDescription = "user_icon",
                         modifier = Modifier
                             .size(24.dp)
-                            .padding(start = 0.dp, end = 8.dp, top = 6.dp)
+                            .padding(start = 0.dp, end = MaterialTheme.spacing.small, top = 6.dp)
                     )
 
                     //Category name
@@ -138,7 +138,7 @@ fun PostShortView(
             // Post Content
             Column(
                 modifier = Modifier
-                    .padding(top = 8.dp),
+                    .padding(top = MaterialTheme.spacing.small),
 
                 ) {
                 Row(

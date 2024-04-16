@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.NightBlue
+import com.example.openmind.ui.theme.spacing
 
 @Composable
 fun SuccessRegistrationPostView(
@@ -84,7 +86,11 @@ fun SuccessRegistrationPostView(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 30.dp, end = 30.dp, top = 16.dp),
+                    .padding(
+                        start = MaterialTheme.spacing.large,
+                        end = MaterialTheme.spacing.large,
+                        top = 16.dp
+                    ),
                 contentPadding = PaddingValues(vertical = 16.dp),
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,

@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,6 +52,7 @@ import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
+import com.example.openmind.ui.theme.spacing
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,7 +64,11 @@ fun PostContentView(
 
     Column(
         modifier = modifier
-            .padding(start = 28.dp, end = 28.dp, bottom = 5.dp)
+            .padding(
+                start = MaterialTheme.spacing.large,
+                end = MaterialTheme.spacing.large,
+                bottom = 5.dp
+            )
             .fillMaxSize()
     ) {
         if (viewModel.postIsLoading() /*and viewModel.isCommentsLoading()*/) {

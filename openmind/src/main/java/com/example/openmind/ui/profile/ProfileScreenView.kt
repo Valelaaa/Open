@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +42,7 @@ import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
+import com.example.openmind.ui.theme.spacing
 
 @Composable
 fun ProfileScreenView(
@@ -51,7 +53,7 @@ fun ProfileScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(bottom = 40.dp),
+            .padding(bottom = MaterialTheme.spacing.extraLarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -59,7 +61,7 @@ fun ProfileScreenView(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .padding(8.dp)
+                    .padding(MaterialTheme.spacing.small)
             ) {
 
                 Image(
@@ -91,7 +93,7 @@ fun ProfileScreenView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 17.dp, vertical = 20.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium, vertical = 20.dp)
         ) {
             Text(
                 text = stringResource(R.string.personal_data),
@@ -125,8 +127,8 @@ fun ProfileScreenView(
                     onSubmitEvent = viewModel.onRenameEvent(),
                     modifier = Modifier.clickable(onClick = { viewModel.setUserNameTextFieldVisible() }),
                     shape = RoundedCornerShape(
-                        topStart = 8.dp,
-                        topEnd = 8.dp
+                        topStart = MaterialTheme.spacing.small,
+                        topEnd = MaterialTheme.spacing.small
                     )
                 )
                 PersonalDataListItem(
@@ -146,7 +148,7 @@ fun ProfileScreenView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 17.dp, vertical = 20.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium, vertical = 20.dp)
         ) {
             Text(
                 text = stringResource(R.string.history),
@@ -156,7 +158,7 @@ fun ProfileScreenView(
                     lineHeight = 20.sp,
                     color = DarkBlue40
                 ),
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = MaterialTheme.spacing.small)
             )
             Column(
                 modifier = Modifier
