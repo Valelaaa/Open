@@ -151,17 +151,8 @@ fun PostShortView(
                         color = DarkBlue40,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(end = 20.dp)
                     )
 
-                    Icon(
-                        imageVector = Icons.Filled.KeyboardArrowRight,
-                        contentDescription = stringResource(R.string.content_description_more),
-                        tint = SteelBlue60,
-                        modifier = Modifier.padding(end = 5.dp)
-                    )
                 }
             }
             // FeedBack and Share
