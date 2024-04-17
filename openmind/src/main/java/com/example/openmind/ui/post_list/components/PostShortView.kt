@@ -205,9 +205,7 @@ fun PostShortView(
                                     R.string.comments_count,
                                     post.commentsCount
                                 ),
-                                fontFamily = FontFamily.ManropeBoldW700,
-                                fontSize = 14.sp,
-                                lineHeight = 20.sp,
+                                style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                                 textAlign = TextAlign.Center
                             )

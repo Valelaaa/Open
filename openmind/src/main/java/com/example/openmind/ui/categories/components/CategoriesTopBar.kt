@@ -1,6 +1,7 @@
 package com.example.openmind.ui.categories.components
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -24,14 +25,7 @@ fun CategoriesAppBar(
 ) {
     BasicTopAppBar(
         viewModel = viewModel, navController = navController, currentScreen = screen,
-        titleStyle = TextStyle(
-            fontSize = 24.sp,
-            fontFamily = FontFamily.ManropeRegularW400,
-            lineHeight = 32.sp,
-            letterSpacing = (-0.5).sp,
-            textAlign = TextAlign.Center,
-            color = DarkGray20
-        ),
+        titleStyle = MaterialTheme.typography.titleLarge.merge(textAlign = TextAlign.Center),
         navIconStyle = NavigationIconStyle(modifier = Modifier.size(30.dp))
     )
 }

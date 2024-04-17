@@ -38,7 +38,6 @@ import com.example.openmind.ui.theme.DarkGray20
 import com.example.openmind.ui.theme.MaibPrimary
 import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
-import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.spacing
 
 @Composable
@@ -172,9 +171,7 @@ fun CommentView(
                         R.string.show_replies,
                         item.subComments.size
                     ),
-                    fontFamily = FontFamily.ManropeSemiBoldW600,
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaibPrimary,
                     modifier = Modifier.clickable {
                         isShowVisible.value = !isShowVisible.value
@@ -197,9 +194,7 @@ fun CommentView(
                                         R.string.hide_replies,
                                         item.subComments.size
                                     ),
-                                    fontFamily = FontFamily.ManropeSemiBoldW600,
-                                    fontSize = 12.sp,
-                                    lineHeight = 16.sp,
+                                    style = MaterialTheme.typography.titleSmall,
                                     color = MaibPrimary,
                                     modifier = Modifier.clickable {
                                         isShowVisible.value = !isShowVisible.value
@@ -219,9 +214,7 @@ fun CommentView(
                                         R.string.show_replies,
                                         item.subComments.size - currentActiveCommentsCount.intValue
                                     ),
-                                    fontFamily = FontFamily.ManropeSemiBoldW600,
-                                    fontSize = 12.sp,
-                                    lineHeight = 16.sp,
+                                    style = MaterialTheme.typography.titleSmall,
                                     color = MaibPrimary,
                                     modifier = Modifier.clickable {
                                         currentActiveCommentsCount.intValue =

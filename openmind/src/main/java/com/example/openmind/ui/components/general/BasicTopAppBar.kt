@@ -24,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.openmind.R
@@ -35,7 +33,6 @@ import com.example.openmind.ui.create_post.components.TAG
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.IconColor
-import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.spacing
 import com.example.openmindproject.ui.theme.NavigationIconStyle
 
@@ -48,17 +45,12 @@ fun BasicTopAppBar(
     navController: NavController,
     currentScreen: Screen<*>,
     modifier: Modifier = Modifier,
-    titleStyle: TextStyle = TextStyle(
-        fontFamily = FontFamily.ManropeBoldW700,
-        fontSize = 16.sp,
-        lineHeight = 25.sp,
-        textAlign = TextAlign.Center
-    ),
+    titleStyle: TextStyle = MaterialTheme.typography.titleLarge.merge(textAlign = TextAlign.Center),
     navIconStyle: NavigationIconStyle = NavigationIconStyle.defaultIconStyle()
 ) {
     val focusManager = LocalFocusManager.current
 
-    Box(modifier.background(lightColorScheme().background)) {
+    Box(modifier) {
         CenterAlignedTopAppBar(
             title = {
                 Box {
@@ -111,7 +103,7 @@ fun BasicTopAppBar(
                 }
             },
             colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = lightColorScheme().background
+                containerColor = MaterialTheme.colorScheme.background
             )
         )
         if (viewModel is PostListViewModel)

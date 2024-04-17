@@ -1,8 +1,6 @@
 package com.example.openmind.ui.categories
 
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -41,9 +38,7 @@ fun CategoryView(
     Column(modifier = Modifier.padding(top = 22.dp)) {
         Text(
             text = categoryDto.categoryTitle,
-            fontFamily = FontFamily.ManropeBoldW700,
-            fontSize = 16.sp,
-            lineHeight = 24.sp,
+            style= MaterialTheme.typography.titleLarge,
             maxLines = 1,
             color = DarkGray20,
             overflow = TextOverflow.Ellipsis,
@@ -52,14 +47,14 @@ fun CategoryView(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 100.dp), contentAlignment = Alignment.CenterStart
+                .defaultMinSize(minHeight = 100.dp)
         ) {
 
             Box(modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .clickable {
                     navigateToPostList.invoke()
-                }) {
+                }, contentAlignment = Alignment.CenterStart) {
 
                 val image = base64ToImageBitmapConverter?.invoke(categoryDto.categoryImage)
                 if (image != null) {

@@ -50,7 +50,6 @@ import com.example.openmind.ui.create_post.viewModel.CreatePostViewModel
 import com.example.openmind.ui.screen.Screen
 import com.example.openmind.ui.theme.ButtonBorder
 import com.example.openmind.ui.theme.MaibPrimary
-import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
 import com.example.openmind.ui.theme.SteelBlue60
@@ -239,12 +238,7 @@ fun CreatePostContentView(
             contentPadding = PaddingValues(vertical = 13.dp)
         ) {
             Text(
-                "Create", style = TextStyle(
-                    fontFamily = FontFamily.ManropeBoldW700,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    color = Color.White
-                )
+                "Create", style = MaterialTheme.typography.titleLarge.merge(color = Color.White)
             )
         }
     }

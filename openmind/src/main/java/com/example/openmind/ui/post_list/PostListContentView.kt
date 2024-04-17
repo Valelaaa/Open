@@ -50,7 +50,6 @@ import com.example.openmind.ui.navigation.navigateToPost
 import com.example.openmind.ui.post_list.components.PostShortView
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.LightText
-import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.NightBlue
@@ -112,9 +111,7 @@ fun PostListContentView(
                             ) {
                                 Text(
                                     text = viewModel.getActiveCategoryInfo().categoryTitle,
-                                    fontFamily = FontFamily.ManropeBoldW700,
-                                    fontSize = 16.sp,
-                                    lineHeight = 24.sp,
+                                    style = MaterialTheme.typography.titleLarge,
                                     color = Color.Black
                                 )
                                 Icon(

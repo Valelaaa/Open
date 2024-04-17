@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.ui.components.general.RatingView
-//import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.post.components.comments.CommentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
@@ -200,9 +199,7 @@ fun PostContentView(
                                                 R.string.comments_count,
                                                 viewModel.getPost().commentCount
                                             ),
-                                            fontFamily = FontFamily.ManropeBoldW700,
-                                            fontSize = 14.sp,
-                                            lineHeight = 20.sp,
+                                            style = MaterialTheme.typography.titleMedium,
                                             maxLines = 1,
                                             textAlign = TextAlign.Center
                                         )

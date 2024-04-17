@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.R
-import com.example.openmind.ui.theme.ManropeBoldW700
 import com.example.openmind.ui.theme.ManropeExtraBoldW800
 import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.NightBlue
@@ -99,12 +98,7 @@ fun SuccessRegistrationPostView(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    text = "OK", style = TextStyle(
-                        fontFamily =
-                        FontFamily.ManropeBoldW700,
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp
-                    )
+                    text = "OK", style = MaterialTheme.typography.titleLarge
                 )
             }
         }

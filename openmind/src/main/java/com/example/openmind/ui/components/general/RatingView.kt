@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,17 +22,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
 import com.example.openmind.ui.theme.MaibError
 import com.example.openmind.ui.theme.MaibPrimary
-import com.example.openmind.ui.theme.ManropeBoldW700
 
 @Composable
 fun RatingView(
@@ -91,9 +89,7 @@ fun RatingView(
         Box(Modifier.padding(end = 6.dp)) {
             Text(
                 text = "$mutableRating",
-                fontFamily = FontFamily.ManropeBoldW700,
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
+                style = MaterialTheme.typography.titleMedium,
                 color = actionColor,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
