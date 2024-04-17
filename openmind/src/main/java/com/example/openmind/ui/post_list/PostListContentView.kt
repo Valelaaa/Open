@@ -119,7 +119,7 @@ fun PostListContentView(
                                 )
                                 Icon(
                                     Icons.Default.MoreVert,
-                                    contentDescription = stringResource(id = R.string.contentdescription_more),
+                                    contentDescription = stringResource(id = R.string.content_description_more),
                                     modifier = Modifier
                                         .size(24.dp)
                                         .clickable {

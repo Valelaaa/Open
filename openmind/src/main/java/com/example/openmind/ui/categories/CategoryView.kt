@@ -1,17 +1,21 @@
 package com.example.openmind.ui.categories
 
+import android.widget.ImageButton
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -48,47 +52,52 @@ fun CategoryView(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 100.dp)
+                .defaultMinSize(minHeight = 100.dp), contentAlignment = Alignment.CenterStart
+        ) {
+
+            Box(modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
                 .clickable {
                     navigateToPostList.invoke()
-                },
-            contentAlignment = Alignment.CenterStart
-        ) {
-            val image = base64ToImageBitmapConverter?.invoke(categoryDto.categoryImage)
-            if (image != null)
-                Image(
-                    bitmap = image,
-                    contentDescription = "navigate",
-                    contentScale = ContentScale.FillWidth
-                )
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 22.dp)
-            ) {
-                Text(
-                    text = "${categoryDto.postCount} posts",
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    fontSize = 12.sp,
-                    lineHeight = 16.sp,
-                    color = Color.White,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = changeWordStyle(
-                        categoryDto.tagLine,
-                        0,
-                        SpanStyle(fontFamily = FontFamily.ManropeBoldW700)
-                    ),
-                    fontFamily = FontFamily.ManropeRegularW400,
-                    fontSize = 20.sp,
-                    lineHeight = 28.sp,
-                    color = Color.White,
-                    overflow = TextOverflow.Ellipsis
-                )
+                }) {
+
+                val image = base64ToImageBitmapConverter?.invoke(categoryDto.categoryImage)
+                if (image != null) {
+                    Image(
+                        bitmap = image,
+                        contentDescription = "navigate",
+
+                        )
+                }
+                Column(
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 22.dp)
+                ) {
+                    Text(
+                        text = "${categoryDto.postCount} posts",
+                        fontFamily = FontFamily.ManropeRegularW400,
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp,
+                        color = Color.White,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = changeWordStyle(
+                            categoryDto.tagLine,
+                            0,
+                            SpanStyle(fontFamily = FontFamily.ManropeBoldW700)
+                        ),
+                        fontFamily = FontFamily.ManropeRegularW400,
+                        fontSize = 20.sp,
+                        lineHeight = 28.sp,
+                        color = Color.White,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }
 }
+
 
 fun changeWordStyle(text: String, wordIndex: Int, style: SpanStyle): AnnotatedString {
     val words = text.split(' ')
