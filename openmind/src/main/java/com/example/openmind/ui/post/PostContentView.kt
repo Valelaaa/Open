@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
 import com.example.openmind.ui.components.general.RatingView
-import com.example.openmind.ui.components.general.SharePost
+//import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.post.components.comments.CommentView
 import com.example.openmind.ui.post.viewmodel.PostViewModel
@@ -132,7 +132,7 @@ fun PostContentView(
                                 ) {
                                     Icon(
                                         Icons.Default.MoreVert,
-                                        contentDescription = stringResource(id = R.string.contentdescription_more),
+                                        contentDescription = stringResource(id = R.string.content_description_more),
                                         modifier = Modifier
                                             .size(24.dp)
                                             .rotate(90f)
@@ -184,7 +184,7 @@ fun PostContentView(
                                     ) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.message),
-                                            contentDescription = stringResource(id = R.string.contentdescription_decrease),
+                                            contentDescription = stringResource(id = R.string.content_description_decrease),
                                             modifier = Modifier
                                                 .padding(
                                                     start = 10.dp,
@@ -208,7 +208,7 @@ fun PostContentView(
                                         )
                                     }
                                 }
-                                SharePost(viewModel.getPost().postId)
+//                                SharePost(viewModel.getPost().postId)
                             }
                         }
                     }

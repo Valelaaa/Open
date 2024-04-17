@@ -37,7 +37,6 @@ import com.example.openmind.R
 import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.components.general.RatingView
-import com.example.openmind.ui.components.general.SharePost
 import com.example.openmind.ui.components.general.borderBottom
 import com.example.openmind.ui.theme.BorderLight
 import com.example.openmind.ui.theme.DarkBlue40
@@ -127,7 +126,7 @@ fun PostShortView(
                 ) {
                     Icon(
                         Icons.Default.MoreVert,
-                        contentDescription = stringResource(id = R.string.contentdescription_more),
+                        contentDescription = stringResource(id = R.string.content_description_more),
                         modifier = Modifier
                             .size(24.dp)
                             .rotate(90f)
@@ -159,7 +158,7 @@ fun PostShortView(
 
                     Icon(
                         imageVector = Icons.Filled.KeyboardArrowRight,
-                        contentDescription = stringResource(R.string.contentdescription_more),
+                        contentDescription = stringResource(R.string.content_description_more),
                         tint = SteelBlue60,
                         modifier = Modifier.padding(end = 5.dp)
                     )
@@ -190,7 +189,7 @@ fun PostShortView(
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.message),
-                                contentDescription = stringResource(id = R.string.contentdescription_decrease),
+                                contentDescription = stringResource(id = R.string.content_description_decrease),
                                 modifier = Modifier
                                     .padding(
                                         start = 10.dp,
@@ -214,7 +213,6 @@ fun PostShortView(
                             )
                         }
                     }
-                    SharePost(post.postId)
                 }
             }
         }

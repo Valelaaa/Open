@@ -84,7 +84,7 @@ fun RatingView(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_up),
-                contentDescription = stringResource(R.string.contentdescription_increase),
+                contentDescription = stringResource(R.string.content_description_increase),
                 tint = likeColor
             )
         }
@@ -120,7 +120,7 @@ fun RatingView(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_up),
-                contentDescription = stringResource(R.string.contentdescription_decrease),
+                contentDescription = stringResource(R.string.content_description_decrease),
                 tint = dislikeColor
             )
         }
