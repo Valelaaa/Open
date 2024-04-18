@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.openmind.R
@@ -47,6 +47,8 @@ import com.example.openmind.ui.theme.ManropeRegularW400
 import com.example.openmind.ui.theme.ManropeSemiBoldW600
 import com.example.openmind.ui.theme.SteelBlue60
 import com.example.openmind.ui.theme.spacing
+import com.example.openmind.utils.numberFormatted
+import com.example.openmind.ui.components.general.SharePost
 
 const val tag = "PostShortView"
 
@@ -167,9 +169,7 @@ fun PostShortView(
                     //Comments
                     Column(
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .weight(1f)
-
+                            .padding(horizontal = 10.dp)
                     ) {
                         Row(
                             modifier = Modifier
@@ -192,20 +192,31 @@ fun PostShortView(
                                 tint = MaibPrimary
                             )
                             Text(
-                                text = stringResource(
-                                    R.string.comments_count,
-                                    post.commentsCount
-                                ),
+                                text = numberFormatted(post.commentsCount),
                                 style = MaterialTheme.typography.titleMedium,
                                 maxLines = 1,
                                 textAlign = TextAlign.Center
                             )
                         }
                     }
+                    SharePost(postId = post.postId)
                 }
             }
         }
     }
 }
 
+@Preview(
+    backgroundColor = 0xFFFFFFFF,
+    showBackground = true
+)
+@Composable
+fun PostShortViewPreview(){
+
+    PostShortView(
+        post = ShortPostDto(postId = "postId", postTitle = "title", creatorName = "John"),
+        onRatingChange = {_,_->},
+        navigateToPost = {}
+    )
+}
 

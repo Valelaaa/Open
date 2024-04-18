@@ -29,7 +29,7 @@ fun SharePost(postId: String, modifier: Modifier = Modifier) {
     ) {
         IconButton(
             onClick = {
-                /*TODO("open Share hamburger menu")*/
+                /*TODO("open Share popUp menu")*/
             },
             modifier = Modifier
                 .padding(

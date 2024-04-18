@@ -43,7 +43,6 @@ fun SortingSelector(
         horizontal = 10.dp
     )
 ) {
-    val sortingList = sortingList
     val colorTokens: ColorTokens = when {
         isSystemInDarkTheme() -> ColorDarkTokens
         else -> ColorLightTokens
