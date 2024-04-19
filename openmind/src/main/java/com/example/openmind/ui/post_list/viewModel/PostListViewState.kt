@@ -3,9 +3,9 @@ package com.example.openmind.ui.post_list.viewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.openmind.domain.model.category.CategoryInfo
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.domain.model.post.ShortPostDto
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

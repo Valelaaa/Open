@@ -1,4 +1,4 @@
-package com.example.openmind.domain.model.mapper
+package com.example.openmind.di.mapper
 
 import com.example.openmind.domain.model.comment.CreateCommentModel
 import com.example.openmind.domain.model.comment.dto.CreateCommentDto

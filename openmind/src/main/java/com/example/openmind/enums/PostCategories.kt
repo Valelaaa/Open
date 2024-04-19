@@ -1,4 +1,4 @@
-package com.example.openmind.domain.model.category
+package com.example.openmind.enums
 
 enum class PostCategories(private val string: String) {
     FEATURE("feature"), BUG("bug");

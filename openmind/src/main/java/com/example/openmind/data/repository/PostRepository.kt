@@ -2,12 +2,12 @@ package com.example.openmind.data.repository
 
 import android.util.Log
 import com.example.openmind.domain.api.PostServices
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.PostDto
 import com.example.openmind.domain.model.post.ShortPostDto
-import com.example.openmind.utils.SortBy
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortBy
+import com.example.openmind.enums.SortType
 import com.example.openmind.utils.WebClientUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -111,6 +111,7 @@ fun ProfileScreenView(
                         RoundedCornerShape(8.dp)
                     )
                     .border(BorderStroke(1.dp, BorderLight), shape = RoundedCornerShape(8.dp))
+                    .background(Color.White)
                     .fillMaxWidth(),
             ) {
                 PersonalDataListItem(
@@ -166,6 +167,7 @@ fun ProfileScreenView(
                         RoundedCornerShape(8.dp)
                     )
                     .border(BorderStroke(1.dp, BorderLight), shape = RoundedCornerShape(8.dp))
+                    .background(Color.White)
                     .fillMaxWidth(),
             ) {
                 PersonalHistoryListItem(

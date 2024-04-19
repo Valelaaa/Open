@@ -1,7 +1,8 @@
 package com.example.openmind.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,10 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.ui.screen.ComposeScreen
 import com.example.openmind.ui.screen.Screen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = Screen.ProfileScreen.route) {
@@ -86,15 +88,3 @@ fun Navigation(navController: NavHostController = rememberNavController()) {
         }
     }
 }
-
-fun NavController.navigateToPost(postId: String) =
-    this.navigate(Screen.PostScreen.route + "/$postId")
-
-fun NavController.navigateToPostList(category: PostCategories) =
-    this.navigate(Screen.PostListScreen.route + "/${category}")
-
-fun NavController.navigateToCreatePost(category: PostCategories) =
-    this.navigate(Screen.CreatePostScreen.route + "/${category}")
-
-fun NavController.navigateToSearchResult(query: String, category: PostCategories) =
-    this.navigate(Screen.SearchResultsScreen.route + "/${category}/${query}")

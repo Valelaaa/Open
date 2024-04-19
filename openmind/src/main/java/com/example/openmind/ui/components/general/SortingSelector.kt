@@ -29,7 +29,7 @@ import com.example.openmind.ui.theme.colorthemes.ColorDarkTokens
 import com.example.openmind.ui.theme.colorthemes.ColorLightTokens
 import com.example.openmind.ui.theme.colorthemes.ColorTokens
 import com.example.openmind.ui.theme.spacing
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

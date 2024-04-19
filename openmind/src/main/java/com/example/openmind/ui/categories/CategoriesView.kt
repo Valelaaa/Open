@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel
 import com.example.openmind.ui.components.general.BasicTopAppBar
 import com.example.openmind.ui.navigation.navigateToPostList

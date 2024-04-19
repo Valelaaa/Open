@@ -16,7 +16,7 @@ import com.example.openmind.domain.model.comment.CreateCommentModel
 import com.example.openmind.domain.model.rating.RatingInfo
 import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.post.components.comments.withStylishTags
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

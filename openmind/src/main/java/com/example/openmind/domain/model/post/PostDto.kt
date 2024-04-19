@@ -1,7 +1,7 @@
 package com.example.openmind.domain.model.post
 
 import androidx.annotation.Keep
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 import java.util.UUID
@@ -29,7 +29,7 @@ data class PostDto(
     @SerializedName("ratingId")
     val ratingId:String = UUID.randomUUID().toString(),
 
-) {
+    ) {
     fun formatElapsedTime(): String {
 
         val nowMillis = System.currentTimeMillis()

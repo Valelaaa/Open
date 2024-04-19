@@ -7,8 +7,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.openmind.domain.model.comment.CommentModel
 import com.example.openmind.domain.model.post.PostDto
-import com.example.openmind.domain.model.rating.RatingInfo
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortType
 
 internal class PostViewState {
     val postIsLoading = mutableStateOf(true)

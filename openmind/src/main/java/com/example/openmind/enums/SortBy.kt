@@ -1,4 +1,4 @@
-package com.example.openmind.utils
+package com.example.openmind.enums
 
 import android.content.Context
 import androidx.annotation.StringRes

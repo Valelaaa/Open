@@ -1,13 +1,15 @@
 package com.example.openmind.ui.search_result.viewModel
 
-import com.example.openmind.domain.model.category.PostCategories
+import androidx.compose.runtime.mutableStateOf
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.ui.GlobalViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class SearchResultViewModel : GlobalViewModel() {
-    val viewState: SearchResultViewState = SearchResultViewState()
+    private val _viewState = mutableStateOf(SearchResultViewState())
+    val viewState get() = _viewState.value
     fun getSearchResults() = viewState.searchResultList
 
     fun searchWithQuery(query: String, category: String) {

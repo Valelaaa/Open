@@ -4,12 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.openmind.data.repository.PostRepository
 import com.example.openmind.di.repository.PostRepositoryProvider
 import com.example.openmind.domain.model.category.CategoryInfo
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.domain.model.post.ShortPostDto
 import com.example.openmind.ui.GlobalViewModel
 import com.example.openmind.ui.categories.components.getCategoriesInfoList
 import com.example.openmind.utils.Searchable
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortType
 import com.example.openmind.utils.Sortable
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce

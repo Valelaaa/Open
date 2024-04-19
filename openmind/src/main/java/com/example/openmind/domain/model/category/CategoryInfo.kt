@@ -1,8 +1,7 @@
 package com.example.openmind.domain.model.category
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.graphics.Brush
+import com.example.openmind.enums.PostCategories
 
 class CategoryInfo(
     val categoryType: PostCategories,

@@ -1,11 +1,11 @@
 package com.example.openmind.domain.api
 
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.domain.model.post.PostDto
 import com.example.openmind.domain.model.post.ShortPostDto
-import com.example.openmind.utils.SortBy
-import com.example.openmind.utils.SortType
+import com.example.openmind.enums.SortBy
+import com.example.openmind.enums.SortType
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

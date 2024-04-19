@@ -1,4 +1,4 @@
-package com.example.openmind.domain.model.mapper
+package com.example.openmind.di.mapper
 
 interface Mapper<F, T> {
     fun toDto(from: F): T

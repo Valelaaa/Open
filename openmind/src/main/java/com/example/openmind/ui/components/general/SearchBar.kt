@@ -1,6 +1,6 @@
 package com.example.openmind.ui.components.general
 
-import Keyboard
+import com.example.openmind.enums.Keyboard
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.openmind.R
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.ui.navigation.navigateToSearchResult
 import com.example.openmind.ui.post_list.viewModel.PostListViewModel
 import com.example.openmind.ui.theme.BorderLight

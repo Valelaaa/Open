@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.ui.categories.CategoriesView
 import com.example.openmind.ui.categories.components.CategoriesAppBar
 import com.example.openmind.ui.categories.viewModel.CategoriesViewModel

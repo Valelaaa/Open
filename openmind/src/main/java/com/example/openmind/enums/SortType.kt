@@ -1,4 +1,4 @@
-package com.example.openmind.utils
+package com.example.openmind.enums
 
 enum class SortType(val string: String) {
     HOT("hot"),

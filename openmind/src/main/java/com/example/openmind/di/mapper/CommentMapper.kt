@@ -1,4 +1,4 @@
-package com.example.openmind.domain.model.mapper
+package com.example.openmind.di.mapper
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.toMutableStateList

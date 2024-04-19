@@ -3,7 +3,7 @@ package com.example.openmind.ui.create_post.viewModel
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.openmind.di.repository.CategoriesRepositoryProvider
 import com.example.openmind.di.repository.PostRepositoryProvider
-import com.example.openmind.domain.model.category.PostCategories
+import com.example.openmind.enums.PostCategories
 import com.example.openmind.domain.model.post.CreatePostDto
 import com.example.openmind.ui.GlobalViewModel
 import kotlinx.coroutines.GlobalScope
